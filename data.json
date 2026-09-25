@@ -349,7 +349,7 @@
       "langs": [
         "zh-cn"
       ],
-      "eras": "2020 → today",
+      "eras": "October 2022 → today",
       "imageNature": "digital",
       "resolution": "300×419 (native)",
       "watermark": false,
@@ -437,7 +437,7 @@
       "langs": [
         "zh-cn"
       ],
-      "eras": "2020 → today, 218 collections",
+      "eras": "October 2022 → today, 218 collections",
       "imageNature": "digital",
       "resolution": "300×419 PNG",
       "watermark": false,
@@ -507,7 +507,7 @@
       "stats": [
         {
           "label": "on TCGdex",
-          "value": "15.5% of all en+de images, 98–99% of English 1999–2010"
+          "value": "15.5% of all en+de images, 94% of English 1999–2010"
         }
       ],
       "icon": "icons/paradijs.svg"
@@ -957,7 +957,7 @@
       "langs": [
         "zh-cn"
       ],
-      "eras": "2022 → today (Sun & Moon onward), 133 sets",
+      "eras": "October 2022 → today, 133 sets",
       "imageNature": "digital",
       "resolution": "300×419 PNG (the app's size)",
       "watermark": false,
@@ -1081,7 +1081,7 @@
         "summary": "Text CC BY-SA 3.0. Images held as fair use, non-profit.",
         "url": "https://www.wikidex.net/wiki/WikiDex:Copyrights"
       },
-      "origin": "No source field. Modern files have the malie size. Vintage: user uploads, e.g. Base Set Charizard at 349×491 with a scanner resolution in its metadata. Below a 400 px floor for most uses.",
+      "origin": "No source field. Modern files have the malie size. Vintage: partly the English Paradijs scans (Aquapolis, Skyridge, EX trainer kits: 83 files identical to pokemontcg.io's), otherwise user uploads, e.g. Base Set Charizard at 349×491 with a scanner resolution in its metadata. Below a 400 px floor for most uses.",
       "examples": [
         {
           "label": "Aipom (Aquapolis) upload",
@@ -1135,7 +1135,7 @@
         "summary": "Original content CC BY-NC-SA 2.5. Card images held as fair use.",
         "url": "https://bulbapedia.bulbagarden.net/wiki/Bulbapedia:Copyrights"
       },
-      "origin": "One file per card, filed under every printing. Its Japanese-set categories are mostly pokemon-card.com's official Japanese images (2,419 pixel copies), plus malie renders (316). The Japanese secret rares are credited \"From Pokeca.net\" and carry pokeca.net's watermark.",
+      "origin": "One file per card, filed under every printing. Its Japanese-set categories are mostly pokemon-card.com's official Japanese images (2,683 pixel copies), plus malie renders (316). The Japanese secret rares are credited \"From Pokeca.net\" and carry pokeca.net's watermark.",
       "examples": [
         {
           "label": "Phantump (Guardians Rising 6), filed under a JP set",
@@ -1150,7 +1150,7 @@
         },
         {
           "label": "pokemon-card.com copies",
-          "value": "2,419"
+          "value": "2,683"
         },
         {
           "label": "malie copies",
@@ -1204,7 +1204,7 @@
         "summary": "Card data MIT-licensed. Image sources aren't listed per card. Takes image uploads through its Ingest page.",
         "url": "https://github.com/tcgdex/cards-database"
       },
-      "origin": "By pixel match: HGSS → Mega Evolution Pitch Black (me05) in every Western language is the exact same files as the game-client renders malie published (often months earlier). Pixels can't tell whether TCGdex took them from malie or from the game directly. The newest set, 30th Celebration (Sep 2026), is different: a differently cropped render that isn't malie's file and was online about 5 hours before malie's export, so it came from another source. English 1999–2010 is 98–99% Martin's Pokémon Paradijs scans. French vintage shares 50–73% of its files with pkmcards.fr. No German before HGSS. Sampled zh-cn images are the Traditional Chinese (Taiwan) print.",
+      "origin": "By pixel match: HGSS → Mega Evolution Pitch Black (me05) in every Western language is the exact same files as the game-client renders malie published (often months earlier). Pixels can't tell whether TCGdex took them from malie or from the game directly. The newest set, 30th Celebration (Sep 2026), is different: a differently cropped render that isn't malie's file and was online about 5 hours before malie's export, so it came from another source. English 1999–2010 is 94% the same files pokemontcg.io serves, i.e. Martin's Pokémon Paradijs scans; the rest (EX Dragon, EX FireRed & LeafGreen, parts of ex1/ex2/ex4) are 700×980 files that match no source we hold. French vintage: 43 of 96 sampled pre-HGSS images are the same files pkmcards.fr serves (from 0 of 10 in Base Set to 30 of 33 in the EX era), and 22 are pokemontcg.io's English files: 18 of 27 French POP-series images are the English scans. No German before HGSS. Sampled zh-cn images are the Traditional Chinese (Taiwan) print.",
       "examples": [
         {
           "label": "en Base Set Charizard (Paradijs scan)",
@@ -1224,7 +1224,7 @@
         },
         {
           "label": "fr/it/es/pt (sample of 1,239)",
-          "value": "83% malie · 5% pkmcards.fr/Paradijs · 11% vintage/promos"
+          "value": "83% malie · 5% pkmcards.fr or pokemontcg.io files (some English scans under fr) · 11% vintage/promos"
         },
         {
           "label": "newest set (30th Celebration)",
@@ -1413,7 +1413,7 @@
         "summary": "—",
         "url": "https://www.serebii.net/"
       },
-      "origin": "Modern Japanese sets: pokemon-card.com's official images (30/30). English vintage: its own scans (600 dpi). BW/XY/SM: a digital export different from malie's.",
+      "origin": "Modern Japanese sets: pokemon-card.com's official images (30/30). English vintage: its own scans (600 dpi). SwSh and SV: malie renders (11/12). BW/XY/SM: a digital export different from malie's.",
       "examples": [
         {
           "label": "Base Set #47 (own scan)",
@@ -1424,7 +1424,7 @@
       "stats": [
         {
           "label": "sample",
-          "value": "≈ 90 images"
+          "value": "108 images"
         }
       ],
       "icon": "icons/serebii.png"
@@ -1458,7 +1458,7 @@
         "summary": "No statement on image sources.",
         "url": "https://www.pricecharting.com/"
       },
-      "origin": "Mostly photos and scans of physical cards: English vintage, Japanese VS/web, Chinese Gem Pack official images. Korean (sample of 6, VSTAR Universe): 5 are photos/scans of real cards (holo glare, foil texture, no watermark); 1 is Pokémon Korea's official watermarked image, shrunk to 400 px. No sign of a watermark being removed or added.",
+      "origin": "Mostly photos and scans of physical cards: English vintage, Japanese VS/web, Chinese Gem Pack: the WeChat app's 300×419 renders (6/6). Korean (sample of 6, VSTAR Universe): 5 are photos/scans of real cards (holo glare, foil texture, no watermark); 1 is Pokémon Korea's official watermarked image, shrunk to 400 px. No sign of a watermark being removed or added.",
       "examples": [
         {
           "label": "Base Set card (photo)",
@@ -1626,34 +1626,34 @@
     {
       "from": "pkmncards",
       "to": "pokemontcgio",
-      "kind": "copies",
-      "confidence": "likely",
+      "kind": "shared",
+      "confidence": "unknown-direction",
       "scope": "en 1999–2010",
-      "evidence": "base1/10, dp1/103, pl1/103 = pkmncards' files (corr ≥ 0.9998); which one copied the other isn't stated."
+      "evidence": "Both serve the same vintage scans (same 600×825 files with the 762/300-dpi header); pkmncards credits Martin, pokemontcg.io credits nobody. Not pixel-tested against a pkmncards mirror."
     },
     {
       "from": "paradijs",
       "to": "tcgdex",
       "kind": "copies",
-      "confidence": "verified",
+      "confidence": "stated",
       "scope": "en 1999–2010",
-      "evidence": "en/base1/10, en/dp1/103 = pokemontcg.io's files (0.9998); 15.5% of all en+de images."
+      "evidence": "The files are pixel-identical to pokemontcg.io's (0.9998; 15.5% of all en+de images), which pkmncards credits to Martin. The pixel match proves the shared file; the attribution is pkmncards' statement."
     },
     {
       "from": "paradijs",
       "to": "tcgplayer",
       "kind": "copies",
-      "confidence": "verified",
+      "confidence": "stated",
       "scope": "en Neo, Platinum, EX",
-      "evidence": "34/36 sampled, identical to pokemontcg.io."
+      "evidence": "34/36 sampled Neo, Platinum and EX Deoxys images are identical to pokemontcg.io's files; the Paradijs attribution is pkmncards' statement."
     },
     {
       "from": "paradijs",
       "to": "tcgcollector",
       "kind": "copies",
-      "confidence": "verified",
+      "confidence": "stated",
       "scope": "en vintage",
-      "evidence": "118 sampled images, matching its \"PkmnCards\" credit."
+      "evidence": "118 sampled images identical to pokemontcg.io's files, matching its own \"PkmnCards\" credit."
     },
     {
       "from": "paradijs",
@@ -1661,7 +1661,7 @@
       "kind": "copies",
       "confidence": "likely",
       "scope": "sets never printed in Italian",
-      "evidence": "English 600×825 scans with the 762-dpi header."
+      "evidence": "138 files pixel-identical to pokemontcg.io's; English 600×825 scans with the 762-dpi header."
     },
     {
       "from": "pokemontcgio",
@@ -1677,7 +1677,7 @@
       "kind": "shared",
       "confidence": "unknown-direction",
       "scope": "fr vintage",
-      "evidence": "50–73% of sampled French vintage TCGdex images are the same files pkmcards.fr serves. One copied the other, or both a third site."
+      "evidence": "43 of 96 sampled pre-HGSS French TCGdex images are the same files pkmcards.fr serves (0/10 Base Set … 30/33 EX era). One copied the other, or both a third site."
     },
     {
       "from": "pokeca",
@@ -1709,7 +1709,7 @@
       "kind": "copies",
       "confidence": "verified",
       "scope": "ja regular cards",
-      "evidence": "84% of an 839-image JP/ID sample are official copies."
+      "evidence": "434 of 567 sampled JP-region images are pixel copies of pokemon-card.com (the rest: 93 scans, 19 shared with Bulbagarden)."
     },
     {
       "from": "asia",
@@ -1717,7 +1717,7 @@
       "kind": "copies",
       "confidence": "verified",
       "scope": "id, Asian decks",
-      "evidence": "Pixel matches against asia.pokemon-card.com."
+      "evidence": "269 of 272 sampled ID-region images are pixel copies of asia.pokemon-card.com."
     },
     {
       "from": "pcj",
@@ -1761,11 +1761,11 @@
     },
     {
       "from": "pcom",
-      "to": "tcgdex",
+      "to": "pokemontcgio",
       "kind": "copies",
       "confidence": "verified",
-      "scope": "a few (100 en/de files)",
-      "evidence": "Pixel matches."
+      "scope": "en, Shrouded Fable (sv6pt5)",
+      "evidence": "97 pixel copies of pokemon.com list images, all in sv6pt5."
     },
     {
       "from": "print",
@@ -1867,9 +1867,9 @@
       "from": "kr",
       "to": "pricecharting",
       "kind": "copies",
-      "confidence": "likely",
+      "confidence": "verified",
       "scope": "ko, some",
-      "evidence": "A Korean image carries Pokémon Korea's own \"Pokémon Card Game\" watermark (1 of 6 sampled)."
+      "evidence": "1 of 6 sampled Korean images is pixel-identical to Pokémon Korea's watermarked file, shrunk to 400 px."
     },
     {
       "from": "pcj",
@@ -1877,7 +1877,79 @@
       "kind": "copies",
       "confidence": "verified",
       "scope": "ja, most JP-category files",
-      "evidence": "2,419 pixel copies of pokemon-card.com images."
+      "evidence": "2,683 pixel copies of pokemon-card.com images."
+    },
+    {
+      "from": "pcom",
+      "to": "pkmcardsfr",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "fr, some",
+      "evidence": "868 of 17,105 files (5%) are pixel copies of pokemon.com list images."
+    },
+    {
+      "from": "pcom",
+      "to": "bisafans",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "de, a few",
+      "evidence": "49 pixel copies of pokemon.com list images."
+    },
+    {
+      "from": "malie",
+      "to": "serebii",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "en, SwSh and SV",
+      "evidence": "SV 6/6 = malie TCG Live renders, SwSh 5/6 = malie PTCGO renders."
+    },
+    {
+      "from": "pokemontcgio",
+      "to": "tcgdex",
+      "kind": "shared",
+      "confidence": "unknown-direction",
+      "scope": "en 1999–2010 (4,795 files)",
+      "evidence": "4,795 TCGdex English images are pixel-identical to pokemontcg.io's files (the Paradijs scans). Nobody states who copied whom."
+    },
+    {
+      "from": "paradijs",
+      "to": "wikidex",
+      "kind": "copies",
+      "confidence": "stated",
+      "scope": "en scans under es (Aquapolis, Skyridge, EX kits)",
+      "evidence": "83 files pixel-identical to pokemontcg.io's English scans (Aquapolis 53, Skyridge 9)."
+    },
+    {
+      "from": "wechat",
+      "to": "tcgcollector",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "zh-cn, some",
+      "evidence": "9 sampled files pixel-identical to the WeChat app's 300×419 renders (as in the duanxr dataset)."
+    },
+    {
+      "from": "wechat",
+      "to": "pricecharting",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "zh-cn Gem Pack",
+      "evidence": "6/6 sampled Chinese Gem Pack images are the WeChat app's 300×419 renders."
+    },
+    {
+      "from": "pcj",
+      "to": "cardmarket",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "ja, some",
+      "evidence": "10 of 83 archived images are pixel copies of pokemon-card.com / asia.pokemon-card.com."
+    },
+    {
+      "from": "paradijs",
+      "to": "pricecharting",
+      "kind": "copies",
+      "confidence": "stated",
+      "scope": "en vintage, a few",
+      "evidence": "4 of 60 sampled images identical to pokemontcg.io's files."
     }
   ],
   "gaps": [
@@ -2172,11 +2244,13 @@
       "id": "zhcn",
       "kind": "warn",
       "title": "Simplified Chinese: only the WeChat app, only 300×419",
-      "body": "The only official source is Pokémon Shanghai's WeChat mini-program. Its images were scraped into the GitHub dataset duanxr/PTCG-CHS-Datasets at the app's native 300×419; we found nothing larger. AREAZERO.GG (tcg.mik.moe) shows the same images (pixel-identical in our sample) and no extra cards in the sets we compared. The dataset forbids redistribution without Pokémon Shanghai's written consent. Sampled TCGdex zh-cn images are the Traditional Chinese (Taiwan) print.",
+      "body": "The only official source is Pokémon Shanghai's WeChat mini-program. Its images were scraped into the GitHub dataset duanxr/PTCG-CHS-Datasets at the app's native 300×419; we found nothing larger. AREAZERO.GG (tcg.mik.moe) shows the same images (pixel-identical in our sample) and no extra cards in the sets we compared; TCG Collector and PriceCharting carry the same 300×419 renders for the cards we sampled. The dataset forbids redistribution without Pokémon Shanghai's written consent. Sampled TCGdex zh-cn images are the Traditional Chinese (Taiwan) print.",
       "sources": [
         "wechat",
         "duanxr",
-        "mikmoe"
+        "mikmoe",
+        "tcgcollector",
+        "pricecharting"
       ]
     },
     {

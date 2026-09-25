@@ -24,8 +24,14 @@ Snapshot 2026-09-23/24, plus these 2026-09-25 checks:
 - TCGdex SV01 → me05: pixel-identical to malie's TCG Live renders (can't tell via-malie from
   straight-from-game). 30th Celebration: a different render, online ~5 h before malie's
   export → another source. (3 cards per set sampled.)
-- Bulbagarden JP categories: 2,419 pokemon-card.com copies, 316 malie.
+- Bulbagarden JP categories: 2,683 pokemon-card.com copies, 316 malie (2,419 was a stale count, fixed 2026-09-25).
 - PriceCharting Korean (6 sampled): 5 photos of real cards, 1 official watermarked image.
+- Re-audit against the raw provenance.jsonl (2026-09-25): pokemon.com copies sit on pokemontcg.io
+  (97, sv6pt5), pkmcards.fr (868) and bisafans (49), not on TCGdex; TCGdex en 1999–2010 = 94%
+  pokemontcg.io's files (ex3/ex6 are 700×980 files of unknown source); fr vintage = 43/96 pkmcards.fr
+  + 22 English pokemontcg.io files (POP series); Serebii SwSh/SV = malie 11/12; WeChat renders also on
+  TCG Collector (9) and PriceCharting (6); zh-cn starts 2022-10-27. Paradijs edges are `stated`
+  (pixel proof is against pokemontcg.io, attribution is pkmncards'); pokemontcgio ↔ tcgdex added.
 
 ## Editorial rules (from the owner — keep)
 
