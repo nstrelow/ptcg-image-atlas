@@ -8,11 +8,17 @@ Live: https://nstrelow.github.io/ptcg-image-atlas/ · repo `nstrelow/ptcg-image-
 - `index.html` · `style.css` · `app.js` (D3 v7 from jsDelivr) · `data.json` (all content) ·
   `icons/` (each site's favicon/logo, 64 px; `print`, `paradijs`, `pokeca` are drawn
   placeholders) · `spec.md` (goals, data model, wording rules) · `README.md` · `LICENSE` (MIT, code).
-- Views: **Network** (4 hand-placed columns, `ORDER` in `app.js`: origin → extract/scan/dataset
-  → re-host/wiki → consumers), **TCGdex gaps**, **Sources** table, **Method**.
-- Top of page: AI-disclaimer banner ("Research notes, not a reference"), then 4 callouts
-  (Korean watermark, zh-cn WeChat 300×419, better quality exists, Western 1999–2010 = scans).
-- Deep links: `#v=gaps|sources|method`, `#s=<source id>`.
+- Views: **Network** (left → right lanes: origin → extract/scan/dataset → re-host/wiki → consumers;
+  every source is a box with a type-coloured bar, icon, name, language flags and tags SCANS/+SCANS/WM/300×419;
+  lane membership from `ORDER` in `app.js`, the order inside a lane is re-sorted to cross fewer links),
+  **TCGdex gaps**, **Sources** table, **Method**.
+- Network controls: a **language lens** (flag buttons with source counts; picking one redraws the graph with
+  only that language's sources and shows a summary: official source, what TCGdex misses, best fills),
+  a highlight switch (all / where TCGdex's images come from / scans), find-a-source, click a legend type to
+  highlight it. Hover or click a box to trace its lineage.
+- Top of page: one-line AI-disclaimer banner, then 4 key findings (`short` one-liner from `data.json`
+  callouts, full text under Details; "Show in network" switches to the finding's `lang` and highlights its sources).
+- Deep links: `#v=gaps|sources|method`, `#s=<source id>`, `#l=<language>` (e.g. `#l=ko`).
 - 39 sources, 73 links. Link confidence: verified (pixel match) · stated · likely ·
   unknown-direction. Only pixel matches may be "verified".
 
@@ -73,7 +79,7 @@ Snapshot 2026-09-23/24, plus these 2026-09-25 checks:
 - PriceCharting Korean: sample of 6 only.
 - Samples (TCGplayer, Cardmarket, Serebii, PriceCharting, Scrydex, TCG Collector) could be
   enlarged; the table says they are samples.
-- Graph on phones is small; could default to zoomed-in + pan.
+- Phones: the graph opens at ≥ 0.52 zoom and pans; a vertical per-language list could replace it on small screens.
 - When the research repo's numbers change (e.g. Korean 2010–2018 processed, malie importer built),
   update `data.json` gaps.
 

@@ -3,13 +3,6 @@
   const byId = Object.fromEntries(D.sources.map(s => [s.id, s]));
   const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
   const famColor = f => css('--c-' + f);
-  const TIERS = ['Origin', 'Extract · scan · dataset', 'Re-host · wiki · fan DB', 'Consumers · marketplaces'];
-  const CONF = {
-    'verified': { dash: null, label: 'verified (pixel match)' },
-    'stated': { dash: '10 5', label: 'stated by the site' },
-    'likely': { dash: '4 4', label: 'likely (indirect evidence)' },
-    'unknown-direction': { dash: '1 5', label: 'same files, direction unknown' }
-  };
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const hostOf = u => { try { return new URL(u).host.replace(/^www\./, ''); } catch { return u; } };
   const fmt = n => n.toLocaleString('en-US');
@@ -23,167 +16,304 @@
   const flagImg = (l, cls = 'flag') => `<img class="${cls}" src="${flagUrl(l)}" alt="${esc(langInfo(l).label)}" title="${esc(langInfo(l).label)}" loading="lazy">`;
   const uniqFlags = langs => [...new Map(langs.map(l => [langInfo(l).flag, l])).values()];
   const flagsOf = (langs, cls) => uniqFlags(langs).map(l => flagImg(l, cls)).join('');
-  const langsHtml = langs => langs.map(l => `<span class="lang${isDiscontinued(l) ? ' disc' : ''}" title="${esc(langInfo(l).label)}${isDiscontinued(l) ? ' — discontinued ' + esc(langInfo(l).discontinued) : ''}">${flagImg(l)} ${esc(l)}</span>`).join(' ');
+  const langsHtml = langs => langs.map(l => `<span data-l="${esc(l)}" class="lang${isDiscontinued(l) ? ' disc' : ''}" title="${esc(langInfo(l).label)}${isDiscontinued(l) ? ' — discontinued ' + esc(langInfo(l).discontinued) : ''}">${flagImg(l)} ${esc(l)}</span>`).join(' ');
   // a source belongs to the discontinued section when every language it serves is a discontinued one
   const discontinuedSource = s => s.langs.length > 0 && s.langs.every(isDiscontinued);
 
-  /* ---------- callouts ---------- */
+  /* ---------- key findings ---------- */
   const tagFor = { warn: 'ONLY', good: 'BETTER', info: 'NOTE' };
   document.getElementById('callouts').innerHTML = D.callouts.map(c => `
-    <article class="callout ${c.kind}" data-src="${c.sources[0]}" tabindex="0">
-      <h3><span class="tag">${tagFor[c.kind]}</span>${esc(c.title)}</h3>
-      <p>${esc(c.body)}</p>
+    <article class="finding ${c.kind}">
+      <h3><span class="tag">${tagFor[c.kind]}</span>${c.lang ? flagImg(c.lang) : ''}${esc(c.title)}</h3>
+      <p class="short">${esc(c.short || c.body)}</p>
+      <div class="f-foot">
+        <details><summary>Details</summary><p>${esc(c.body)}</p></details>
+        <button class="f-show" data-callout="${c.id}">Show in network →</button>
+      </div>
     </article>`).join('');
-  document.querySelectorAll('.callout').forEach(el => {
-    const go = () => { showView('network'); openPanel(el.dataset.src); };
-    el.addEventListener('click', go);
-    el.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
-  });
+  document.querySelectorAll('.f-show').forEach(b => b.addEventListener('click', () => {
+    const c = D.callouts.find(x => x.id === b.dataset.callout);
+    showView('network');
+    closePanel(true);
+    setLang(c.lang || '');
+    state.set = { ids: new Set(c.sources), title: c.title };
+    highlight();
+    document.getElementById('view-network').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }));
 
   /* ---------- tabs + routing ---------- */
   const tabs = document.querySelectorAll('.tabs button');
+  function setHash(k, v) {
+    const h = new URLSearchParams(location.hash.slice(1));
+    v ? h.set(k, v) : h.delete(k);
+    history.replaceState(null, '', '#' + h.toString());
+  }
   function showView(v) {
     tabs.forEach(b => b.setAttribute('aria-selected', b.dataset.view === v));
     document.querySelectorAll('.view').forEach(s => { s.hidden = s.id !== 'view-' + v; });
-    if (v === 'network') requestAnimationFrame(fitGraph);
-    const h = new URLSearchParams(location.hash.slice(1)); h.set('v', v);
-    history.replaceState(null, '', '#' + h.toString());
+    if (v === 'network') requestAnimationFrame(() => fitGraph(false));
+    setHash('v', v);
   }
   tabs.forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
 
-  /* ---------- network ---------- */
+  /* ---------- network ----------
+     Left → right flow: four lanes (origin → consumers). Every source is a box: coloured bar =
+     type, icon, name, its languages as flags, and tags (SCANS, WM …). Links leave a box on the
+     right and enter the next one on the left; the order inside each lane is tuned to cross less. */
+  const PW = 224, PH = 46, CG = 150, RG = 14, NCOL = 4;
+  const colX = t => t * (PW + CG);
+  const GW = colX(NCOL - 1) + PW;
+  const TIERS = [
+    ['Origin', 'official sites, game clients, printed cards'],
+    ['Extract · scan · dataset', 'first copy outside the official sites'],
+    ['Re-host · wiki · fan DB', 'databases and wikis re-using those files'],
+    ['Consumers · marketplaces', 'shops, trackers, apps — and TCGdex']
+  ];
   const nodes = D.sources.map(s => ({ ...s }));
   const nById = Object.fromEntries(nodes.map(n => [n.id, n]));
   const links = D.links.map(l => ({ ...l, source: nById[l.from], target: nById[l.to] }));
-  nodes.forEach(n => { n.deg = links.filter(l => l.source === n || l.target === n).length; });
-  nodes.forEach(n => { n.r = n.id === 'tcgdex' ? 32 : n.id === 'malie' ? 30 : n.id === 'print' ? 24 : 18 + Math.min(n.deg, 12) * 0.6; });
-
-  // Layered layout, hand-ordered into bands: scans on top, malie / digital in the middle, Asia at the bottom.
+  // Starting order inside each lane (scans on top, malie / digital in the middle, Asia at the bottom);
+  // layout() then reorders to reduce crossings.
   const ORDER = [
     { print: .02, ccdb: .14, ptcgo: .28, tcgl: .39, pcom: .48, pcj: .57, asia: .67, kr: .77, wechat: .87, pokemoncn: .98 },
     { bisafans: .02, pokezentrum: .10, pokecardex: .19, yuyutei: .28, pcgsearch: .38, paradijs: .50, malie: .64, pokeca: .80, duanxr: .98 },
     { pkmncards: .03, pokemontcgio: .11, pkmcardsfr: .19, pokepedia: .27, pokewiki: .35, pokemoncentral: .43, wikidex: .51, wiki52poke: .59, bulbagarden: .67, limitless: .75, krfan: .86, mikmoe: .98 },
     { pricecharting: .03, scrydex: .14, apps: .25, tcgplayer: .36, cardmarket: .46, tcgdex: .57, tcgcollector: .68, pokellector: .79, serebii: .90 }
   ];
-  const W = 1400, H = 900, padX = 150, padY = 70;
-  // Discontinued languages (nl, pl, ru …) get their own strip under the four tiers.
-  const STRIP = { top: H + 30, height: 150 };
-  const HT = STRIP.top + STRIP.height;
-  const discNodes = nodes.filter(discontinuedSource);
-  ORDER.forEach((col, t) => Object.entries(col).forEach(([id, f], i) => {
-    const n = nById[id]; if (!n) return; n.tier = t;
-    n.x = padX + t * (W - 2 * padX) / 3 + (t % 2 ? (i % 2 ? 30 : -30) : 0);
-    n.y = padY + 20 + f * (H - 2 * padY - 20);
-  }));
-  discNodes.forEach((n, i) => {
-    n.tier = 1;
-    n.x = padX + (W - 2 * padX) / 3 + (i - (discNodes.length - 1) / 2) * 150;
-    n.y = STRIP.top + STRIP.height / 2 - 8;
-  });
-  nodes.filter(n => n.x == null).forEach((n, i) => { n.x = padX + (n.tier || 0) * (W - 2 * padX) / 3; n.y = H - padY; });
+  ORDER.forEach((col, t) => Object.entries(col).forEach(([id, f]) => { const n = nById[id]; if (n) { n.tier = t; n.f = f; } }));
+  nodes.forEach(n => { n.disc = discontinuedSource(n); if (n.tier == null) { n.tier = 1; n.f = 1; } });
+
+  // language lens
+  const LENS = ['en', 'ja', 'fr', 'de', 'it', 'es', 'pt', 'ko', 'zh-tw', 'zh-cn', 'th', 'id'].filter(l => LANG[l]);
+  const LENS_DISC = Object.keys(LANG).filter(isDiscontinued);
+  const serves = (n, lang) => !lang || n.langs.some(l => l === 'all' || l === lang || l.startsWith(lang + '-') || l.startsWith(lang + ' ') || (l === 'zh' && lang.startsWith('zh')));
+  const lensKey = l => [...LENS, ...LENS_DISC].find(k => l === k || l.startsWith(k + '-') || l.startsWith(k + ' '));
+  const langCount = lang => nodes.filter(n => n.id !== 'print' && serves(n, lang)).length;
+
+  const css2 = n => css(n) || '#888';
+  const EDGE = {
+    official: { color: () => famColor('official'), label: 'official image' },
+    extract: { color: () => famColor('extract'), label: 'game-client render' },
+    scan: { color: () => famColor('scan'), label: 'scanned / photographed from print' },
+    copy: { color: () => famColor('rehost'), label: 'copied from a fan site' },
+    shared: { color: () => css2('--muted'), label: 'same files, no direction' }
+  };
+  const edgeKind = l => l.kind === 'scans' ? 'scan' : l.kind === 'shared' ? 'shared' : l.source.family === 'official' ? 'official' : l.source.family === 'extract' ? 'extract' : 'copy';
+  const CONF = {
+    'verified': { dash: null, label: 'verified (pixel match)' },
+    'stated': { dash: '9 5', label: 'stated by the site' },
+    'likely': { dash: '3 4', label: 'likely (indirect evidence)' },
+    'unknown-direction': { dash: '1 5', label: 'same files, direction unknown' }
+  };
+
+  function layout(vis) {
+    const visSet = new Set(vis);
+    const vl = links.filter(l => visSet.has(l.source) && visSet.has(l.target));
+    const main = vis.filter(n => !n.disc), disc = vis.filter(n => n.disc);
+    let cols = d3.range(NCOL).map(t => main.filter(n => n.tier === t).sort((a, b) => a.f - b.f));
+    const pos = new Map();
+    const setPos = cs => cs.forEach(c => c.forEach((n, i) => pos.set(n, c.length > 1 ? i / (c.length - 1) : .5)));
+    const nb = new Map(main.map(n => [n, []]));
+    vl.forEach(l => { if (nb.has(l.source) && nb.has(l.target) && l.source.tier !== l.target.tier) { nb.get(l.source).push(l.target); nb.get(l.target).push(l.source); } });
+    const cross = () => {
+      const seg = vl.filter(l => pos.has(l.source) && pos.has(l.target) && l.source.tier !== l.target.tier);
+      let c = 0;
+      for (let i = 0; i < seg.length; i++) for (let j = i + 1; j < seg.length; j++) {
+        const a = seg[i], b = seg[j];
+        if (a.source.tier === b.source.tier && a.target.tier === b.target.tier &&
+          (pos.get(a.source) - pos.get(b.source)) * (pos.get(a.target) - pos.get(b.target)) < 0) c++;
+      }
+      return c;
+    };
+    setPos(cols);
+    let best = cols.map(c => c.slice()), bestC = cross();
+    for (let it = 0; it < 16; it++) {
+      const seq = it % 2 ? [3, 2, 1, 0] : [0, 1, 2, 3];
+      seq.forEach(t => {
+        const key = new Map(cols[t].map(n => {
+          const ns = nb.get(n);
+          return [n, ns.length ? d3.mean(ns, m => pos.get(m)) : pos.get(n)];
+        }));
+        cols[t].sort((a, b) => key.get(a) - key.get(b) || pos.get(a) - pos.get(b));
+        setPos([cols[t]]);
+      });
+      const c = cross();
+      if (c < bestC) { bestC = c; best = cols.map(x => x.slice()); }
+    }
+    cols = best; setPos(cols);
+    const maxN = d3.max(cols, c => c.length) || 1;
+    const H = maxN * (PH + RG);
+    cols.forEach((c, t) => {
+      const step = Math.min(H / c.length, (PH + RG) * 1.7), off = (H - step * c.length) / 2;
+      c.forEach((n, i) => { n.x = colX(t); n.y = off + step * (i + .5); });
+    });
+    let HT = H, strip = null;
+    if (disc.length) {
+      strip = { y: H + 44, h: PH + 84 };
+      disc.forEach((n, i) => { n.x = colX(Math.min(1 + i, NCOL - 1)); n.y = strip.y + 56 + PH / 2; });
+      HT = strip.y + strip.h;
+    }
+    // ports: spread a box's links along its edge, ordered by where the other end sits
+    vis.forEach(n => {
+      const outs = vl.filter(l => l.source === n).sort((a, b) => a.target.y - b.target.y);
+      const ins = vl.filter(l => l.target === n).sort((a, b) => a.source.y - b.source.y);
+      const spread = (arr, set) => arr.forEach((l, i) => set(l, arr.length > 1 ? (i / (arr.length - 1) - .5) * (PH - 14) : 0));
+      spread(outs, (l, o) => { l.so = o; });
+      spread(ins, (l, o) => { l.ti = o; });
+    });
+    return { vis, vl, H, HT, strip, cols };
+  }
+
+  function linkPath(l) {
+    const s = l.source, t = l.target, sy = s.y + l.so, ty = t.y + l.ti;
+    const x1 = s.x + PW;
+    if (t.x > s.x) {
+      const x2 = t.x - 7, dx = Math.max(40, (x2 - x1) * .5);
+      return `M${x1},${sy} C${x1 + dx},${sy} ${x2 - dx},${ty} ${x2},${ty}`;
+    }
+    const x2 = t.x + PW + 7, off = 34 + Math.abs(ty - sy) * .12;   // same lane: loop out to the right
+    return `M${x1},${sy} C${x1 + off},${sy} ${x2 + off},${ty} ${x2},${ty}`;
+  }
 
   const svg = d3.select('#graph');
   const defs = svg.append('defs');
   const pat = defs.append('pattern').attr('id', 'hatch').attr('patternUnits', 'userSpaceOnUse').attr('width', 6).attr('height', 6).attr('patternTransform', 'rotate(45)');
   pat.append('rect').attr('width', 6).attr('height', 6).attr('fill', famColor('scan'));
   pat.append('line').attr('x1', 0).attr('y1', 0).attr('x2', 0).attr('y2', 6).attr('stroke', 'rgba(0,0,0,.45)').attr('stroke-width', 3);
-  const edgeColor = l => l.kind === 'scans' ? famColor('scan') : l.kind === 'shared' ? css('--muted') : l.source.family === 'official' ? famColor('official') : l.source.family === 'extract' ? famColor('extract') : css('--muted');
+  defs.append('clipPath').attr('id', 'pill-clip').append('rect').attr('width', PW).attr('height', PH).attr('rx', 10);
   const markerFor = new Map();
   function marker(color) {
     if (markerFor.has(color)) return markerFor.get(color);
     const id = 'm' + markerFor.size;
-    defs.append('marker').attr('id', id).attr('viewBox', '0 -5 10 10').attr('refX', 9).attr('refY', 0)
-      .attr('markerWidth', 7).attr('markerHeight', 7).attr('orient', 'auto')
+    defs.append('marker').attr('id', id).attr('viewBox', '0 -5 10 10').attr('refX', 8).attr('refY', 0)
+      .attr('markerWidth', 6).attr('markerHeight', 6).attr('orient', 'auto')
       .append('path').attr('d', 'M0,-4L10,0L0,4').attr('fill', color);
     markerFor.set(color, id); return id;
   }
   const g = svg.append('g');
-  if (discNodes.length) {
-    const discLangs = Object.keys(LANG).filter(isDiscontinued);
-    const strip = g.append('g').attr('class', 'strip');
-    strip.append('rect').attr('x', padX - 90).attr('y', STRIP.top).attr('width', W - 2 * padX + 180).attr('height', STRIP.height).attr('rx', 14);
-    strip.append('text').attr('class', 'strip-title').attr('x', padX - 74).attr('y', STRIP.top + 22)
-      .text('DISCONTINUED LANGUAGES · ' + discLangs.map(l => `${l} (${langInfo(l).label})`).join(' · '));
-    strip.append('text').attr('class', 'strip-sub').attr('x', padX - 74).attr('y', STRIP.top + 40)
-      .text('Printed for a while, then dropped. TCGdex lists them but has no images; card data would come first.');
-    strip.append('text').attr('class', 'strip-sub').attr('x', W - padX + 74).attr('y', STRIP.top + STRIP.height - 14).attr('text-anchor', 'end')
-      .text(discLangs.filter(l => !discNodes.some(n => n.langs.includes(l))).map(l => `${l} (${langInfo(l).label}): no source found`).join(' · '));
-  }
-  const zoom = d3.zoom().scaleExtent([0.3, 3]).on('zoom', e => { g.attr('transform', e.transform); placeTierLabels(e.transform); });
+  const gLanes = g.append('g'), gStrip = g.append('g').attr('class', 'strip'), gLinks = g.append('g'), gNodes = g.append('g');
+  const zoom = d3.zoom().scaleExtent([0.25, 3]).on('zoom', e => g.attr('transform', e.transform));
   svg.call(zoom).on('dblclick.zoom', null);
-
-  const path = l => {
-    const s = l.source, t = l.target;
-    const dx = t.x - s.x, dy = t.y - s.y, dist = Math.hypot(dx, dy) || 1;
-    const sx = s.x + dx / dist * s.r, sy = s.y + dy / dist * s.r;
-    const tx = t.x - dx / dist * (t.r + 4), ty = t.y - dy / dist * (t.r + 4);
-    const bend = s.tier === t.tier ? 0.35 : 0.12;
-    const mx = (sx + tx) / 2 - dy * bend, my = (sy + ty) / 2 + dx * bend;
-    return `M${sx},${sy} Q${mx},${my} ${tx},${ty}`;
-  };
-  const linkSel = g.append('g').selectAll('path').data(links).join('path')
-    .attr('class', 'link').attr('d', path)
-    .attr('stroke', edgeColor).attr('stroke-width', l => l.confidence === 'verified' ? 1.8 : 1.4)
-    .attr('stroke-opacity', l => l.source.id === 'print' ? .3 : .8)
-    .attr('stroke-dasharray', l => CONF[l.confidence].dash)
-    .attr('marker-end', l => l.kind === 'shared' ? null : `url(#${marker(edgeColor(l))})`);
-  linkSel.append('title').text(l => `${l.source.name} → ${l.target.name}\n${l.scope}\n${CONF[l.confidence].label}: ${l.evidence}`);
-
-  const nodeSel = g.append('g').selectAll('g').data(nodes).join('g')
-    .attr('class', 'node').attr('transform', n => `translate(${n.x},${n.y})`)
-    .on('click', (e, n) => openPanel(n.id))
-    .on('mouseenter', (e, n) => highlight(n)).on('mouseleave', () => highlight(null));
-  nodeSel.filter(n => n.id === 'tcgdex').append('circle').attr('r', n => n.r + 7).attr('fill', 'none')
-    .attr('stroke', famColor('tcgdex')).attr('stroke-width', 1.5).attr('stroke-dasharray', '3 3');
-  // Ring = family colour (hatched for scan-only sources), violet dashed halo = also hosts scans, site icon inside.
-  nodeSel.filter(n => n.imageNature === 'mixed').append('circle').attr('r', n => n.r + 4).attr('fill', 'none')
-    .attr('stroke', famColor('scan')).attr('stroke-width', 2).attr('stroke-dasharray', '3 2');
-  nodeSel.append('circle').attr('class', 'body').attr('r', n => n.r)
-    .attr('fill', n => n.scanOnly ? 'url(#hatch)' : famColor(n.family));
-  nodeSel.append('circle').attr('r', n => n.r - 4).attr('fill', '#fff');
-  nodeSel.each(function (n) {
-    const cid = 'clip-' + n.id, ri = n.r - 4;
-    defs.append('clipPath').attr('id', cid).append('circle').attr('r', ri);
-    const sz = ri * 1.55;
-    d3.select(this).append('image').attr('href', n.icon).attr('x', -sz / 2).attr('y', -sz / 2)
-      .attr('width', sz).attr('height', sz).attr('clip-path', `url(#${cid})`).attr('preserveAspectRatio', 'xMidYMid meet');
-  });
-  const wm = nodeSel.filter(n => n.watermark).append('g').attr('transform', n => `translate(${n.r * 0.72},${-n.r * 0.72})`);
-  wm.append('circle').attr('r', 8).attr('fill', css('--warn')).attr('stroke', css('--bg2')).attr('stroke-width', 1.5);
-  wm.append('text').attr('class', 'badge').attr('text-anchor', 'middle').attr('dy', 3).attr('fill', '#fff').text('WM');
-  nodeSel.append('text').attr('dy', n => n.r + 14).attr('text-anchor', 'middle').text(n => shortName(n));
-  nodeSel.filter(n => n.scanOnly).append('text').attr('class', 'badge').attr('text-anchor', 'middle')
-    .attr('dy', n => n.r + 25).attr('fill', famColor('scan')).text('SCANS ONLY');
-  nodeSel.filter(n => n.callout === 'korean' || n.callout === 'zhcn').append('text').attr('class', 'badge').attr('text-anchor', 'middle')
-    .attr('dy', n => -n.r - 6).attr('fill', css('--warn')).text(n => n.callout === 'korean' ? '⚠ WATERMARK ONLY' : '⚠ 300×419 MAX');
-  // language flags under the label (one per distinct flag, centred)
-  nodeSel.append('g').attr('class', 'flags').attr('transform', n => `translate(0,${n.r + (n.scanOnly ? 30 : 19)})`)
-    .each(function (n) {
-      const fl = uniqFlags(n.langs), sz = 13, gap = 3, w = fl.length * sz + (fl.length - 1) * gap;
-      d3.select(this).selectAll('image').data(fl).join('image')
-        .attr('href', l => flagUrl(l)).attr('width', sz).attr('height', sz)
-        .attr('x', (l, i) => -w / 2 + i * (sz + gap)).attr('y', 0)
-        .append('title').text(l => langInfo(l).label);
-    });
-  nodeSel.append('title').text(n => `${n.name}\n${n.langs.map(l => `${langInfo(l).flag} ${langInfo(l).label}`).join(', ')}`);
+  svg.on('click', e => { if (!e.target.closest('.node')) { state.set = null; closePanel(); } });
 
   function shortName(n) {
-    return n.id === 'paradijs' ? 'Paradijs scans (Martin)' : n.name.replace(/ \(.*\)$/, '').replace(' card database', '').replace(' (game client)', '').replace('Pokémon ', 'Pokémon ');
+    return n.id === 'paradijs' ? 'Paradijs scans (Martin)' : n.name.replace(/ \(.*\)$/, '').replace(' card database', '').replace(' (game client)', '');
+  }
+  function tagsOf(n) {
+    const t = [];
+    if (n.scanOnly) t.push(['SCANS', 'scan']);
+    else if (n.imageNature === 'photo') t.push(['PHOTOS', 'scan']);
+    else if (n.imageNature === 'mixed') t.push(['+SCANS', 'scan-o']);
+    if (n.watermark) t.push(['WM', 'warn']);
+    if (n.callout === 'zhcn') t.push(['300×419', 'warn']);
+    return t;
+  }
+  function drawPill(sel) {
+    sel.each(function (n) {
+      const el = d3.select(this);
+      el.append('rect').attr('class', 'pill').attr('width', PW).attr('height', PH).attr('rx', 10);
+      el.append('rect').attr('class', 'bar').attr('width', 6).attr('height', PH).attr('clip-path', 'url(#pill-clip)')
+        .attr('fill', n.scanOnly ? 'url(#hatch)' : famColor(n.family));
+      el.append('rect').attr('class', 'ico-bg').attr('x', 14).attr('y', (PH - 26) / 2).attr('width', 26).attr('height', 26).attr('rx', 6);
+      el.append('image').attr('href', n.icon).attr('x', 16).attr('y', (PH - 22) / 2).attr('width', 22).attr('height', 22).attr('preserveAspectRatio', 'xMidYMid meet');
+      const name = el.append('text').attr('class', 'name').attr('x', 48).attr('y', 19).text(shortName(n));
+      // tags, right-aligned on the second line
+      let tx = PW - 8;
+      tagsOf(n).reverse().forEach(([txt, cls]) => {
+        const w = txt.length * 5.6 + 8; tx -= w;
+        const tg = el.append('g').attr('class', 'tag ' + cls).attr('transform', `translate(${tx},${PH - 18})`);
+        tg.append('rect').attr('width', w).attr('height', 13).attr('rx', 3);
+        tg.append('text').attr('x', w / 2).attr('y', 9.5).attr('text-anchor', 'middle').text(txt);
+        tx -= 4;
+      });
+      // flags on the second line, as many as fit
+      const fl = uniqFlags(n.langs), sz = 13, gap = 3;
+      const room = Math.floor((tx - 48 + gap) / (sz + gap));
+      const shown = fl.length > room ? fl.slice(0, Math.max(room - 1, 0)) : fl;
+      const fg = el.append('g').attr('class', 'flags').attr('transform', `translate(48,${PH - 18})`);
+      shown.forEach((l, i) => fg.append('image').attr('href', flagUrl(l)).attr('x', i * (sz + gap)).attr('width', sz).attr('height', sz));
+      if (shown.length < fl.length) fg.append('text').attr('class', 'more').attr('x', shown.length * (sz + gap)).attr('y', 10).text('+' + (fl.length - shown.length));
+      // shorten the name until it fits
+      const maxW = PW - 56; let s = shortName(n);
+      while (name.node().getComputedTextLength() > maxW && s.length > 4) { s = s.slice(0, -1); name.text(s.trimEnd() + '…'); }
+      el.append('title').text(`${n.name}\n${D.families[n.family].label}\n${n.langs.map(l => langInfo(l).label).join(', ')}`);
+    });
   }
 
-  // tier labels follow pan/zoom
-  const tl = document.getElementById('tier-labels');
-  tl.innerHTML = TIERS.map(t => `<span>${t}</span>`).join('');
-  function placeTierLabels(t) {
-    [...tl.children].forEach((el, i) => { el.style.left = (t.applyX(padX + i * (W - 2 * padX) / 3)) + 'px'; });
+  let cur = null, nodeSel = d3.select(null), linkSel = d3.select(null);
+  function render(animate) {
+    const vis = nodes.filter(n => serves(n, state.lang));
+    cur = layout(vis);
+    const dur = animate ? 450 : 0;
+    // lanes + headers
+    gLanes.selectAll('*').remove();
+    TIERS.forEach(([title, sub], t) => {
+      const n = cur.cols[t].length;
+      gLanes.append('rect').attr('class', 'lane').attr('x', colX(t) - 14).attr('y', -64).attr('width', PW + 28).attr('height', cur.H + 78).attr('rx', 16);
+      gLanes.append('text').attr('class', 'lane-title').attr('x', colX(t)).attr('y', -40).text(`${t + 1} · ${title}`);
+      gLanes.append('text').attr('class', 'lane-sub').attr('x', colX(t)).attr('y', -24).text(n ? `${sub} · ${n}` : 'none for this language');
+    });
+    gStrip.selectAll('*').remove();
+    if (cur.strip) {
+      const discLangs = LENS_DISC.filter(l => !state.lang || l === state.lang);
+      gStrip.append('rect').attr('x', -14).attr('y', cur.strip.y).attr('width', GW + 28).attr('height', cur.strip.h).attr('rx', 16);
+      gStrip.append('text').attr('class', 'strip-title').attr('x', 6).attr('y', cur.strip.y + 24)
+        .text('DISCONTINUED LANGUAGES · ' + discLangs.map(l => `${l} (${langInfo(l).label})`).join(' · '));
+      gStrip.append('text').attr('class', 'strip-sub').attr('x', 6).attr('y', cur.strip.y + 42)
+        .text('Printed for a while, then dropped. TCGdex lists them but has no images; card data would come first.');
+      const none = discLangs.filter(l => !cur.vis.some(n => n.disc && n.langs.includes(l)));
+      if (none.length) gStrip.append('text').attr('class', 'strip-sub').attr('x', 6).attr('y', cur.strip.y + cur.strip.h - 14)
+        .text(none.map(l => `${l} (${langInfo(l).label}): no source found`).join(' · '));
+    }
+    linkSel = gLinks.selectAll('path').data(cur.vl, l => l.from + '>' + l.to).join(
+      enter => enter.append('path').attr('class', 'link').attr('opacity', 0).attr('d', linkPath)
+        .call(p => p.append('title')),
+      update => update,
+      exit => exit.remove())
+      .attr('stroke', l => EDGE[edgeKind(l)].color())
+      .attr('stroke-width', l => l.confidence === 'verified' ? 1.9 : 1.5)
+      .attr('stroke-dasharray', l => CONF[l.confidence].dash)
+      .attr('marker-end', l => l.kind === 'shared' ? null : `url(#${marker(EDGE[edgeKind(l)].color())})`)
+      .classed('faint', l => l.source.id === 'print');
+    linkSel.select('title').text(l => `${l.source.name} → ${l.target.name}\n${l.scope}\n${CONF[l.confidence].label}: ${l.evidence}`);
+    linkSel.transition().duration(dur).attr('opacity', 1).attr('d', linkPath);
+
+    nodeSel = gNodes.selectAll('g.node').data(cur.vis, n => n.id).join(
+      enter => enter.append('g').attr('class', n => 'node' + (n.id === 'tcgdex' ? ' hub' : ''))
+        .attr('tabindex', 0).attr('role', 'button').attr('aria-label', n => n.name)
+        .attr('opacity', 0).attr('transform', n => `translate(${n.x},${n.y - PH / 2})`)
+        .call(drawPill)
+        .on('click', (e, n) => { e.stopPropagation(); openPanel(n.id); })
+        .on('keydown', (e, n) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPanel(n.id); } })
+        .on('mouseenter focus', (e, n) => { state.hover = n; highlight(); })
+        .on('mouseleave blur', () => { state.hover = null; highlight(); }),
+      update => update,
+      exit => exit.remove());
+    nodeSel.transition().duration(dur).attr('opacity', 1).attr('transform', n => `translate(${n.x},${n.y - PH / 2})`);
+    highlight();
+    fitGraph(animate);
   }
-  function fitGraph() {
-    const el = document.getElementById('graph'); const w = el.clientWidth, h = el.clientHeight;
-    if (!w) return;
-    const k = Math.min(w / (W + 40), h / (HT + 60));
-    svg.call(zoom.transform, d3.zoomIdentity.translate((w - W * k) / 2, (h - HT * k) / 2 + 12).scale(k));
+
+  function fitGraph(animate) {
+    const el = svg.node(), wrap = document.getElementById('graph-wrap');
+    const w = el.clientWidth; if (!w || !cur) return;
+    const bx = -30, by = -76, bw = GW + 90, bh = cur.HT + by * -1 + 20;
+    const narrow = w < 760;
+    // size the box to the content so a filtered lens doesn't leave a tall empty frame
+    let k = narrow ? Math.max(Math.min(w / bw, 1.15), .52) : Math.min(w / bw, 1.15);
+    const maxH = window.innerHeight * (narrow ? .65 : .86);
+    wrap.style.height = Math.round(Math.max(narrow ? 220 : 320, Math.min(maxH, bh * k + 8))) + 'px';
+    const h = el.clientHeight;
+    if (!narrow) k = Math.min(k, h / bh);
+    const tx = bw * k > w ? 8 - bx * k : (w - bw * k) / 2 - bx * k;
+    const ty = bh * k > h ? 8 - by * k : (h - bh * k) / 2 - by * k;
+    const t = d3.zoomIdentity.translate(tx, ty).scale(k);
+    (animate ? svg.transition().duration(450) : svg).call(zoom.transform, t);
   }
-  window.addEventListener('resize', fitGraph);
+  window.addEventListener('resize', () => fitGraph(false));
+  document.getElementById('z-in').addEventListener('click', () => svg.transition().duration(250).call(zoom.scaleBy, 1.3));
+  document.getElementById('z-out').addEventListener('click', () => svg.transition().duration(250).call(zoom.scaleBy, 1 / 1.3));
+  document.getElementById('z-fit').addEventListener('click', () => fitGraph(true));
 
   // up/downstream closure
   function lineage(n) {
@@ -199,65 +329,129 @@
     }
     return new Set([...up, ...down]);
   }
-
-  const state = { fams: new Set(Object.keys(D.families)), lang: '', lineage: false, scans: false, pinned: null };
-  function visible(n) {
-    if (!state.fams.has(n.family)) return false;
-    if (state.lang && !n.langs.some(l => l === 'all' || l.startsWith(state.lang))) return false;
-    return true;
-  }
-  function highlight(n) {
-    const focus = n || state.pinned || (state.lineage ? nById.tcgdex : null);
-    const keep = focus ? (state.lineage && !n && !state.pinned ? upstream(nById.tcgdex) : lineage(focus)) : null;
-    nodeSel.classed('dim', d => !visible(d) || (keep && !keep.has(d)) || (state.scans && !d.scanOnly && d.imageNature !== 'mixed' && d.id !== 'print' && !(keep && keep.has(d))));
-    linkSel.classed('dim', l => !visible(l.source) || !visible(l.target) || (keep && !(keep.has(l.source) && keep.has(l.target))) || (state.scans && l.kind !== 'scans' && !(l.source.scanOnly)))
-      .classed('hl', l => !!(keep && keep.has(l.source) && keep.has(l.target) && focus && (l.source === focus || l.target === focus)));
-  }
   function upstream(n) {
     const up = new Set([n]); let grew = true;
     while (grew) { grew = false; links.forEach(l => { if (up.has(l.target) && !up.has(l.source)) { up.add(l.source); grew = true; } }); }
     return up;
   }
+  const isScanNode = n => n.scanOnly || n.imageNature === 'photo' || n.id === 'print';
 
-  // chips + toggles
-  const chipBox = document.getElementById('family-chips');
-  chipBox.innerHTML = Object.entries(D.families).map(([k, f]) =>
-    `<button class="chip" aria-pressed="true" data-f="${k}" title="${esc(f.desc)}"><span class="dot" style="background:${k === 'scan' ? 'repeating-linear-gradient(135deg,' + famColor('scan') + ' 0 3px,#0006 3px 5px)' : famColor(k)}"></span>${esc(f.label)}</button>`).join('');
-  chipBox.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
-    const on = c.getAttribute('aria-pressed') !== 'true'; c.setAttribute('aria-pressed', on);
-    on ? state.fams.add(c.dataset.f) : state.fams.delete(c.dataset.f); highlight(null);
+  const state = { lang: '', mode: 'all', fam: null, set: null, pinned: null, hover: null };
+  function highlight() {
+    const f = state.hover || state.pinned;
+    let keep = null, keepLink = null, strong = false;
+    if (f) { keep = lineage(f); strong = true; }
+    else if (state.set) keep = new Set([...state.set.ids].map(id => nById[id]).filter(Boolean));
+    else if (state.fam) { keep = new Set(nodes.filter(n => n.family === state.fam)); keepLink = l => keep.has(l.source) || keep.has(l.target); }
+    else if (state.mode === 'tcgdex') { keep = upstream(nById.tcgdex); strong = true; }
+    else if (state.mode === 'scans') {
+      keep = new Set(nodes.filter(n => isScanNode(n) || n.imageNature === 'mixed'));
+      keepLink = l => l.kind === 'scans' || (l.source.scanOnly && keep.has(l.target));
+    }
+    keepLink = keepLink || (l => keep.has(l.source) && keep.has(l.target));
+    nodeSel.classed('dim', n => !!keep && !keep.has(n)).classed('pinned', n => n === state.pinned);
+    linkSel.classed('dim', l => !!keep && !keepLink(l)).classed('hl', l => !!keep && strong && keepLink(l));
+    // raise highlighted links above the rest
+    if (keep) linkSel.filter(l => keepLink(l)).raise();
+    const note = document.getElementById('focus-note');
+    note.hidden = !state.set;
+    if (state.set) note.innerHTML = `Highlighting the sources of <b>${esc(state.set.title)}</b> <button id="focus-clear">Clear</button>`;
+    if (state.set) document.getElementById('focus-clear').onclick = () => { state.set = null; highlight(); };
+  }
+
+  // mode switch
+  document.querySelectorAll('#mode button').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('#mode button').forEach(x => x.setAttribute('aria-checked', x === b));
+    state.mode = b.dataset.mode; state.set = null; highlight();
   }));
-  document.getElementById('t-lineage').addEventListener('change', e => { state.lineage = e.target.checked; highlight(null); });
-  document.getElementById('t-scans').addEventListener('change', e => { state.scans = e.target.checked; highlight(null); });
-  const langs = [...new Set(D.sources.flatMap(s => s.langs.map(l => l.split(' ')[0])))].filter(l => l !== 'all').sort();
-  const lf = document.getElementById('lang-filter');
-  lf.innerHTML += langs.map(l => `<option value="${l}">${l} — ${esc(langInfo(l).label)}${isDiscontinued(l) ? ' (discontinued)' : ''}</option>`).join('');
-  lf.addEventListener('change', () => { state.lang = lf.value; highlight(null); });
+
+  // language lens
+  const lens = document.getElementById('lens');
+  const lensBtn = (l, disc) => {
+    const n = langCount(l);
+    return `<button role="radio" class="lb${disc ? ' disc' : ''}" data-lang="${l}" aria-checked="false" ${n ? '' : 'disabled'} title="${esc(langInfo(l).label)}${disc ? ' — discontinued' : ''}: ${n} source${n === 1 ? '' : 's'}">${flagImg(l)}<span class="code">${esc(l)}</span><span class="n">${n}</span></button>`;
+  };
+  lens.innerHTML = `<button role="radio" class="lb" data-lang="" aria-checked="true"><span class="code">All</span><span class="n">${nodes.length - 1}</span></button>` +
+    LENS.map(l => lensBtn(l)).join('') + `<span class="lens-sep" title="Discontinued languages">discontinued</span>` + LENS_DISC.map(l => lensBtn(l, true)).join('');
+  lens.querySelectorAll('.lb').forEach(b => b.addEventListener('click', () => { state.set = null; setLang(b.dataset.lang); }));
+  function setLang(lang) {
+    if (state.lang === lang && cur) return;
+    state.lang = lang;
+    lens.querySelectorAll('.lb').forEach(b => {
+      b.setAttribute('aria-checked', b.dataset.lang === lang);
+      if (b.dataset.lang === lang && lens.scrollWidth > lens.clientWidth) lens.scrollLeft = b.offsetLeft - lens.clientWidth / 2 + b.offsetWidth / 2;
+    });
+    if (state.pinned && !serves(state.pinned, lang)) closePanel(true);
+    renderSummary();
+    render(true);
+    setHash('l', lang);
+  }
+  function renderSummary() {
+    const box = document.getElementById('lang-summary'), l = state.lang;
+    if (!l) { box.hidden = true; return; }
+    const gap = D.gaps.find(x => x.lang === l);
+    const info = langInfo(l), n = langCount(l);
+    const off = nodes.filter(x => x.official && serves(x, l) && x.id !== 'print');
+    const fills = gap ? gap.fills.filter(f => f.count).sort((a, b) => b.count - a.count).slice(0, 3) : [];
+    box.innerHTML = `
+      <div class="ls-head">${flagImg(l, 'flag xl')}<div><h3>${esc(info.label)} <span class="code">${esc(l)}</span></h3>
+        <p>${n} source${n === 1 ? '' : 's'}${info.discontinued ? ` · printed ${esc(info.discontinued)}, then discontinued` : ''}</p></div></div>
+      <dl>
+        <div><dt>Official source</dt><dd>${off.length ? off.map(x => `<span class="who" data-go="${x.id}">${esc(shortName(x))}</span>`).join(', ') : '<span class="muted">none found</span>'}</dd></div>
+        ${gap ? `<div><dt>TCGdex is missing</dt><dd>${esc(gap.missing)}</dd></div>` : ''}
+        ${fills.length ? `<div><dt>Could fill</dt><dd>${fills.map(f => `<span class="fillchip"><b>${fmt(f.count)}</b> <span class="who" data-go="${f.source}">${esc(shortName(nById[f.source]))}</span> <span class="perm ${f.permission}">${esc(D.permissions[f.permission].label)}</span></span>`).join(' ')} <a href="#" class="to-gaps">all details →</a></dd></div>` : ''}
+      </dl>`;
+    box.hidden = false;
+    box.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', () => openPanel(el.dataset.go)));
+    box.querySelector('.to-gaps')?.addEventListener('click', e => { e.preventDefault(); showView('gaps'); document.querySelector(`#gaps [data-lang="${l}"]`)?.scrollIntoView({ block: 'center' }); });
+  }
+
+  // search
+  document.getElementById('node-list').innerHTML = D.sources.map(s => `<option value="${esc(s.name)}"></option>`).join('');
+  const ns = document.getElementById('node-search');
+  ns.addEventListener('change', () => {
+    const q = ns.value.trim().toLowerCase(); if (!q) return;
+    const s = D.sources.find(x => x.name.toLowerCase() === q) || D.sources.find(x => x.name.toLowerCase().includes(q) || x.id === q);
+    if (!s) return;
+    if (!serves(nById[s.id], state.lang)) setLang('');
+    openPanel(s.id); ns.value = '';
+  });
 
   // legend
-  const sw = (dash, color) => `<svg width="34" height="8"><line x1="1" y1="4" x2="33" y2="4" stroke="${color}" stroke-width="2" ${dash ? `stroke-dasharray="${dash}"` : ''}/></svg>`;
-  document.getElementById('legend').innerHTML =
-    Object.entries(CONF).map(([k, c]) => `<div class="row">${sw(c.dash, css('--text'))}${c.label}</div>`).join('') +
-    `<div class="row">${sw(null, famColor('official'))}from an official source</div>` +
-    `<div class="row">${sw(null, famColor('scan'))}scanned / photographed from print</div>` +
-    `<div class="row"><svg width="34" height="18"><circle cx="17" cy="9" r="8" fill="none" stroke="${famColor('scan')}" stroke-width="2" stroke-dasharray="3 2"/><circle cx="17" cy="9" r="5" fill="${famColor('rehost')}"/></svg>dashed violet halo = also hosts scans</div>` +
-    `<div class="row"><svg width="34" height="18"><circle cx="17" cy="9" r="7" fill="url(#hatch)"/><circle cx="17" cy="9" r="4" fill="#fff"/></svg>hatched ring = scans only</div>` +
-    `<div class="row"><svg width="34" height="18"><circle cx="17" cy="9" r="7" fill="${css('--warn')}"/><text x="17" y="12" font-size="7" font-weight="700" text-anchor="middle" fill="#fff">WM</text></svg>watermarked</div>` +
-    `<div class="row">ring colour = type · icon = the site's own favicon/logo</div>`;
+  const sw = (dash, color, arrow) => `<svg width="38" height="10" aria-hidden="true"><line x1="1" y1="5" x2="${arrow ? 30 : 37}" y2="5" stroke="${color}" stroke-width="2" ${dash ? `stroke-dasharray="${dash}"` : ''}/>${arrow ? `<path d="M30,1.5L37,5L30,8.5z" fill="${color}"/>` : ''}</svg>`;
+  const boxSw = fill => `<svg width="22" height="16" aria-hidden="true"><rect x=".5" y=".5" width="21" height="15" rx="4" fill="var(--card)" stroke="var(--line)"/><rect x=".5" y=".5" width="5" height="15" rx="2" fill="${fill}"/></svg>`;
+  document.getElementById('legend').innerHTML = `
+    <div class="lg"><h4>Box colour = type <span class="muted">(click to highlight)</span></h4><div class="lg-items">${Object.entries(D.families).map(([k, f]) =>
+      `<button class="lg-fam" data-f="${k}" aria-pressed="false" title="${esc(f.desc)}">${boxSw(famColor(k))}${esc(f.label)}</button>`).join('')}
+      <span class="lg-it">${boxSw('url(#hatch)')}hatched = scans only</span></div></div>
+    <div class="lg"><h4>Tags</h4><div class="lg-items">
+      <span class="lg-it"><span class="tagx scan">SCANS</span>scans / photos only</span>
+      <span class="lg-it"><span class="tagx scan-o">+SCANS</span>digital, plus some scans</span>
+      <span class="lg-it"><span class="tagx warn">WM</span>watermarked</span>
+      <span class="lg-it"><span class="tagx warn">300×419</span>small images only</span></div></div>
+    <div class="lg"><h4>Arrow colour = what travels</h4><div class="lg-items">${Object.values(EDGE).map((e, i, a) => `<span class="lg-it">${sw(null, e.color(), i < a.length - 1)}${e.label}</span>`).join('')}</div></div>
+    <div class="lg"><h4>Line = how sure</h4><div class="lg-items">${Object.values(CONF).map(c => `<span class="lg-it">${sw(c.dash, css2('--text'))}${c.label}</span>`).join('')}</div></div>`;
+  document.querySelectorAll('.lg-fam').forEach(b => b.addEventListener('click', () => {
+    const on = b.getAttribute('aria-pressed') !== 'true';
+    document.querySelectorAll('.lg-fam').forEach(x => x.setAttribute('aria-pressed', 'false'));
+    b.setAttribute('aria-pressed', on); state.fam = on ? b.dataset.f : null; state.set = null; highlight();
+  }));
 
   /* ---------- detail panel ---------- */
   const panel = document.getElementById('panel');
   document.getElementById('panel-close').addEventListener('click', closePanel);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
-  function closePanel() {
-    panel.hidden = true; state.pinned = null; highlight(null);
-    const h = new URLSearchParams(location.hash.slice(1)); h.delete('s'); history.replaceState(null, '', '#' + h.toString());
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !panel.hidden) closePanel(); });
+  function closePanel(quiet) {
+    panel.hidden = true; state.pinned = null;
+    if (!quiet) highlight();
+    setHash('s', '');
   }
   const apiLabel = { open: 'Open API', dump: 'Data dump', partner: 'Partner-only API', paid: 'Paid API', none: 'No API' };
   const natureLabel = { digital: 'digital', scan: 'scan', photo: 'photo', mixed: 'digital + scans', physical: 'physical' };
   function openPanel(id) {
     const s = byId[id]; if (!s) return;
-    state.pinned = nById[id]; highlight(null);
+    if (!serves(nById[id], state.lang)) setLang('');
+    state.pinned = nById[id]; state.set = null; highlight();
     const fam = D.families[s.family];
     const ups = D.links.filter(l => l.to === id), downs = D.links.filter(l => l.from === id);
     const rel = (arr, key) => arr.length ? `<ul class="rel">${arr.map(l => `<li><img class="ico" src="${esc(byId[l[key]].icon)}" alt=""><span class="who" data-go="${l[key]}">${esc(byId[l[key]].name)}</span><span class="conf ${l.confidence}">${l.confidence.replace('-', ' ')}</span><div class="ev">${esc(l.scope)} — ${esc(l.evidence)}</div></li>`).join('')}</ul>` : '<p class="muted">—</p>';
@@ -287,6 +481,8 @@
         ${s.stats.map(x => `<dt>${esc(x.label)}</dt><dd>${esc(x.value)}</dd>`).join('')}
       </dl>
       ${gapsHere.length ? `<h4>Could fill on TCGdex</h4><ul class="rel">${gapsHere.map(f => `<li><b>${fmt(f.count)}</b> ${esc(f.lang)} <span class="perm ${f.permission}">${esc(D.permissions[f.permission].label)}</span><div class="ev">${esc(f.note)}</div></li>`).join('')}</ul>` : ''}
+      <h4>Gets images from</h4>${rel(ups, 'from')}
+      <h4>Images end up at</h4>${rel(downs, 'to')}
       <h4>Example assets (where the original lives)</h4>
       ${s.examples.length ? s.examples.map((x, i) => `
         <div class="ex">
@@ -295,11 +491,15 @@
           <a class="url" href="${esc(x.url)}" target="_blank" rel="noopener noreferrer">${esc(x.url)}</a>
           <div class="pv"></div>
         </div>`).join('') : '<p class="muted">No public per-image link (see the site itself).</p>'}
-      <h4>Gets images from</h4>${rel(ups, 'from')}
-      <h4>Images end up at</h4>${rel(downs, 'to')}
     `;
     panel.hidden = false; panel.scrollTop = 0;
     panel.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', () => openPanel(el.dataset.go)));
+    // a language chip switches the graph to that language
+    panel.querySelectorAll('.langs .lang').forEach(el => {
+      const k = lensKey(el.dataset.l); if (!k) return;
+      el.classList.add('click'); el.title += ' — show this language in the graph';
+      el.addEventListener('click', () => { setLang(k); openPanel(id); });
+    });
     panel.querySelectorAll('[data-prev]').forEach(b => b.addEventListener('click', () => {
       const x = s.examples[+b.dataset.prev], box = b.closest('.ex').querySelector('.pv');
       if (box.firstChild) { box.innerHTML = ''; b.textContent = 'preview'; return; }
@@ -307,7 +507,7 @@
       img.onerror = () => { box.innerHTML = `<div class="err">The origin host doesn't allow embedding — open the link instead.</div>`; };
       img.src = x.url; box.appendChild(img); b.textContent = 'hide';
     }));
-    const h = new URLSearchParams(location.hash.slice(1)); h.set('s', id); history.replaceState(null, '', '#' + h.toString());
+    setHash('s', id);
   }
 
   /* ---------- gaps view ---------- */
@@ -316,8 +516,9 @@
   const permColor = { none: '--p-none', maintainer: '--p-maintainer', 'rights-holder': '--p-rights', scanner: '--p-scanner', impossible: '--p-impossible' };
   const gapCard = g => {
     const tot = d3.sum(g.fills, f => f.count) || 1;
-    return `<article class="gap${isDiscontinued(g.lang) ? ' disc' : ''}">
-      <header><h3>${flagImg(g.lang, 'flag lg')} ${esc(g.name)}<span class="code">${esc(g.lang)}</span></h3><span class="missing">missing: ${esc(g.missing)}</span></header>
+    return `<article class="gap${isDiscontinued(g.lang) ? ' disc' : ''}" data-lang="${esc(g.lang)}">
+      <header><h3>${flagImg(g.lang, 'flag lg')} ${esc(g.name)}<span class="code">${esc(g.lang)}</span></h3><button class="to-net" data-lang="${esc(g.lang)}">Network →</button></header>
+      <p class="missing">missing: ${esc(g.missing)}</p>
       ${isDiscontinued(g.lang) ? `<p class="disc-note">Printed ${esc(langInfo(g.lang).discontinued)}, then discontinued.</p>` : ''}
       <div class="bar">${g.fills.filter(f => f.count).map(f => `<span title="${esc(byId[f.source].name)}: ${fmt(f.count)}" style="width:${f.count / tot * 100}%;background:var(${permColor[f.permission]})"></span>`).join('')}</div>
       ${g.fills.map(f => `<div class="fill">
@@ -334,6 +535,7 @@
     `<h3 class="group">Current languages</h3><div class="gaps-grid">${gapsCur.map(gapCard).join('')}</div>` +
     (gapsDisc.length ? `<h3 class="group">Discontinued languages</h3><p class="group-note">${esc(D.meta.discontinuedNote || '')}</p><div class="gaps-grid">${gapsDisc.map(gapCard).join('')}</div>` : '');
   document.querySelectorAll('#gaps [data-go]').forEach(el => el.addEventListener('click', () => openPanel(el.dataset.go)));
+  document.querySelectorAll('#gaps .to-net').forEach(el => el.addEventListener('click', () => { showView('network'); setLang(el.dataset.lang); }));
 
   /* ---------- sources table ---------- */
   const cols2 = [
@@ -399,6 +601,6 @@
   /* ---------- init ---------- */
   const h0 = new URLSearchParams(location.hash.slice(1));
   showView(h0.get('v') || 'network');
+  setLang(h0.get('l') || '');
   if (h0.get('s')) openPanel(h0.get('s'));
-  highlight(null);
 })();

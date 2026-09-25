@@ -3083,7 +3083,9 @@
         "kr",
         "krfan",
         "pricecharting"
-      ]
+      ],
+      "short": "The official site pokemoncard.co.kr serves only watermarked images, and the Korean fan databases we found link to those same files.",
+      "lang": "ko"
     },
     {
       "id": "zhcn",
@@ -3098,7 +3100,9 @@
         "mikmoe",
         "tcgcollector",
         "pricecharting"
-      ]
+      ],
+      "short": "The only complete set we found is the WeChat mini-program's, at 300×419; larger official renders exist for ≈ 15% of the cards.",
+      "lang": "zh-cn"
     },
     {
       "id": "quality",
@@ -3113,7 +3117,8 @@
         "pokepedia",
         "pokemoncn",
         "wiki52poke"
-      ]
+      ],
+      "short": "malie, the Singapore English print, TCG Collector, bisafans, Poképédia and pokemon.cn have larger originals than TCGdex's 600×825."
     },
     {
       "id": "vintage",
@@ -3125,7 +3130,8 @@
         "print",
         "pcgsearch",
         "ccdb"
-      ]
+      ],
+      "short": "We found no Base Set → Platinum card published as an official digital image online; for English, nearly everyone uses the scans by Martin of Pokémon Paradijs."
     }
   ]
 }

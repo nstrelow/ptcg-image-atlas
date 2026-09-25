@@ -72,7 +72,7 @@ Non-goals: hosting or mirroring any card image; legal advice; bypassing anything
     "scope": "e.g. en, HGSS → today", "evidence": "…"
   }],
   "gaps": [{ "lang", "missing", "fills": [{ "source", "count", "nature", "permission": "none|maintainer|rights-holder|scanner|impossible", "note" }] }],
-  "callouts": [{ "id", "title", "body", "sources": [] }]
+  "callouts": [{ "id", "title", "short", "body", "sources": [], "lang" }]   // short = one-liner on the card; lang = language the "Show in network" button switches to
 }
 ```
 

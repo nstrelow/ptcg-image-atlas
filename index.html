@@ -29,26 +29,35 @@
 
 <div class="ai-notice" role="note" aria-label="Disclaimer">
   <strong>Research notes, not a reference.</strong>
-  <p>The comparisons and source checks on this page were done with Claude (Anthropic's AI) and re-checked several times — but not verified by hand. Treat every claim as a lead to check yourself, not as fact.</p>
-  <p class="ai-notice-small">Spotted a mistake? <a href="https://github.com/nstrelow/ptcg-image-atlas/issues">Open an issue on GitHub</a>.</p>
+  <span>The comparisons and source checks on this page were done with Claude (Anthropic's AI) and re-checked several times — but not verified by hand. Treat every claim as a lead to check yourself, not as fact.</span>
+  <a href="https://github.com/nstrelow/ptcg-image-atlas/issues">Spotted a mistake? Open an issue</a>
 </div>
 
-<section id="callouts" class="callouts" aria-label="Key facts"></section>
+<section id="callouts" class="findings" aria-label="Key findings"></section>
 
 <main>
   <section id="view-network" class="view">
-    <div class="toolbar">
-      <div class="chips" id="family-chips"></div>
-      <div class="toggles">
-        <label class="tog"><input type="checkbox" id="t-lineage"> TCGdex lineage</label>
-        <label class="tog"><input type="checkbox" id="t-scans"> Highlight scans</label>
-        <select id="lang-filter" aria-label="Language filter"><option value="">All languages</option></select>
-      </div>
+    <div class="lens-wrap">
+      <span class="lens-label">Language</span>
+      <div class="lens" id="lens" role="radiogroup" aria-label="Show sources for one language"></div>
     </div>
-    <div class="graph-wrap">
-      <div class="tier-labels" id="tier-labels"></div>
-      <svg id="graph" role="img" aria-label="Network of card image sources"></svg>
-      <div class="hint">Drag to pan · scroll to zoom · click a source</div>
+    <div id="lang-summary" class="lang-summary" hidden></div>
+    <div class="toolbar">
+      <div class="seg" id="mode" role="radiogroup" aria-label="Highlight">
+        <button role="radio" data-mode="all" aria-checked="true">All connections</button>
+        <button role="radio" data-mode="tcgdex" aria-checked="false">Where TCGdex's images come from</button>
+        <button role="radio" data-mode="scans" aria-checked="false">Scans of printed cards</button>
+      </div>
+      <input id="node-search" type="search" list="node-list" placeholder="Find a source…" aria-label="Find a source">
+      <datalist id="node-list"></datalist>
+    </div>
+    <div id="focus-note" class="focus-note" hidden></div>
+    <div class="graph-wrap" id="graph-wrap">
+      <svg id="graph" role="img" aria-label="Network of card image sources, left to right from origin to consumers"></svg>
+      <div class="graph-ctrl">
+        <button id="z-in" aria-label="Zoom in">+</button><button id="z-out" aria-label="Zoom out">−</button><button id="z-fit">Fit</button>
+      </div>
+      <div class="hint">Hover a box to trace its images · click for details · drag to pan</div>
     </div>
     <div class="legend" id="legend"></div>
   </section>
