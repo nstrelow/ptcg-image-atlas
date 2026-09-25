@@ -22,4 +22,8 @@ Every card image is © The Pokémon Company / Nintendo / Creatures / GAME FREAK 
 the Coast for 1999–2003 English prints). This is not legal advice. Snapshot: September 2026.
 Corrections are welcome as issues or pull requests.
 
+The site icons in `icons/` are each site's own favicon or logo (trademarks of their owners),
+used only to identify the site. `print`, `paradijs` and `pokeca` are simple drawn placeholders
+(no favicon available).
+
 Code: MIT.

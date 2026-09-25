@@ -44,7 +44,7 @@
   const nById = Object.fromEntries(nodes.map(n => [n.id, n]));
   const links = D.links.map(l => ({ ...l, source: nById[l.from], target: nById[l.to] }));
   nodes.forEach(n => { n.deg = links.filter(l => l.source === n || l.target === n).length; });
-  nodes.forEach(n => { n.r = n.id === 'tcgdex' ? 24 : n.id === 'malie' ? 20 : n.id === 'print' ? 18 : 9 + Math.min(n.deg, 12) * 0.8; });
+  nodes.forEach(n => { n.r = n.id === 'tcgdex' ? 32 : n.id === 'malie' ? 30 : n.id === 'print' ? 24 : 18 + Math.min(n.deg, 12) * 0.6; });
 
   // Layered layout, hand-ordered into bands: scans on top, malie / digital in the middle, Asia at the bottom.
   const ORDER = [
@@ -103,12 +103,22 @@
     .on('mouseenter', (e, n) => highlight(n)).on('mouseleave', () => highlight(null));
   nodeSel.filter(n => n.id === 'tcgdex').append('circle').attr('r', n => n.r + 7).attr('fill', 'none')
     .attr('stroke', famColor('tcgdex')).attr('stroke-width', 1.5).attr('stroke-dasharray', '3 3');
+  // Ring = family colour (hatched for scan-only sources), violet dashed halo = also hosts scans, site icon inside.
+  nodeSel.filter(n => n.imageNature === 'mixed').append('circle').attr('r', n => n.r + 4).attr('fill', 'none')
+    .attr('stroke', famColor('scan')).attr('stroke-width', 2).attr('stroke-dasharray', '3 2');
   nodeSel.append('circle').attr('class', 'body').attr('r', n => n.r)
-    .attr('fill', n => n.scanOnly ? 'url(#hatch)' : famColor(n.family))
-    .attr('stroke', n => n.official ? famColor('official') : n.imageNature === 'mixed' ? famColor('scan') : css('--bg2'))
-    .attr('stroke-width', n => n.imageNature === 'mixed' ? 3 : 2);
-  nodeSel.filter(n => n.watermark).append('text').attr('class', 'badge').attr('text-anchor', 'middle').attr('dy', 3)
-    .attr('fill', '#fff').text('WM');
+    .attr('fill', n => n.scanOnly ? 'url(#hatch)' : famColor(n.family));
+  nodeSel.append('circle').attr('r', n => n.r - 4).attr('fill', '#fff');
+  nodeSel.each(function (n) {
+    const cid = 'clip-' + n.id, ri = n.r - 4;
+    defs.append('clipPath').attr('id', cid).append('circle').attr('r', ri);
+    const sz = ri * 1.55;
+    d3.select(this).append('image').attr('href', n.icon).attr('x', -sz / 2).attr('y', -sz / 2)
+      .attr('width', sz).attr('height', sz).attr('clip-path', `url(#${cid})`).attr('preserveAspectRatio', 'xMidYMid meet');
+  });
+  const wm = nodeSel.filter(n => n.watermark).append('g').attr('transform', n => `translate(${n.r * 0.72},${-n.r * 0.72})`);
+  wm.append('circle').attr('r', 8).attr('fill', css('--warn')).attr('stroke', css('--bg2')).attr('stroke-width', 1.5);
+  wm.append('text').attr('class', 'badge').attr('text-anchor', 'middle').attr('dy', 3).attr('fill', '#fff').text('WM');
   nodeSel.append('text').attr('dy', n => n.r + 14).attr('text-anchor', 'middle').text(n => shortName(n));
   nodeSel.filter(n => n.scanOnly).append('text').attr('class', 'badge').attr('text-anchor', 'middle')
     .attr('dy', n => n.r + 25).attr('fill', famColor('scan')).text('SCANS ONLY');
@@ -189,8 +199,10 @@
     Object.entries(CONF).map(([k, c]) => `<div class="row">${sw(c.dash, css('--text'))}${c.label}</div>`).join('') +
     `<div class="row">${sw(null, famColor('official'))}from an official source</div>` +
     `<div class="row">${sw(null, famColor('scan'))}scanned / photographed from print</div>` +
-    `<div class="row"><svg width="34" height="14"><circle cx="17" cy="7" r="6" fill="${famColor('rehost')}" stroke="${famColor('scan')}" stroke-width="3"/></svg>violet ring = hosts some scans</div>` +
-    `<div class="row"><svg width="34" height="14"><circle cx="17" cy="7" r="6" fill="url(#hatch)"/></svg>hatched = scans only</div>`;
+    `<div class="row"><svg width="34" height="18"><circle cx="17" cy="9" r="8" fill="none" stroke="${famColor('scan')}" stroke-width="2" stroke-dasharray="3 2"/><circle cx="17" cy="9" r="5" fill="${famColor('rehost')}"/></svg>dashed violet halo = also hosts scans</div>` +
+    `<div class="row"><svg width="34" height="18"><circle cx="17" cy="9" r="7" fill="url(#hatch)"/><circle cx="17" cy="9" r="4" fill="#fff"/></svg>hatched ring = scans only</div>` +
+    `<div class="row"><svg width="34" height="18"><circle cx="17" cy="9" r="7" fill="${css('--warn')}"/><text x="17" y="12" font-size="7" font-weight="700" text-anchor="middle" fill="#fff">WM</text></svg>watermarked</div>` +
+    `<div class="row">ring colour = type · icon = the site's own favicon/logo</div>`;
 
   /* ---------- detail panel ---------- */
   const panel = document.getElementById('panel');
@@ -207,12 +219,12 @@
     state.pinned = nById[id]; highlight(null);
     const fam = D.families[s.family];
     const ups = D.links.filter(l => l.to === id), downs = D.links.filter(l => l.from === id);
-    const rel = (arr, key) => arr.length ? `<ul class="rel">${arr.map(l => `<li><span class="who" data-go="${l[key]}">${esc(byId[l[key]].name)}</span><span class="conf ${l.confidence}">${l.confidence.replace('-', ' ')}</span><div class="ev">${esc(l.scope)} — ${esc(l.evidence)}</div></li>`).join('')}</ul>` : '<p class="muted">—</p>';
+    const rel = (arr, key) => arr.length ? `<ul class="rel">${arr.map(l => `<li><img class="ico" src="${esc(byId[l[key]].icon)}" alt=""><span class="who" data-go="${l[key]}">${esc(byId[l[key]].name)}</span><span class="conf ${l.confidence}">${l.confidence.replace('-', ' ')}</span><div class="ev">${esc(l.scope)} — ${esc(l.evidence)}</div></li>`).join('')}</ul>` : '<p class="muted">—</p>';
     const co = D.callouts.find(c => c.sources.includes(id) && (c.kind === 'warn' || c.kind === 'good'));
     const gapsHere = D.gaps.flatMap(g => g.fills.filter(f => f.source === id && f.count).map(f => ({ ...f, lang: g.lang })));
     document.getElementById('panel-body').innerHTML = `
       <span class="fam"><span class="dot" style="background:${famColor(s.family)}"></span>${esc(fam.label)}</span>
-      <h2>${esc(s.name)}</h2>
+      <h2><img class="ico lg" src="${esc(s.icon)}" alt="">${esc(s.name)}</h2>
       <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(hostOf(s.url))} ↗</a>
       <div class="badges">
         ${s.official ? '<span class="badge official">OFFICIAL POKÉMON</span>' : ''}
@@ -268,7 +280,7 @@
       <div class="bar">${g.fills.filter(f => f.count).map(f => `<span title="${esc(byId[f.source].name)}: ${fmt(f.count)}" style="width:${f.count / tot * 100}%;background:var(${permColor[f.permission]})"></span>`).join('')}</div>
       ${g.fills.map(f => `<div class="fill">
         <div class="n">${f.count ? (f.note.startsWith('≈') ? '≈' : '') + fmt(f.count) : '—'}</div>
-        <div class="meta"><span class="src" data-go="${f.source}">${esc(byId[f.source].name)}</span>
+        <div class="meta"><img class="ico" src="${esc(byId[f.source].icon)}" alt=""><span class="src" data-go="${f.source}">${esc(byId[f.source].name)}</span>
           <span class="perm ${f.permission}">${esc(D.permissions[f.permission].label)}</span>
           ${f.nature !== 'digital' ? '<span class="badge scan">SCAN</span>' : ''}</div>
         <div class="note">${esc(f.note.replace(/^≈ ?/, ''))}</div>
@@ -279,7 +291,7 @@
 
   /* ---------- sources table ---------- */
   const cols2 = [
-    ['name', 'Source', s => `<span class="dot" style="background:${famColor(s.family)}"></span><span class="nm" data-go="${s.id}">${esc(s.name)}</span>`],
+    ['name', 'Source', s => `<span class="dot" style="background:${famColor(s.family)}"></span><img class="ico" src="${esc(s.icon)}" alt=""><span class="nm" data-go="${s.id}">${esc(s.name)}</span>`],
     ['family', 'Type', s => esc(D.families[s.family].label)],
     ['official', 'Official', s => s.official ? '<span class="badge official">YES</span>' : '<span class="no">no</span>'],
     ['imageNature', 'Images', s => (s.scanOnly || s.imageNature === 'photo') ? `<span class="badge scan">${s.imageNature === 'photo' ? 'PHOTOS' : 'SCANS ONLY'}</span>` : esc(natureLabel[s.imageNature] || s.imageNature)],
