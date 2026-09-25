@@ -65,48 +65,10 @@
         "yes": false
       },
       "terms": null,
-      "origin": "Physical cards. The origin of every scan and photo. For Western cards from Base Set to Platinum (1999–2010), and Japanese cards before 2006, no official digital image was ever published online, so every picture of those cards is somebody's scan or photo. The only official digital versions we found are offline and small: Japan's 2005 Card Encyclopedia CD-ROM (162×226) and Wizards' redrawn Play It! cards.",
+      "origin": "Physical cards. The origin of every scan and photo. For Western cards from Base Set to Platinum (1999–2010), and Japanese cards before 2006, no official digital image was ever published online, so every picture of those cards is somebody's scan or photo. The only official digital card images of that era we found are offline and small: Japan's 2005 Card Encyclopedia CD-ROM (162×226).",
       "examples": [],
       "stats": [],
       "icon": "icons/print.svg"
-    },
-    {
-      "id": "playit",
-      "name": "Pokémon Play It! (Wizards of the Coast, PC, 2000–01)",
-      "family": "official",
-      "tier": 0,
-      "url": "https://archive.org/details/PokemonPlayItFrance",
-      "official": true,
-      "scanOnly": false,
-      "langs": [
-        "en",
-        "fr",
-        "es",
-        "it",
-        "pt",
-        "nl"
-      ],
-      "eras": "Base Set, Jungle, Fossil, some Team Rocket",
-      "imageNature": "digital",
-      "resolution": "156×214 JPEG",
-      "watermark": false,
-      "api": {
-        "kind": "none",
-        "note": "Card images inside the game's Cards.pak archive"
-      },
-      "submissions": {
-        "yes": false
-      },
-      "terms": null,
-      "origin": "Wizards of the Coast's official PC card-game tutorial, released in several languages. Its cards are redrawn for the game: the official artwork on a newly typeset card layout, not the printed card. So they are not usable as card images, and they don't change the finding that Western 1999–2010 cards were never published as official digital card images. Checked in the French edition.",
-      "examples": [],
-      "stats": [
-        {
-          "label": "cards (French edition)",
-          "value": "≈ 240 (Base 102, Jungle 64, Fossil 62, Rocket 12)"
-        }
-      ],
-      "icon": "icons/playit.svg"
     },
     {
       "id": "ccdb",
@@ -3047,8 +3009,7 @@
         "paradijs",
         "print",
         "pcgsearch",
-        "ccdb",
-        "playit"
+        "ccdb"
       ]
     }
   ]
