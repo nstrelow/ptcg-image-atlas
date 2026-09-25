@@ -40,9 +40,9 @@ Snapshot 2026-09-23/24, plus these 2026-09-25 checks:
 
 ## History
 
-- `b7c19c3`/`c230632` initial site · `1eae44c` site icons · `d580e64` claim revision after an
+- `c230632` initial site · `1eae44c` site icons · `d580e64` claim revision after an
   independent review (Martin credit, official terms removed, newest-set + Korean findings,
-  Bulbagarden correction, softened absolutes) · `1c93ee7` AI-disclaimer banner.
+  Bulbagarden correction, softened absolutes) · `1c93ee7` AI-disclaimer banner · `a12969c` this file.
 
 ## Open / ideas
 
