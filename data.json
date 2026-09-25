@@ -661,7 +661,8 @@
       "official": false,
       "scanOnly": true,
       "langs": [
-        "en"
+        "en",
+        "nl"
       ],
       "eras": "Base Set (1999) → Platinum (2010)",
       "imageNature": "scan",
@@ -677,11 +678,16 @@
         "summary": "Martin's own scans; no licence published. pkmncards.com credits \"Martin of Pokémon Paradijs\" for most of its pre-HGSS images.",
         "url": "https://pkmncards.com/about/"
       },
-      "origin": "Martin of Pokémon Paradijs scanned almost the entire English vintage era (Base Set → Platinum) in consistent, high quality. Those scans are the backbone of English vintage images on the web: pkmncards, pokemontcg.io, Scrydex, TCGdex, TCGplayer and TCG Collector all serve the same files. Remarkable work that deserves a credit wherever it's used.",
+      "origin": "Martin of Pokémon Paradijs scanned almost the entire English vintage era (Base Set → Platinum) in consistent, high quality. Those scans are the backbone of English vintage images on the web: pkmncards, pokemontcg.io, Scrydex, TCGdex, TCGplayer and TCG Collector all serve the same files. Remarkable work that deserves a credit wherever it's used. The original site, pokemon-paradijs.com, is preserved in the Wayback Machine (2014 crawl): 13,376 card images at 600×825 in 183 set folders from Base Set to Plasma Freeze, with reverse-holo and 1st-edition variants — and Dutch Base Set, Jungle and Fossil (base-nl, jungle-nl, fossil-nl). pokemonkaart.nl's Dutch scans are pixel-identical to those, so the Dutch images are Martin's work as well.",
       "examples": [
         {
           "label": "Base Set Charizard, as served by pokemontcg.io",
           "url": "https://images.pokemontcg.io/base1/4_hires.png",
+          "nature": "scan"
+        },
+        {
+          "label": "Charizard 4/102 Basis Set (Dutch) — Wayback copy",
+          "url": "https://web.archive.org/web/20140911013130/http://www.pokemon-paradijs.com/ruilkaarten/image/base-nl/004.jpg",
           "nature": "scan"
         }
       ],
@@ -689,6 +695,10 @@
         {
           "label": "on TCGdex",
           "value": "15.5% of all en+de images, 94% of English 1999–2010"
+        },
+        {
+          "label": "archived (Wayback, 2014)",
+          "value": "13,376 images · 183 set folders · nl: 255"
         }
       ],
       "icon": "icons/paradijs.svg"
@@ -2011,7 +2021,7 @@
         "summary": "Fan price site; states that all images belong to The Pokémon Company. No reuse licence.",
         "url": "https://www.pokemonkaart.nl/"
       },
-      "origin": "A Dutch price-tracking site with its own scans of the three Dutch-language sets (Basis Set 102, Jungle, Fossiel). 4 of 4 sampled files are real Dutch prints (\"Vuurdraak\", \"120 IP\") and match no other source. The only Dutch card-image source we found; TCGdex lists Dutch as a language but holds no Dutch data or images.",
+      "origin": "A Dutch price-tracking site with scans of the three Dutch-language sets (Basis Set 102, Jungle, Fossiel). 4 of 4 sampled files are real Dutch prints and match no official source — but they are pixel-identical to the Dutch folders of Martin's archived Pokémon Paradijs site, so the scans are his. TCGdex lists Dutch as a language but holds no Dutch data or images.",
       "examples": [
         {
           "label": "Charizard 4/102 Basis Set (Dutch)",
@@ -2687,6 +2697,14 @@
       "confidence": "stated",
       "scope": "ru, 2014–2017",
       "evidence": "Collector uploads of the Russian print; 286 × 400, watermarked."
+    },
+    {
+      "from": "paradijs",
+      "to": "pokemonkaart",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "nl, 1999",
+      "evidence": "base-nl/004 (Charizard) from the archived pokemon-paradijs.com correlates 1.000 with pokemonkaart.nl's file."
     }
   ],
   "gaps": [
@@ -2997,11 +3015,18 @@
       "missing": "everything: TCGdex lists Dutch but has 4 card files and no images (3 sets, 1999)",
       "fills": [
         {
+          "source": "paradijs",
+          "count": 255,
+          "nature": "scan",
+          "permission": "scanner",
+          "note": "Martin's own Dutch scans, preserved in the Wayback Machine (base-nl 115, jungle-nl 71, fossil-nl 69 files at 600 × 825). The same files pokemonkaart.nl shows."
+        },
+        {
           "source": "pokemonkaart",
           "count": 228,
           "nature": "scan",
           "permission": "scanner",
-          "note": "Base Set, Jungle, Fossil at 600 × 825. Dutch card data (names) would have to be written first."
+          "note": "Same scans as the Paradijs archive; a live, browsable copy."
         }
       ]
     },
