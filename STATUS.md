@@ -1,4 +1,4 @@
-# Status — PTCG Image Atlas (2026-09-25)
+# Status — PTCG Image Atlas (2026-09-26)
 
 Live: https://nstrelow.github.io/ptcg-image-atlas/ · repo `nstrelow/ptcg-image-atlas` (public)
 · GitHub Pages from `main` / root, no build step (push = deploy, ~1 min).
@@ -18,8 +18,9 @@ Live: https://nstrelow.github.io/ptcg-image-atlas/ · repo `nstrelow/ptcg-image-
   highlight it. Hover or click a box to trace its lineage.
 - Top of page: one-line AI-disclaimer banner, then 4 key findings (`short` one-liner from `data.json`
   callouts, full text under Details; "Show in network" switches to the finding's `lang` and highlights its sources).
-- Deep links: `#v=gaps|sources|method`, `#s=<source id>`, `#l=<language>` (e.g. `#l=ko`).
-- 39 sources, 73 links. Link confidence: verified (pixel match) · stated · likely ·
+- Deep links: `#v=gaps|sources|method`, `#s=<source id>`, `#l=<language>` (e.g. `#l=ko`), `#m=tcgdex|scans`,
+  `#f=<family>`, `#st=<story>.<step>`; the "Copy link" button copies the current hash.
+- 42 sources, 77 links. Link confidence: verified (pixel match) · stated · likely ·
   unknown-direction. Only pixel matches may be "verified".
 
 ## Where the facts come from
@@ -88,3 +89,22 @@ Snapshot 2026-09-23/24, plus these 2026-09-25 checks:
   every graph node, in the panel header/Languages row, the Sources table and the gap cards. Sources
   whose languages are all discontinued sit in their own dashed strip under the four tiers; the gaps
   view has "Current" and "Discontinued" groups. Add a language by adding it to `meta.languages`.
+
+- 2026-09-26: UX pass from an expert review (all 12 items the owner picked), three commits:
+  - **Fixes** (`0d2dd56`): gap bars scale to `missingCount` (new numeric gap fields `total`, `have`,
+    `missingCount`, `missingNote`, `noData`; fills get `alt` = alternatives counted once and
+    `kind: "upgrade"` = listed apart); grey = no source found; permission legend with descriptions;
+    SVG type bar renamed `pill-bar` (the gaps `.bar` style was overriding it); `short` names on sources;
+    line weight by confidence; finding `tag`s; hover/pin shows upstream (blue) vs downstream (yellow)
+    with counts; the panel pans the box out from under itself; sources table sticky header,
+    numeric sort, row click, Feeds-TCGdex and links in/out columns.
+  - **Opportunities** (`87752d0`): headline + 3-step flow; `stories` in `data.json` (Follow one card,
+    5 stories, every step's links must exist in `links`); scoreboard tiles on the gaps view; printed-card
+    links hidden behind a "scanned by N sites" count until a focus/mode shows them; fan-outs ≥ 5 leave
+    along one trunk; the panel loads its first example image right away.
+  - **Reach**: favicon (inline SVG), og/twitter tags + `og.png` (rendered from the graph, no card images;
+    re-render when the graph changes a lot), empty lanes collapse in a language lens, phones get a
+    lane-by-lane list with a "See the full map" toggle and a one-line disclaimer, keyboard: skip link,
+    one tab stop per radio group / graph with arrow keys, panel is a dialog that takes and returns focus.
+  - Gap numbers: Western languages measured 2026-09-26 on `cards-database` (TCG only, Pocket excluded);
+    ja/zh-tw/th/id/ko/zh-cn from the 2026-09-23 coverage audit.

@@ -82,8 +82,9 @@
      right and enter the next one on the left; the order inside each lane is tuned to cross less. */
 
   const PW = 250, PH = 46, CG = 120, RG = 14, NCOL = 4;
-  const colX = t => t * (PW + CG);
-  const GW = colX(NCOL - 1) + PW;
+  // lanes with nothing in them (in a language lens) collapse: slot[t] is the lane's column, null if hidden
+  let slot = [0, 1, 2, 3], GW = 3 * (PW + CG) + PW;
+  const colX = t => slot[t] * (PW + CG);
   const TIERS = [
     ['Origin', 'official sites, game clients, printed cards'],
     ['Extract · scan · dataset', 'first copy outside the official sites'],
@@ -165,6 +166,9 @@
       if (c < bestC) { bestC = c; best = cols.map(x => x.slice()); }
     }
     cols = best; setPos(cols);
+    let k = 0;
+    slot = cols.map(c => c.length || !state.lang ? k++ : null);
+    GW = Math.max(k - 1, 0) * (PW + CG) + PW;
     const maxN = d3.max(cols, c => c.length) || 1;
     const H = maxN * (PH + RG);
     cols.forEach((c, t) => {
@@ -174,7 +178,7 @@
     let HT = H, strip = null;
     if (disc.length) {
       strip = { y: H + 44, h: PH + 84 };
-      disc.forEach((n, i) => { n.x = colX(Math.min(1 + i, NCOL - 1)); n.y = strip.y + 56 + PH / 2; });
+      disc.forEach((n, i) => { n.x = Math.min(1 + i, Math.max(k - 1, 0)) * (PW + CG); n.y = strip.y + 56 + PH / 2; });
       HT = strip.y + strip.h;
     }
     // ports: spread a box's links along its edge, ordered by where the other end sits.
@@ -283,6 +287,7 @@
     gLanes.selectAll('*').remove();
     TIERS.forEach(([title, sub], t) => {
       const n = cur.cols[t].length;
+      if (slot[t] == null) return;
       gLanes.append('rect').attr('class', 'lane').attr('x', colX(t) - 14).attr('y', -64).attr('width', PW + 28).attr('height', cur.H + 78).attr('rx', 16);
       gLanes.append('text').attr('class', 'lane-title').attr('x', colX(t)).attr('y', -40).text(`${t + 1} · ${title}`);
       gLanes.append('text').attr('class', 'lane-sub').attr('x', colX(t)).attr('y', -24).text(n ? `${sub} · ${n}` : 'none for this language');
@@ -315,16 +320,22 @@
 
     nodeSel = gNodes.selectAll('g.node').data(cur.vis, n => n.id).join(
       enter => enter.append('g').attr('class', n => 'node' + (n.id === 'tcgdex' ? ' hub' : ''))
-        .attr('tabindex', 0).attr('role', 'button').attr('aria-label', n => n.name)
+        .attr('tabindex', -1).attr('role', 'button').attr('aria-label', n => `${n.name}, ${D.families[n.family].label}`)
         .attr('opacity', 0).attr('transform', n => `translate(${n.x},${n.y - PH / 2})`)
         .call(drawPill)
         .on('click', (e, n) => { e.stopPropagation(); openPanel(n.id); })
-        .on('keydown', (e, n) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPanel(n.id); } })
-        .on('mouseenter focus', (e, n) => { state.hover = n; highlight(); })
+        .on('keydown', (e, n) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPanel(n.id); return; }
+          const m = neighbour(n, e.key); if (!m) return;
+          e.preventDefault(); focusNode(m);
+        })
+        .on('mouseenter focus', (e, n) => { state.hover = n; highlight(); if (e.type === 'focus') rovingNode(n); })
         .on('mouseleave blur', () => { state.hover = null; highlight(); }),
       update => update,
       exit => exit.remove());
     nodeSel.transition().duration(dur).attr('opacity', 1).attr('transform', n => `translate(${n.x},${n.y - PH / 2})`);
+    rovingNode(state.pinned && cur.vis.includes(state.pinned) ? state.pinned : cur.cols.find(c => c.length)?.[0]);
+    renderList();
     // the printed cards feed ~20 scanners; their links stay hidden until asked for, a count stands in
     const nPrint = cur.vl.filter(l => l.source.id === 'print').length;
     nodeSel.filter(n => n.id === 'print').selectAll('text.calm-label').data(nPrint ? [nPrint] : []).join('text')
@@ -332,6 +343,43 @@
     highlight();
     fitGraph(animate);
   }
+
+  // keyboard: one box in the tab order, arrows move within a lane (↑↓) and across lanes (←→)
+  function rovingNode(n) { nodeSel.attr('tabindex', m => m === n ? 0 : -1); }
+  function focusNode(n) { nodeSel.filter(m => m === n).node()?.focus(); }
+  function neighbour(n, key) {
+    const lane = n.disc ? cur.vis.filter(m => m.disc) : cur.cols[n.tier];
+    const i = lane.indexOf(n);
+    if (key === 'ArrowDown') return lane[i + 1];
+    if (key === 'ArrowUp') return lane[i - 1];
+    if (key !== 'ArrowLeft' && key !== 'ArrowRight') return null;
+    const dir = key === 'ArrowRight' ? 1 : -1;
+    for (let t = n.tier + dir; t >= 0 && t < NCOL; t += dir) {
+      if (cur.cols[t].length) return cur.cols[t].reduce((a, b) => Math.abs(b.y - n.y) < Math.abs(a.y - n.y) ? b : a);
+    }
+    return null;
+  }
+
+  // phones: the same sources as a list, lane by lane
+  function renderList() {
+    const box = document.getElementById('mobile-list');
+    box.innerHTML = TIERS.map(([title, sub], t) => {
+      const ns = cur.cols[t];
+      return ns.length ? `<section><h3>${t + 1} · ${esc(title)}</h3><p class="ml-sub">${esc(sub)}</p>${ns.map(listRow).join('')}</section>` : '';
+    }).join('') + (cur.vis.some(n => n.disc) ? `<section class="disc"><h3>Discontinued languages</h3>${cur.vis.filter(n => n.disc).map(listRow).join('')}</section>` : '');
+    box.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', () => openPanel(el.dataset.go)));
+  }
+  const listRow = n => {
+    const up = D.links.filter(l => l.to === n.id).length, down = D.links.filter(l => l.from === n.id).length;
+    return `<button class="ml-row" data-go="${n.id}" data-id="${n.id}"><span class="ml-bar" style="background:${n.scanOnly ? 'repeating-linear-gradient(135deg,var(--c-scan) 0 3px,#0006 3px 6px)' : famColor(n.family)}"></span><img class="ico" src="${esc(n.icon)}" alt="">
+      <span class="ml-main"><b>${esc(shortName(n))}</b><span class="ml-flags">${flagsOf(n.langs)}</span></span>
+      <span class="ml-tags">${tagsOf(n).map(([t, c]) => `<span class="tagx ${c}">${t}</span>`).join('')}<span class="ml-ud">↑${up} ↓${down}</span></span></button>`;
+  };
+  document.getElementById('map-toggle').addEventListener('click', e => {
+    const on = document.body.classList.toggle('show-map');
+    e.target.textContent = on ? 'Back to the list' : 'See the full map';
+    if (on) requestAnimationFrame(() => fitGraph(false));
+  });
 
   function fitGraph(animate) {
     const el = svg.node(), wrap = document.getElementById('graph-wrap');
@@ -411,6 +459,7 @@
     const calm = !keep && state.mode === 'all';
     linkSel.classed('calm', l => calm && l.source.id === 'print');
     nodeSel.classed('story-now', n => !!now && now.has(n));
+    document.querySelectorAll('#mobile-list .ml-row').forEach(r => { const n = nById[r.dataset.id]; r.classList.toggle('dim', !!keep && !keep.has(n)); r.classList.toggle('on', n === state.pinned || (!!now && now.has(n))); });
     nodeSel.classed('dim', n => !!keep && !keep.has(n)).classed('pinned', n => n === state.pinned)
       .classed('up', n => !!up && n !== f && up.has(n)).classed('down', n => !!down && n !== f && down.has(n));
     linkSel.classed('dim', l => !!keep && !keepLink(l)).classed('hl', l => !!keep && strong && keepLink(l))
@@ -426,9 +475,24 @@
   }
 
   // mode switch
-  document.querySelectorAll('#mode button').forEach(b => b.addEventListener('click', () => {
-    document.querySelectorAll('#mode button').forEach(x => x.setAttribute('aria-checked', x === b));
-    state.mode = b.dataset.mode; state.set = null; stopStory(true); highlight();
+  function setMode(m) {
+    document.querySelectorAll('#mode button').forEach(x => x.setAttribute('aria-checked', x.dataset.mode === m));
+    rove(document.getElementById('mode'));
+    state.mode = m; state.set = null; stopStory(true); highlight();
+    setHash('m', m === 'all' ? '' : m);
+  }
+  document.querySelectorAll('#mode button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+  // radio groups: one tab stop, arrow keys move and select
+  function rove(group) {
+    group.querySelectorAll('[role=radio]').forEach(b => { b.tabIndex = b.getAttribute('aria-checked') === 'true' ? 0 : -1; });
+  }
+  ['mode', 'lens'].forEach(id => document.getElementById(id).addEventListener('keydown', e => {
+    const dir = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key]; if (!dir) return;
+    const items = [...e.currentTarget.querySelectorAll('[role=radio]:not(:disabled)')];
+    const i = items.indexOf(document.activeElement); if (i < 0) return;
+    e.preventDefault();
+    const b = items[(i + dir + items.length) % items.length];
+    b.click(); b.focus();
   }));
 
   // language lens
@@ -447,6 +511,7 @@
       b.setAttribute('aria-checked', b.dataset.lang === lang);
       if (b.dataset.lang === lang && lens.scrollWidth > lens.clientWidth) lens.scrollLeft = b.offsetLeft - lens.clientWidth / 2 + b.offsetWidth / 2;
     });
+    rove(lens);
     if (state.pinned && !serves(state.pinned, lang)) closePanel(true);
     renderSummary();
     render(true);
@@ -539,17 +604,22 @@
   document.querySelectorAll('.lg-fam').forEach(b => b.addEventListener('click', () => {
     const on = b.getAttribute('aria-pressed') !== 'true';
     document.querySelectorAll('.lg-fam').forEach(x => x.setAttribute('aria-pressed', 'false'));
-    b.setAttribute('aria-pressed', on); state.fam = on ? b.dataset.f : null; state.set = null; highlight();
+    b.setAttribute('aria-pressed', on); state.fam = on ? b.dataset.f : null; state.set = null; stopStory(true); highlight();
+    setHash('f', state.fam || '');
   }));
 
   /* ---------- detail panel ---------- */
   const panel = document.getElementById('panel');
   document.getElementById('panel-close').addEventListener('click', closePanel);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !panel.hidden) closePanel(); });
+  let lastFocus = null;
   function closePanel(quiet) {
+    const was = !panel.hidden;
     panel.hidden = true; state.pinned = null;
     if (!quiet) highlight();
     setHash('s', '');
+    if (was && lastFocus && lastFocus.isConnected) lastFocus.focus({ preventScroll: true });
+    lastFocus = null;
   }
   const apiLabel = { open: 'Open API', dump: 'Data dump', partner: 'Partner-only API', paid: 'Paid API', none: 'No API' };
   const natureLabel = { digital: 'digital', scan: 'scan', photo: 'photo', mixed: 'digital + scans', physical: 'physical' };
@@ -570,7 +640,7 @@
     const gapsHere = D.gaps.flatMap(g => g.fills.filter(f => f.source === id && f.count).map(f => ({ ...f, lang: g.lang })));
     document.getElementById('panel-body').innerHTML = `
       <span class="fam"><span class="dot" style="background:${famColor(s.family)}"></span>${esc(fam.label)}</span>
-      <h2><img class="ico lg" src="${esc(s.icon)}" alt="">${esc(s.name)} <span class="hflags" aria-hidden="true">${flagsOf(s.langs, 'flag lg')}</span></h2>
+      <h2 id="panel-title"><img class="ico lg" src="${esc(s.icon)}" alt="">${esc(s.name)} <span class="hflags" aria-hidden="true">${flagsOf(s.langs, 'flag lg')}</span></h2>
       <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(hostOf(s.url))} ↗</a>
       <p class="updown">${upDownText(nById[id])}</p>
       <div class="badges">
@@ -604,7 +674,9 @@
           <div class="pv"></div>
         </div>`).join('') : '<p class="muted">No public per-image link (see the site itself).</p>'}
     `;
+    if (!panel.contains(document.activeElement) && document.activeElement !== document.body) lastFocus = document.activeElement;
     panel.hidden = false; panel.scrollTop = 0;
+    document.getElementById('panel-close').focus({ preventScroll: true });
     panel.querySelector('.origin .more')?.addEventListener('click', e => { e.target.nextElementSibling.hidden = false; e.target.remove(); });
     panel.querySelector('.to-finding')?.addEventListener('click', e => {
       e.preventDefault();
@@ -797,6 +869,17 @@
   const h0 = new URLSearchParams(location.hash.slice(1));
   showView(h0.get('v') || 'network');
   setLang(h0.get('l') || '');
+  rove(document.getElementById('mode'));
+  if (h0.get('m') && document.querySelector(`#mode [data-mode="${h0.get('m')}"]`)) setMode(h0.get('m'));
+  if (h0.get('f')) document.querySelector(`.lg-fam[data-f="${h0.get('f')}"]`)?.click();
+  // copy link: the hash already carries view, language, mode, type, source and story
+  document.getElementById('copy-link').addEventListener('click', async e => {
+    const b = e.currentTarget;
+    try { await navigator.clipboard.writeText(location.href); b.textContent = 'Copied ✓'; }
+    catch { window.prompt('Copy this link', location.href); }
+    setTimeout(() => { b.textContent = 'Copy link'; }, 1600);
+  });
+  document.querySelector('.ai-more')?.addEventListener('click', e => { e.target.closest('.ai-notice').classList.add('open'); e.target.remove(); });
   if (h0.get('s')) openPanel(h0.get('s'));
   else if (h0.get('st')) { const [sid, k] = h0.get('st').split('.'); startStory(sid, (+k || 1) - 1); }
 })();

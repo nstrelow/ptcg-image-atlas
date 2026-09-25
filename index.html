@@ -5,12 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>PTCG Image Atlas</title>
 <meta name="description" content="Where Pokémon TCG card images come from: who publishes them, who copies whom, what TCGdex is missing and where it exists.">
+<meta name="theme-color" content="#0d0f14">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14.5' fill='%23fff' stroke='%23111' stroke-width='2'/%3E%3Cpath d='M1.5 16a14.5 14.5 0 0 1 29 0z' fill='%23e3350d' stroke='%23111' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='4.5' fill='%23fff' stroke='%23111' stroke-width='2.4'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PTCG Image Atlas">
+<meta property="og:title" content="PTCG Image Atlas: where Pokémon card images come from">
+<meta property="og:description" content="42 sources of Pokémon TCG card images, who copies whom (pixel-checked), and what the open TCGdex database is still missing, per language.">
+<meta property="og:url" content="https://nstrelow.github.io/ptcg-image-atlas/">
+<meta property="og:image" content="https://nstrelow.github.io/ptcg-image-atlas/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A left-to-right map of card-image sources: official sites, first copies, and the sites that re-use them.">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<a class="skip" href="#main">Skip to the content</a>
 <header class="top">
   <div class="brand">
     <div class="mark" aria-hidden="true"><span></span></div>
@@ -31,13 +44,14 @@
 
 <div class="ai-notice" role="note" aria-label="Disclaimer">
   <strong>Research notes, not a reference.</strong>
-  <span>The comparisons and source checks on this page were done with Claude (Anthropic's AI) and re-checked several times — but not verified by hand. Treat every claim as a lead to check yourself, not as fact.</span>
+  <button class="ai-more" type="button">more</button>
+  <span class="ai-long">The comparisons and source checks on this page were done with Claude (Anthropic's AI) and re-checked several times — but not verified by hand. Treat every claim as a lead to check yourself, not as fact.</span>
   <a href="https://github.com/nstrelow/ptcg-image-atlas/issues">Spotted a mistake? Open an issue</a>
 </div>
 
 <section id="callouts" class="findings" aria-label="Key findings"></section>
 
-<main>
+<main id="main" tabindex="-1">
   <section id="view-network" class="view">
     <div class="lens-wrap">
       <span class="lens-label">Language</span>
@@ -51,13 +65,18 @@
         <button role="radio" data-mode="tcgdex" aria-checked="false">Where TCGdex's images come from</button>
         <button role="radio" data-mode="scans" aria-checked="false">Scans of printed cards</button>
       </div>
-      <input id="node-search" type="search" list="node-list" placeholder="Find a source…" aria-label="Find a source">
+      <div class="tb-right">
+        <input id="node-search" type="search" list="node-list" placeholder="Find a source…" aria-label="Find a source">
+        <button id="copy-link" type="button" title="Copy a link to exactly this view">Copy link</button>
+      </div>
       <datalist id="node-list"></datalist>
     </div>
     <div id="focus-note" class="focus-note" hidden></div>
+    <div class="mobile-only map-bar"><button id="map-toggle" type="button">See the full map</button></div>
+    <div id="mobile-list" class="mobile-list"></div>
     <div id="story-card" class="story-card" hidden></div>
     <div class="graph-wrap" id="graph-wrap">
-      <svg id="graph" role="img" aria-label="Network of card image sources, left to right from origin to consumers"></svg>
+      <svg id="graph" role="group" aria-label="Network of card image sources, left to right from origin to consumers. Tab to a box, arrow keys to move, Enter for details."></svg>
       <div class="graph-ctrl">
         <button id="z-in" aria-label="Zoom in">+</button><button id="z-out" aria-label="Zoom out">−</button><button id="z-fit">Fit</button>
       </div>
@@ -91,8 +110,8 @@
   <section id="view-method" class="view prose" hidden></section>
 </main>
 
-<aside id="panel" class="panel" hidden aria-live="polite">
-  <button class="close" id="panel-close" aria-label="Close">×</button>
+<aside id="panel" class="panel" hidden role="dialog" aria-modal="false" aria-labelledby="panel-title">
+  <button class="close" id="panel-close" aria-label="Close details">×</button>
   <div id="panel-body"></div>
 </aside>
 
