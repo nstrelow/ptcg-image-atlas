@@ -3233,5 +3233,272 @@
       "short": "We found no Base Set → Platinum card published as an official digital image online; for English, nearly everyone uses the scans by Martin of Pokémon Paradijs.",
       "tag": "CONTEXT"
     }
+  ],
+  "stories": [
+    {
+      "id": "modern",
+      "title": "A modern English card",
+      "lang": "en",
+      "steps": [
+        {
+          "sources": [
+            "tcgl"
+          ],
+          "links": [],
+          "caption": "Pokémon TCG Live ships every current card as a digital render inside the game."
+        },
+        {
+          "sources": [
+            "malie"
+          ],
+          "links": [
+            [
+              "tcgl",
+              "malie"
+            ]
+          ],
+          "caption": "malie.io exports those renders from the game client, as 734×1024 PNGs, and publishes them.",
+          "example": {
+            "label": "malie's TCG Live export: Mega Evolution #001",
+            "url": "https://cdn.malie.io/file/malie-io/tcgl/cards/png/en/me1/me1_en_001_std.png"
+          }
+        },
+        {
+          "sources": [
+            "tcgdex",
+            "tcgplayer",
+            "pokemontcgio"
+          ],
+          "links": [
+            [
+              "malie",
+              "tcgdex"
+            ],
+            [
+              "malie",
+              "tcgplayer"
+            ],
+            [
+              "malie",
+              "pokemontcgio"
+            ]
+          ],
+          "caption": "We found the same pixels at TCGdex (sampled sets from Scarlet & Violet on), TCGplayer and pokemontcg.io. Not every site says where they came from; the match is what we measured.",
+          "example": {
+            "label": "TCGplayer: a Mega Evolution card (malie render)",
+            "url": "https://tcgplayer-cdn.tcgplayer.com/product/654360_in_1000x1000.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "id": "vintage",
+      "title": "An English card from 2003",
+      "lang": "",
+      "steps": [
+        {
+          "sources": [
+            "print",
+            "paradijs"
+          ],
+          "links": [
+            [
+              "print",
+              "paradijs"
+            ]
+          ],
+          "caption": "There is no official digital image of Aquapolis (2003) online that we found. Martin of Pokémon Paradijs scanned the printed cards; the files carry a 762-dpi scanner header."
+        },
+        {
+          "sources": [
+            "pkmncards",
+            "pokemontcgio"
+          ],
+          "links": [
+            [
+              "paradijs",
+              "pkmncards"
+            ],
+            [
+              "pkmncards",
+              "pokemontcgio"
+            ]
+          ],
+          "caption": "pkmncards credits Martin for these scans; pokemontcg.io serves the same 600×825 files."
+        },
+        {
+          "sources": [
+            "tcgdex",
+            "wikidex"
+          ],
+          "links": [
+            [
+              "pokemontcgio",
+              "tcgdex"
+            ],
+            [
+              "paradijs",
+              "wikidex"
+            ]
+          ],
+          "caption": "TCGdex's English vintage images are the same files (4,795 of them), and WikiDex files the English Aquapolis scans on its Spanish pages.",
+          "example": {
+            "label": "WikiDex: Aipom (Aquapolis), the English scan",
+            "url": "https://images.wikidexcdn.net/mwuploads/wikidex/0/09/latest/20260711101215/Aipom_%28Aquapolis_TCG%29.png"
+          }
+        }
+      ]
+    },
+    {
+      "id": "dutch",
+      "title": "A Dutch Charizard from 1999",
+      "lang": "nl",
+      "steps": [
+        {
+          "sources": [
+            "print",
+            "paradijs"
+          ],
+          "links": [
+            [
+              "print",
+              "paradijs"
+            ]
+          ],
+          "caption": "Dutch cards were printed in 1999 only (Base Set, Jungle, Fossil). Martin scanned his own Dutch cards; the site is gone, but the Wayback Machine kept them.",
+          "example": {
+            "label": "Charizard 4/102 Basis Set, Wayback copy of Paradijs",
+            "url": "https://web.archive.org/web/20140911013130/http://www.pokemon-paradijs.com/ruilkaarten/image/base-nl/004.jpg"
+          }
+        },
+        {
+          "sources": [
+            "pokemonkaart"
+          ],
+          "links": [
+            [
+              "paradijs",
+              "pokemonkaart"
+            ]
+          ],
+          "caption": "Pokemonkaart.nl shows the same scan: the two files correlate 1.000.",
+          "example": {
+            "label": "Pokemonkaart.nl: Charizard (Dutch)",
+            "url": "https://www.pokemonkaart.nl/wp-content/uploads/base-set-Charizard-Nederlands.jpg"
+          }
+        },
+        {
+          "sources": [
+            "tcgdex"
+          ],
+          "links": [],
+          "caption": "TCGdex lists Dutch, but has 4 Dutch card files and no images, so there is nowhere to put this scan yet."
+        }
+      ]
+    },
+    {
+      "id": "korean",
+      "title": "A Korean card",
+      "lang": "ko",
+      "steps": [
+        {
+          "sources": [
+            "kr"
+          ],
+          "links": [],
+          "caption": "Pokémon Korea publishes every card from 2010 on, but only with a watermark across the image.",
+          "example": {
+            "label": "pokemoncard.co.kr: SV10 #001 (watermarked)",
+            "url": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV10/SV10_001.png"
+          }
+        },
+        {
+          "sources": [
+            "krfan",
+            "pricecharting"
+          ],
+          "links": [
+            [
+              "kr",
+              "krfan"
+            ],
+            [
+              "kr",
+              "pricecharting"
+            ]
+          ],
+          "caption": "The Korean fan databases link those same files. One of six sampled Korean images on PriceCharting is the same file, shrunk to 400 px; the others are photos of real cards."
+        },
+        {
+          "sources": [
+            "tcgdex"
+          ],
+          "links": [],
+          "caption": "TCGdex has 239 Korean card files and no Korean images: card data would have to come first."
+        }
+      ]
+    },
+    {
+      "id": "zhcn",
+      "title": "A Simplified Chinese card",
+      "lang": "zh-cn",
+      "steps": [
+        {
+          "sources": [
+            "wechat",
+            "duanxr"
+          ],
+          "links": [
+            [
+              "wechat",
+              "duanxr"
+            ]
+          ],
+          "caption": "The official source is Pokémon Shanghai's WeChat mini-program; the duanxr dataset on GitHub collected its 300×419 renders.",
+          "example": {
+            "label": "duanxr dataset: Basic Grass Energy",
+            "url": "https://raw.githubusercontent.com/duanxr/PTCG-CHS-Datasets/main/img/4/340.png"
+          }
+        },
+        {
+          "sources": [
+            "mikmoe",
+            "tcgcollector"
+          ],
+          "links": [
+            [
+              "wechat",
+              "mikmoe"
+            ],
+            [
+              "duanxr",
+              "mikmoe"
+            ],
+            [
+              "wechat",
+              "tcgcollector"
+            ]
+          ],
+          "caption": "AREAZERO.GG and TCG Collector serve the same 300×419 pixels."
+        },
+        {
+          "sources": [
+            "pokemoncn",
+            "wiki52poke"
+          ],
+          "links": [
+            [
+              "pokemoncn",
+              "wiki52poke"
+            ]
+          ],
+          "caption": "Larger official renders (868 px and up) exist for highlighted cards on pokemon.cn's product pages; 52poke collects 1,328 of them.",
+          "example": {
+            "label": "52poke: CSV1C 126",
+            "url": "https://media.52poke.com/wiki/5/5e/CSV1C126.png"
+          }
+        }
+      ]
+    }
   ]
 }

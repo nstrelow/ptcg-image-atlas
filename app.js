@@ -33,12 +33,32 @@
     </article>`).join('');
   document.querySelectorAll('.f-show').forEach(b => b.addEventListener('click', () => {
     const c = D.callouts.find(x => x.id === b.dataset.callout);
-    showView('network');
+    showView('network'); stopStory(true);
     closePanel(true);
     setLang(c.lang || '');
     state.set = { ids: new Set(c.sources), title: c.title };
     highlight();
     document.getElementById('view-network').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }));
+
+  /* ---------- headline ---------- */
+  // "current languages TCGdex has card data for": leaves out no-card-data languages and zh-cn (card files from our branch)
+  const missCur = d3.sum(D.gaps.filter(g => !g.noData && !isDiscontinued(g.lang) && g.lang !== 'zh-cn'), g => g.missingCount);
+  const FLOW = [
+    { tiers: [0], label: 'Origin', sub: 'official sites, game clients, printed cards' },
+    { tiers: [1], label: 'First copy', sub: 'game extracts, scans, datasets' },
+    { tiers: [2, 3], label: 'Everyone else', sub: 'wikis, fan databases, shops — and TCGdex' }
+  ];
+  document.getElementById('hero').innerHTML = `
+    <p class="headline">Card images start at a handful of official sites and at the printed cards, then get copied from site to site.
+      We traced <b>${D.sources.length} sources</b> and <b>${D.links.length} links</b> between them. TCGdex, the open card database, still lacks <b>${fmt(missCur)}</b> images for cards it already lists.</p>
+    <ol class="flow">${FLOW.map((c, i) => `<li><button data-flow="${i}"><span class="fn">${i + 1}</span><span><b>${c.label}</b><small>${c.sub}</small></span></button></li>`).join('<li class="arr" aria-hidden="true">→</li>')}</ol>`;
+  document.querySelectorAll('[data-flow]').forEach(b => b.addEventListener('click', () => {
+    const c = FLOW[+b.dataset.flow];
+    showView('network'); closePanel(true); stopStory(true); setLang('');
+    state.set = { ids: new Set(nodes.filter(n => !n.disc && c.tiers.includes(n.tier)).map(n => n.id)), title: `${c.label}: ${c.sub}` };
+    highlight();
+    document.getElementById('graph-wrap').scrollIntoView({ behavior: 'smooth', block: 'center' });
   }));
 
   /* ---------- tabs + routing ---------- */
@@ -157,13 +177,17 @@
       disc.forEach((n, i) => { n.x = colX(Math.min(1 + i, NCOL - 1)); n.y = strip.y + 56 + PH / 2; });
       HT = strip.y + strip.h;
     }
-    // ports: spread a box's links along its edge, ordered by where the other end sits
+    // ports: spread a box's links along its edge, ordered by where the other end sits.
+    // A box with a big fan-out (malie, pokemon-card.com …) sends them along one trunk instead.
     vis.forEach(n => {
       const outs = vl.filter(l => l.source === n).sort((a, b) => a.target.y - b.target.y);
       const ins = vl.filter(l => l.target === n).sort((a, b) => a.source.y - b.source.y);
       const spread = (arr, set) => arr.forEach((l, i) => set(l, arr.length > 1 ? (i / (arr.length - 1) - .5) * (PH - 14) : 0));
       spread(outs, (l, o) => { l.so = o; });
       spread(ins, (l, o) => { l.ti = o; });
+      const right = outs.filter(l => l.target.x > n.x);
+      outs.forEach(l => { l.trunk = false; });
+      if (right.length >= 5) right.forEach(l => { l.so = 0; l.trunk = true; });
     });
     return { vis, vl, H, HT, strip, cols };
   }
@@ -171,6 +195,10 @@
   function linkPath(l) {
     const s = l.source, t = l.target, sy = s.y + l.so, ty = t.y + l.ti;
     const x1 = s.x + PW;
+    if (l.trunk) {
+      const jx = x1 + CG * .4, x2 = t.x - 7, dx = Math.max(30, (x2 - jx) * .5);
+      return `M${x1},${sy} L${jx},${sy} C${jx + dx},${sy} ${x2 - dx},${ty} ${x2},${ty}`;
+    }
     if (t.x > s.x) {
       const x2 = t.x - 7, dx = Math.max(40, (x2 - x1) * .5);
       return `M${x1},${sy} C${x1 + dx},${sy} ${x2 - dx},${ty} ${x2},${ty}`;
@@ -297,6 +325,10 @@
       update => update,
       exit => exit.remove());
     nodeSel.transition().duration(dur).attr('opacity', 1).attr('transform', n => `translate(${n.x},${n.y - PH / 2})`);
+    // the printed cards feed ~20 scanners; their links stay hidden until asked for, a count stands in
+    const nPrint = cur.vl.filter(l => l.source.id === 'print').length;
+    nodeSel.filter(n => n.id === 'print').selectAll('text.calm-label').data(nPrint ? [nPrint] : []).join('text')
+      .attr('class', 'calm-label').attr('x', PW - 8).attr('y', PH - 8).attr('text-anchor', 'end').text(k => `scanned by ${k} sites ›`);
     highlight();
     fitGraph(animate);
   }
@@ -353,13 +385,20 @@
   };
   const isScanNode = n => n.scanOnly || n.imageNature === 'photo' || n.id === 'print';
 
-  const state = { lang: '', mode: 'all', fam: null, set: null, pinned: null, hover: null };
+  const state = { lang: '', mode: 'all', fam: null, set: null, pinned: null, hover: null, story: null };
   function highlight() {
     const f = state.hover || state.pinned;
-    let keep = null, keepLink = null, strong = false, up = null, down = null;
+    let keep = null, keepLink = null, strong = false, up = null, down = null, now = null;
     if (f) {
       up = upstream(f); down = downstream(f); keep = new Set([...up, ...down]); strong = true;
       keepLink = l => (up.has(l.source) && up.has(l.target)) || (down.has(l.source) && down.has(l.target));
+    }
+    else if (state.story) {
+      const steps = state.story.s.steps.slice(0, state.story.i + 1);
+      keep = new Set(steps.flatMap(st => st.sources).map(id => nById[id]));
+      const lk = new Set(steps.flatMap(st => st.links.map(([a, b]) => a + '>' + b)));
+      keepLink = l => lk.has(l.from + '>' + l.to); strong = true;
+      now = new Set(state.story.s.steps[state.story.i].sources.map(id => nById[id]));
     }
     else if (state.set) keep = new Set([...state.set.ids].map(id => nById[id]).filter(Boolean));
     else if (state.fam) { keep = new Set(nodes.filter(n => n.family === state.fam)); keepLink = l => keep.has(l.source) || keep.has(l.target); }
@@ -369,6 +408,9 @@
       keepLink = l => l.kind === 'scans' || (l.source.scanOnly && keep.has(l.target));
     }
     keepLink = keepLink || (l => keep.has(l.source) && keep.has(l.target));
+    const calm = !keep && state.mode === 'all';
+    linkSel.classed('calm', l => calm && l.source.id === 'print');
+    nodeSel.classed('story-now', n => !!now && now.has(n));
     nodeSel.classed('dim', n => !!keep && !keep.has(n)).classed('pinned', n => n === state.pinned)
       .classed('up', n => !!up && n !== f && up.has(n)).classed('down', n => !!down && n !== f && down.has(n));
     linkSel.classed('dim', l => !!keep && !keepLink(l)).classed('hl', l => !!keep && strong && keepLink(l))
@@ -378,6 +420,7 @@
     const note = document.getElementById('focus-note');
     note.hidden = !state.set && !f;
     if (f) note.innerHTML = `<b>${esc(shortName(f))}</b>: ${upDownText(f)}`;
+    else if (state.story) note.hidden = true;
     else if (state.set) note.innerHTML = `Highlighting the sources of <b>${esc(state.set.title)}</b> <button id="focus-clear">Clear</button>`;
     if (!f && state.set) document.getElementById('focus-clear').onclick = () => { state.set = null; highlight(); };
   }
@@ -385,7 +428,7 @@
   // mode switch
   document.querySelectorAll('#mode button').forEach(b => b.addEventListener('click', () => {
     document.querySelectorAll('#mode button').forEach(x => x.setAttribute('aria-checked', x === b));
-    state.mode = b.dataset.mode; state.set = null; highlight();
+    state.mode = b.dataset.mode; state.set = null; stopStory(true); highlight();
   }));
 
   // language lens
@@ -427,6 +470,43 @@
     box.hidden = false;
     box.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', () => openPanel(el.dataset.go)));
     box.querySelector('.to-gaps')?.addEventListener('click', e => { e.preventDefault(); showView('gaps'); document.querySelector(`#gaps [data-lang="${l}"]`)?.scrollIntoView({ block: 'center' }); });
+  }
+
+  /* ---------- follow one card ---------- */
+  const storyBar = document.getElementById('stories'), card = document.getElementById('story-card');
+  storyBar.innerHTML = `<span class="lens-label">Follow one card</span><div class="st-list">` + D.stories.map(s => `<button class="st-btn" data-st="${s.id}" aria-pressed="false">${s.lang ? flagImg(s.lang) : ''}${esc(s.title)}</button>`).join('') + '</div>';
+  storyBar.querySelectorAll('.st-btn').forEach(b => b.addEventListener('click', () => state.story && state.story.s.id === b.dataset.st ? stopStory() : startStory(b.dataset.st)));
+  function startStory(id, step = 0) {
+    const s = D.stories.find(x => x.id === id); if (!s) return;
+    closePanel(true); state.set = null;
+    const all = s.steps.flatMap(st => st.sources);
+    setLang(s.lang && all.every(i => serves(nById[i], s.lang)) ? s.lang : '');
+    state.story = { s, i: Math.min(Math.max(step, 0), s.steps.length - 1) };
+    showStep();
+  }
+  function stopStory(quiet) {
+    if (!state.story) return;
+    state.story = null; card.hidden = true;
+    storyBar.querySelectorAll('.st-btn').forEach(b => b.setAttribute('aria-pressed', 'false'));
+    setHash('st', '');
+    if (!quiet) highlight();
+  }
+  function showStep() {
+    const { s, i } = state.story, st = s.steps[i], n = s.steps.length;
+    storyBar.querySelectorAll('.st-btn').forEach(b => b.setAttribute('aria-pressed', b.dataset.st === s.id));
+    card.innerHTML = `
+      <div class="sc-head"><b>${s.lang ? flagImg(s.lang) + ' ' : ''}${esc(s.title)}</b><span class="sc-n">${i + 1} / ${n}</span><button class="sc-close" aria-label="Stop following this card">×</button></div>
+      <div class="sc-body"><div class="sc-text"><p>${esc(st.caption)}</p>
+      <div class="sc-nav"><button class="sc-prev" ${i ? '' : 'disabled'}>← Back</button><div class="sc-dots">${s.steps.map((_, k) => `<span class="${k === i ? 'on' : ''}"></span>`).join('')}</div><button class="sc-next">${i < n - 1 ? 'Next →' : 'Done'}</button></div></div>
+      ${st.example ? `<figure class="sc-fig"><img referrerpolicy="no-referrer" alt="${esc(st.example.label)}" src="${esc(st.example.url)}"><figcaption>${esc(st.example.label)} · loaded from ${esc(hostOf(st.example.url))}</figcaption></figure>` : ''}</div>`;
+    card.hidden = false;
+    const img = card.querySelector('img');
+    if (img) img.onerror = () => { img.closest('figure').innerHTML = `<figcaption>${esc(hostOf(st.example.url))} doesn't allow embedding: <a href="${esc(st.example.url)}" target="_blank" rel="noopener noreferrer">open the image</a></figcaption>`; };
+    card.querySelector('.sc-close').onclick = () => stopStory();
+    card.querySelector('.sc-prev').onclick = () => { state.story.i--; showStep(); };
+    card.querySelector('.sc-next').onclick = () => { if (i < n - 1) { state.story.i++; showStep(); } else stopStory(); };
+    setHash('st', `${s.id}.${i + 1}`);
+    highlight();
   }
 
   // search
@@ -547,7 +627,11 @@
       const img = new Image(); img.referrerPolicy = 'no-referrer'; img.alt = x.label; img.loading = 'lazy';
       img.onerror = () => { box.innerHTML = `<div class="err">The origin host doesn't allow embedding — open the link instead.</div>`; };
       img.src = x.url; box.appendChild(img); b.textContent = 'hide';
+      box.insertAdjacentHTML('beforeend', `<div class="src-note">loaded from ${esc(hostOf(x.url))}, not hosted here</div>`);
     }));
+    // show the first example straight away (card-image formats only; .dat and wiki pages stay behind the button)
+    const first = s.examples.findIndex(x => /\.(png|jpe?g|webp)(\?|$)|\/large$/i.test(x.url));
+    if (first >= 0) panel.querySelector(`[data-prev="${first}"]`)?.click();
     setHash('s', id);
   }
 
@@ -608,6 +692,20 @@
   };
   const bySize = (a, b) => (a.noData - b.noData) || b.missingCount - a.missingCount;
   const gapsCur = D.gaps.filter(g => !isDiscontinued(g.lang)).sort(bySize), gapsDisc = D.gaps.filter(g => isDiscontinued(g.lang)).sort(bySize);
+  // scoreboard: every current language as one 100 % bar
+  const pct = x => x > 0 && x < .005 ? '<1%' : Math.round(x * 100) + '%';
+  document.getElementById('scoreboard').innerHTML = `<h3 class="group">Scoreboard <span class="muted">· share of each language's images</span></h3>
+    <div class="sb-key"><span><i class="k-has"></i>TCGdex has it</span><span><i class="k-off"></i>fillable from an official image</span><span><i class="k-ask"></i>exists, needs someone's OK</span><span><i class="k-none"></i>no source found</span></div>
+    <div class="sb-grid">` + gapsCur.map(g => {
+      if (g.noData) return `<a class="sb-tile nodata" href="#gap-${g.lang}"><div class="sb-h">${flagImg(g.lang)} ${esc(g.name)}</div><div class="sb-big">—</div><div class="sb-sub">card data first</div></a>`;
+      const { byPerm, rest } = gapSegments(g), T = g.total;
+      const parts = [['has', g.have], ['off', byPerm('none')], ['ask', byPerm('maintainer') + byPerm('rights-holder') + byPerm('scanner')], ['none', rest]];
+      return `<a class="sb-tile" href="#gap-${g.lang}" title="${esc(parts.map(([k, v]) => `${k}: ${fmt(v)}`).join(' · '))}"><div class="sb-h">${flagImg(g.lang)} ${esc(g.name)}</div>
+        <div class="sb-big">${pct(g.have / T)}</div>
+        <div class="sb-bar">${parts.map(([k, v]) => v ? `<span class="k-${k}" style="width:${v / T * 100}%"></span>` : '').join('')}</div>
+        <div class="sb-sub">${parts.slice(1).map(([k, v]) => `<span class="t-${k}">+${pct(v / T)}</span>`).join(' ')}</div></a>`;
+    }).join('') + '</div>';
+  document.querySelectorAll('.sb-tile').forEach(a => a.addEventListener('click', e => { e.preventDefault(); document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
   document.getElementById('gaps').innerHTML =
     `<h3 class="group">Current languages <span class="muted">· most missing first</span></h3><div class="gaps-grid">${gapsCur.map(gapCard).join('')}</div>` +
     (gapsDisc.length ? `<h3 class="group">Discontinued languages</h3><p class="group-note">${esc(D.meta.discontinuedNote || '')}</p><div class="gaps-grid">${gapsDisc.map(gapCard).join('')}</div>` : '');
@@ -700,4 +798,5 @@
   showView(h0.get('v') || 'network');
   setLang(h0.get('l') || '');
   if (h0.get('s')) openPanel(h0.get('s'));
+  else if (h0.get('st')) { const [sid, k] = h0.get('st').split('.'); startStory(sid, (+k || 1) - 1); }
 })();

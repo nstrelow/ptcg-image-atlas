@@ -27,6 +27,8 @@
   </nav>
 </header>
 
+<section id="hero" class="hero" aria-label="In one sentence"></section>
+
 <div class="ai-notice" role="note" aria-label="Disclaimer">
   <strong>Research notes, not a reference.</strong>
   <span>The comparisons and source checks on this page were done with Claude (Anthropic's AI) and re-checked several times — but not verified by hand. Treat every claim as a lead to check yourself, not as fact.</span>
@@ -42,6 +44,7 @@
       <div class="lens" id="lens" role="radiogroup" aria-label="Show sources for one language"></div>
     </div>
     <div id="lang-summary" class="lang-summary" hidden></div>
+    <div id="stories" class="stories"></div>
     <div class="toolbar">
       <div class="seg" id="mode" role="radiogroup" aria-label="Highlight">
         <button role="radio" data-mode="all" aria-checked="true">All connections</button>
@@ -52,6 +55,7 @@
       <datalist id="node-list"></datalist>
     </div>
     <div id="focus-note" class="focus-note" hidden></div>
+    <div id="story-card" class="story-card" hidden></div>
     <div class="graph-wrap" id="graph-wrap">
       <svg id="graph" role="img" aria-label="Network of card image sources, left to right from origin to consumers"></svg>
       <div class="graph-ctrl">
@@ -68,6 +72,7 @@
       <p>Counts are card files TCGdex already has in that language but without an image (TCG cards only, measured 2026-09-23/26 against <code>cards-database</code>). The bar is what is missing: each colour is what reusing a source would need, alternatives count once, and grey is what we found no source for. Each row below is one source.</p>
       <div class="perm-legend" id="perm-legend"></div>
     </div>
+    <div id="scoreboard" class="scoreboard"></div>
     <div id="gaps" class="gaps"></div>
   </section>
 
