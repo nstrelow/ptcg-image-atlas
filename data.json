@@ -948,7 +948,7 @@
     },
     {
       "id": "mikmoe",
-      "name": "tcg.mik.moe",
+      "name": "AREAZERO.GG (tcg.mik.moe)",
       "family": "rehost",
       "tier": 2,
       "url": "https://tcg.mik.moe/",
@@ -957,23 +957,44 @@
       "langs": [
         "zh-cn"
       ],
-      "eras": "2020 → today",
+      "eras": "2022 → today (Sun & Moon onward), 133 sets",
       "imageNature": "digital",
-      "resolution": "the app's 300×419",
+      "resolution": "300×419 PNG (the app's size)",
       "watermark": false,
       "api": {
-        "kind": "none"
+        "kind": "none",
+        "note": "The site's own JSON API is undocumented. Automated and AI clients must follow its access policy (/ai-access.json)."
       },
       "submissions": {
         "yes": false
       },
       "terms": {
-        "summary": "—",
-        "url": "https://tcg.mik.moe/"
+        "summary": "Footer: card text and images © The Pokémon Company, Pokémon Shanghai, Nintendo, Game Freak, Creatures; all data comes from Pokémon Shanghai; used only for non-commercial, academic and research purposes. Automated or AI access must identify itself truthfully and state its purpose on every request; robots.txt asks for 10 s between requests.",
+        "url": "https://tcg.mik.moe/ai-access.json"
       },
-      "origin": "Serves the WeChat app's images; nothing larger than the app's native size.",
-      "examples": [],
-      "stats": [],
+      "origin": "A Simplified Chinese competitive-play site (card search, deck and tournament statistics). Its footer says all data comes from Pokémon Shanghai. Its card images are pixel-identical to the duanxr dataset's (7 of 7 sampled, re-encoded PNGs), i.e. the WeChat app's. It shows one image per card number (the dataset also keeps holo variants) and groups boxes into sets; in the sets we compared we found no card the dataset lacks, and nothing larger than 300×419.",
+      "examples": [
+        {
+          "label": "Mew ex (SV promo 003)",
+          "url": "https://tcg.mik.moe/static/img/SVP/003.png",
+          "nature": "digital",
+          "note": "300×419"
+        }
+      ],
+      "stats": [
+        {
+          "label": "sets",
+          "value": "133"
+        },
+        {
+          "label": "cards (one per number)",
+          "value": "12,961"
+        },
+        {
+          "label": "pixel-identical to duanxr",
+          "value": "7 / 7 sampled"
+        }
+      ],
       "callout": "zhcn",
       "icon": "icons/mikmoe.png"
     },
@@ -1478,9 +1499,17 @@
       "from": "wechat",
       "to": "mikmoe",
       "kind": "copies",
-      "confidence": "likely",
+      "confidence": "stated",
       "scope": "zh-cn",
-      "evidence": "Serves the app's images at the app's size."
+      "evidence": "Footer: all data comes from Pokémon Shanghai. The images are the app's 300×419 renders (pixel-identical to the duanxr dump)."
+    },
+    {
+      "from": "duanxr",
+      "to": "mikmoe",
+      "kind": "shared",
+      "confidence": "unknown-direction",
+      "scope": "zh-cn, 300×419",
+      "evidence": "7 of 7 sampled images pixel-identical (different PNG encoding). Both may have taken them from the app independently."
     },
     {
       "from": "kr",
@@ -2143,7 +2172,7 @@
       "id": "zhcn",
       "kind": "warn",
       "title": "Simplified Chinese: only the WeChat app, only 300×419",
-      "body": "The only official source is Pokémon Shanghai's WeChat mini-program. Its images were scraped into the GitHub dataset duanxr/PTCG-CHS-Datasets at the app's native 300×419; we found nothing larger. The dataset forbids redistribution without Pokémon Shanghai's written consent. Sampled TCGdex zh-cn images are the Traditional Chinese (Taiwan) print.",
+      "body": "The only official source is Pokémon Shanghai's WeChat mini-program. Its images were scraped into the GitHub dataset duanxr/PTCG-CHS-Datasets at the app's native 300×419; we found nothing larger. AREAZERO.GG (tcg.mik.moe) shows the same images (pixel-identical in our sample) and no extra cards in the sets we compared. The dataset forbids redistribution without Pokémon Shanghai's written consent. Sampled TCGdex zh-cn images are the Traditional Chinese (Taiwan) print.",
       "sources": [
         "wechat",
         "duanxr",
