@@ -127,7 +127,7 @@
   nodeSel.append('title').text(n => n.name);
 
   function shortName(n) {
-    return n.name.replace(/ \(.*\)$/, '').replace(' card database', '').replace(' (game client)', '').replace('Pokémon ', 'Pokémon ');
+    return n.id === 'paradijs' ? 'Paradijs scans (Martin)' : n.name.replace(/ \(.*\)$/, '').replace(' card database', '').replace(' (game client)', '').replace('Pokémon ', 'Pokémon ');
   }
 
   // tier labels follow pan/zoom
@@ -242,7 +242,7 @@
         <dt>Images</dt><dd>${esc(natureLabel[s.imageNature] || s.imageNature)} · ${esc(s.resolution)}</dd>
         <dt>API</dt><dd>${esc(apiLabel[s.api.kind] || '—')}${s.api.note ? ' — ' + esc(s.api.note) : ''}${s.api.url ? ` · <a href="${esc(s.api.url)}" target="_blank" rel="noopener">link</a>` : ''}</dd>
         <dt>Submissions</dt><dd>${s.submissions.yes ? esc(s.submissions.how) + (s.submissions.url ? ` · <a href="${esc(s.submissions.url)}" target="_blank" rel="noopener">link</a>` : '') : 'no'}</dd>
-        <dt>Terms</dt><dd>${esc(s.terms.summary)} ${s.terms.url ? `<a href="${esc(s.terms.url)}" target="_blank" rel="noopener">read ↗</a>` : ''}</dd>
+        ${s.terms ? `<dt>Terms</dt><dd>${esc(s.terms.summary)} ${s.terms.url ? `<a href="${esc(s.terms.url)}" target="_blank" rel="noopener">read ↗</a>` : ''}</dd>` : ''}
         ${s.stats.map(x => `<dt>${esc(x.label)}</dt><dd>${esc(x.value)}</dd>`).join('')}
       </dl>
       ${gapsHere.length ? `<h4>Could fill on TCGdex</h4><ul class="rel">${gapsHere.map(f => `<li><b>${fmt(f.count)}</b> ${esc(f.lang)} <span class="perm ${f.permission}">${esc(D.permissions[f.permission].label)}</span><div class="ev">${esc(f.note)}</div></li>`).join('')}</ul>` : ''}
@@ -342,9 +342,10 @@
     <h3>Limits</h3>
     <ul>
       <li><i>Unmatched</i> can't prove an image isn't a digital file from a source not held here (press kits, retailer exports).</li>
-      <li>Sites behind Cloudflare challenges (TCG Collector, Cardmarket, a wiki API) were not bypassed; they were sampled from the Internet Archive or their open image CDNs.</li>
-      <li>TCGplayer, Cardmarket, Serebii, PriceCharting, Scrydex and TCG Collector are samples (tens to hundreds of images), not full crawls. Full mirrors: pokemontcg.io, pkmcards.fr, bisafans, Pokémon Central, WikiDex, Bulbagarden JP, yuyu-tei, and all of TCGdex's English + German images.</li>
-      <li>Numbers are a snapshot (${esc(D.meta.measured)}). Terms were read from the live pages; this is not legal advice.</li>
+      <li>Some sites (TCG Collector, Cardmarket) were sampled from the Internet Archive or their public image hosts.</li>
+      <li>TCGplayer, Cardmarket, Serebii, PriceCharting, Scrydex and TCG Collector are samples (tens to hundreds of images), not full crawls. Analysed in full (for measurement only; no images are redistributed): pokemontcg.io, pkmcards.fr, bisafans, Pokémon Central, WikiDex, Bulbagarden JP, yuyu-tei, and all of TCGdex's English + German images.</li>
+      <li>Numbers are a snapshot (${esc(D.meta.measured)}). Fan-site terms were read from the live pages; this is not legal advice.</li>
+      <li>TCG Live renders published by malie and the game's own files are the same pixels, so a match to malie shows the render, not necessarily the route a site took.</li>
     </ul>
     <h3>Reuse the data</h3>
     <p>Everything on this page is in <a href="data.json"><code>data.json</code></a>. Corrections and additions are welcome as GitHub issues or pull requests.</p>`;

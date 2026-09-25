@@ -29,15 +29,17 @@ submitting anything.
 3. **TCGdex view.** Where TCGdex's images (likely) come from today, per language and era,
    and which sources can fill each gap, with the count and the permission needed.
 4. **Callouts**, impossible to miss:
-   - **Korean**: only a watermarked official image exists; nobody has a clean one.
+   - **Korean**: the official site (pokemoncard.co.kr) serves only watermarked images; fan databases link to those;
+     PriceCharting has photos of real cards plus some official watermarked images. No clean digital Korean image found.
    - **Simplified Chinese**: only the official WeChat mini-program exists; scraped into
      the `duanxr/PTCG-CHS-Datasets` GitHub repo at 300×419 (low quality), no
-     redistribution without Pokémon Shanghai's consent. TCGdex's current `zh-cn` images
-     are actually the Traditional Chinese (Taiwan) print.
+     redistribution without Pokémon Shanghai's consent. Sampled TCGdex `zh-cn` images
+     are the Traditional Chinese (Taiwan) print.
    - **Better quality exists**: where a larger or cleaner original exists than what
      TCGdex serves (malie 734×1024 vs 600×825, the Singapore English print at 744×1040,
      TCG Collector 1280 px JP scans, bisafans 1200 px German photos).
-5. **Every source** has: homepage link, terms link, an example asset link pointing at the
+5. **Every source** has: homepage link, terms link (fan and third-party sites only; official
+   Pokémon sites' terms are deliberately not shown), an example asset link pointing at the
    file where the original lives (click-to-preview, loaded from the origin host), image
    size/format, what it covers, API availability, whether it takes user submissions.
 6. Shareable: deployed at a public URL, deep links to a source (`#s=<id>`) and a view.
@@ -74,7 +76,7 @@ Non-goals: hosting or mirroring any card image; legal advice; bypassing anything
 }
 ```
 
-All numbers come from the measurements in the private `pokeassets` research repo
+All numbers come from the measurements in the author's research notes
 (COVERAGE, SOURCES, LICENSING, `tools/provenance.py` output, 2026-09-23/24). The site
 states the date and that they are a snapshot.
 
@@ -128,13 +130,17 @@ same card (different pixels), unmatched, placeholder. Plus EXIF/DPI signals (cam
 scanner, editor, alpha).
 
 Limits: `unmatched` can't prove an image isn't a digital asset from a source we don't
-hold; sites behind Cloudflare challenges were only sampled via the Internet Archive or
+hold; some sites were only sampled via the Internet Archive or
 open CDNs; samples (TCGplayer, Cardmarket, Serebii, PriceCharting, Scrydex, TCG
 Collector) are tens to hundreds of images, not full crawls.
 
 ## 7. Wording rules
 
 - "Verified" only for pixel matches; otherwise "stated", "likely", or "direction unknown".
-- Never say a site "stole" anything. State what matches and what the site's terms say.
+- Never say a site "stole" anything, and no "uncredited"-style accusations. State what matches.
+- Credit people whose work everything rests on (Martin of Pokémon Paradijs, malie, community scanners).
+- Prefer "we found" over "nowhere" / "only" / "never".
+- Pixel identity to malie shows the render, not the route: TCG Live renders are the same pixels
+  whether taken from malie or from the game.
 - Not legal advice; every card image is © The Pokémon Company / Nintendo / Creatures /
   GAME FREAK (Wizards of the Coast for 1999–2003 English prints).
