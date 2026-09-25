@@ -13,7 +13,7 @@ Live: https://nstrelow.github.io/ptcg-image-atlas/ · repo `nstrelow/ptcg-image-
 - Top of page: AI-disclaimer banner ("Research notes, not a reference"), then 4 callouts
   (Korean watermark, zh-cn WeChat 300×419, better quality exists, Western 1999–2010 = scans).
 - Deep links: `#v=gaps|sources|method`, `#s=<source id>`.
-- 31 sources, ~50 links. Link confidence: verified (pixel match) · stated · likely ·
+- 38 sources, 73 links. Link confidence: verified (pixel match) · stated · likely ·
   unknown-direction. Only pixel matches may be "verified".
 
 ## Where the facts come from
@@ -32,6 +32,14 @@ Snapshot 2026-09-23/24, plus these 2026-09-25 checks:
   + 22 English pokemontcg.io files (POP series); Serebii SwSh/SV = malie 11/12; WeChat renders also on
   TCG Collector (9) and PriceCharting (6); zh-cn starts 2022-10-27. Paradijs edges are `stated`
   (pixel proof is against pokemontcg.io, attribution is pkmncards'); pokemontcgio ↔ tcgdex added.
+
+- 2026-09-25 (evening): sample checks of more sites added 7 sources: pokemon.cn product pages
+  (official zh-cn renders ≥ 868 px for highlighted cards), 52poke (collects them), pcg-search.com
+  (ja 1996–2006, own scans), Poképédia (fr vintage), PokéWiki (de vintage), Pokellector (tracker;
+  terms forbid automated image retrieval), Collector apps (Dex, pkmn.gg, PokemonPrice = malie /
+  pokemontcg.io copies). zh-cn callout no longer says "nothing larger". Left out on purpose: Pokéos
+  (zh-cn = WeChat 300 px + pokemon.cn downscales at 444 px, nothing new), Hareruya2 (shop stock only),
+  carddex.net, cardrush.media, jcc.pokemon.tf, the Internet Archive "Card Scans" pack (pokemontcg.io JPEGs).
 
 ## Editorial rules (from the owner — keep)
 

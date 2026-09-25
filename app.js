@@ -48,10 +48,10 @@
 
   // Layered layout, hand-ordered into bands: scans on top, malie / digital in the middle, Asia at the bottom.
   const ORDER = [
-    { print: .03, ptcgo: .30, tcgl: .41, pcom: .53, pcj: .66, asia: .77, kr: .88, wechat: .98 },
-    { bisafans: .02, pokecardex: .11, yuyutei: .20, paradijs: .31, malie: .50, pokeca: .72, duanxr: .98 },
-    { pkmncards: .10, pokemontcgio: .22, pkmcardsfr: .34, pokemoncentral: .45, wikidex: .55, bulbagarden: .66, limitless: .77, krfan: .88, mikmoe: .98 },
-    { pricecharting: .03, scrydex: .20, tcgplayer: .33, cardmarket: .45, tcgdex: .57, tcgcollector: .72, serebii: .86 }
+    { print: .03, ptcgo: .27, tcgl: .37, pcom: .47, pcj: .58, asia: .68, kr: .78, wechat: .88, pokemoncn: .98 },
+    { bisafans: .02, pokecardex: .10, yuyutei: .18, pcgsearch: .27, paradijs: .37, malie: .52, pokeca: .72, duanxr: .98 },
+    { pkmncards: .03, pokemontcgio: .11, pkmcardsfr: .19, pokepedia: .27, pokewiki: .35, pokemoncentral: .43, wikidex: .51, wiki52poke: .59, bulbagarden: .67, limitless: .75, krfan: .86, mikmoe: .98 },
+    { pricecharting: .03, scrydex: .14, apps: .25, tcgplayer: .36, cardmarket: .46, tcgdex: .57, tcgcollector: .68, pokellector: .79, serebii: .90 }
   ];
   const W = 1400, H = 900, padX = 150, padY = 70;
   ORDER.forEach((col, t) => Object.entries(col).forEach(([id, f], i) => {
