@@ -27,6 +27,9 @@
   --p-scanner: #a879ff;
   --p-impossible: #6b7280;
 
+  --notice-bg: #2a2211;
+  --notice-line: #6b5518;
+
   color-scheme: dark;
 }
 @media (prefers-color-scheme: light) {
@@ -34,6 +37,7 @@
     --bg: #f6f4ef; --bg2: #eeebe3; --card: #ffffff; --line: #ddd8cc; --text: #1b1d22; --muted: #5d6270;
     --accent: #c08a00; --c-tcgdex: #1b1d22; --c-print: #6b7280; --c-wiki: #0284c7; --c-market: #0f9d8a;
     --c-extract: #d98200; --good: #0f9d58; --p-none: #0f9d58; --p-maintainer: #c08a00;
+    --notice-bg: #fbf1d7; --notice-line: #e3c876;
     color-scheme: light;
   }
 }
@@ -41,6 +45,7 @@
   --bg: #f6f4ef; --bg2: #eeebe3; --card: #ffffff; --line: #ddd8cc; --text: #1b1d22; --muted: #5d6270;
   --accent: #c08a00; --c-tcgdex: #1b1d22; --c-print: #6b7280; --c-wiki: #0284c7; --c-market: #0f9d8a;
   --c-extract: #d98200; --good: #0f9d58; --p-none: #0f9d58; --p-maintainer: #c08a00;
+  --notice-bg: #fbf1d7; --notice-line: #e3c876;
   color-scheme: light;
 }
 
@@ -74,6 +79,17 @@ h1, h2, h3 { font-family: "Space Grotesk", Inter, system-ui, sans-serif; letter-
   font: 500 14px Inter, system-ui, sans-serif; cursor: pointer;
 }
 .tabs button[aria-selected="true"] { background: var(--card); color: var(--text); box-shadow: 0 1px 0 var(--line); }
+
+.ai-notice {
+  max-width: 1500px; margin: 16px auto 0; padding: 12px 18px;
+  background: var(--notice-bg); border: 1px solid var(--notice-line); border-radius: 10px;
+  display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 10px; row-gap: 4px;
+}
+.ai-notice strong { color: var(--text); font-size: 14px; }
+.ai-notice p { margin: 0; color: var(--text); font-size: 13px; flex: 1 1 420px; }
+.ai-notice .ai-notice-small { flex: 0 0 100%; margin: 0; color: var(--muted); font-size: 12px; }
+.ai-notice .ai-notice-small a { color: var(--muted); text-decoration: underline; }
+.ai-notice .ai-notice-small a:hover { color: var(--accent); }
 
 .callouts {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px;

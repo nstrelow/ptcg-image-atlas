@@ -2,6 +2,8 @@
 
 **Live:** https://nstrelow.github.io/ptcg-image-atlas/
 
+This was checked several times with Claude (an AI), but not verified by hand — treat what's written here as a lead, not as fact.
+
 An interactive map of where Pokémon TCG card images come from: which official sites
 publish them, who re-hosts or scans them, who copies whom (pixel-verified where
 possible), where TCGdex's images come from, what TCGdex is still missing, and where
