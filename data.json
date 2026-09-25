@@ -1882,6 +1882,149 @@
       ],
       "stats": [],
       "icon": "icons/pricecharting.png"
+    },
+    {
+      "id": "pokezentrum",
+      "name": "PokeZentrum (de)",
+      "family": "scan",
+      "tier": 2,
+      "url": "https://pokezentrum.de/",
+      "official": false,
+      "scanOnly": true,
+      "langs": [
+        "de",
+        "en"
+      ],
+      "eras": "Base Set → today (per-set gallery posts)",
+      "imageNature": "scan",
+      "resolution": "1066–1095 × 1500 JPEG (vintage)",
+      "watermark": false,
+      "api": {
+        "kind": "none"
+      },
+      "submissions": {
+        "yes": false
+      },
+      "terms": {
+        "summary": "Blog with an Impressum; no reuse licence stated. German scans may be protected in their own right (§72 UrhG).",
+        "url": "https://pokezentrum.de/impressum/"
+      },
+      "origin": "A German collector blog. Its \"Kartenliste und Kartengalerie\" posts (about 70) show every card of a set as the blog's own 1st-Edition scans: clean cut-outs at ~1070 × 1500, the largest German vintage images we found. Filenames name the print (\"…-Deutsch.jpg\"); sets never printed in German (Base Set 2) are shown as English cards. 6 of 6 sampled Fossil files match no other source, bisafans included.",
+      "examples": [
+        {
+          "label": "Arktos 2/62 Fossil, 1st Edition (German)",
+          "url": "https://pokezentrum.de/wp-content/uploads/Arktos-2-62-Holo-1st-Edition-Pokemon-Karte-Fossil-Deutsch.jpg",
+          "nature": "scan"
+        }
+      ],
+      "stats": [
+        {
+          "label": "gallery posts",
+          "value": "≈ 70"
+        },
+        {
+          "label": "files per vintage set",
+          "value": "80–148"
+        },
+        {
+          "label": "unmatched (Fossil)",
+          "value": "6 / 6 sampled"
+        }
+      ],
+      "callout": "vintage",
+      "icon": "icons/pokezentrum.png"
+    },
+    {
+      "id": "pokemonkaart",
+      "name": "Pokemonkaart.nl",
+      "family": "scan",
+      "tier": 2,
+      "url": "https://www.pokemonkaart.nl/nederlandse-serie",
+      "official": false,
+      "scanOnly": true,
+      "langs": [
+        "nl"
+      ],
+      "eras": "Base Set, Jungle, Fossil (the three Dutch sets, 1999)",
+      "imageNature": "scan",
+      "resolution": "600 × 825 JPEG",
+      "watermark": false,
+      "api": {
+        "kind": "none"
+      },
+      "submissions": {
+        "yes": false
+      },
+      "terms": {
+        "summary": "Fan price site; states that all images belong to The Pokémon Company. No reuse licence.",
+        "url": "https://www.pokemonkaart.nl/"
+      },
+      "origin": "A Dutch price-tracking site with its own scans of the three Dutch-language sets (Basis Set 102, Jungle, Fossiel). 4 of 4 sampled files are real Dutch prints (\"Vuurdraak\", \"120 IP\") and match no other source. The only Dutch card-image source we found; TCGdex lists Dutch as a language but holds no Dutch data or images.",
+      "examples": [
+        {
+          "label": "Charizard 4/102 Basis Set (Dutch)",
+          "url": "https://www.pokemonkaart.nl/wp-content/uploads/base-set-Charizard-Nederlands.jpg",
+          "nature": "scan"
+        }
+      ],
+      "stats": [
+        {
+          "label": "Base Set NL",
+          "value": "102 / 102"
+        },
+        {
+          "label": "unmatched",
+          "value": "4 / 4 sampled"
+        }
+      ],
+      "icon": "icons/pokemonkaart.png"
+    },
+    {
+      "id": "laststicker",
+      "name": "LastSticker.ru",
+      "family": "scan",
+      "tier": 3,
+      "url": "https://www.laststicker.ru/cards/s/tcg_pokemon/",
+      "official": false,
+      "scanOnly": true,
+      "langs": [
+        "ru"
+      ],
+      "eras": "XY → BREAKthrough, Kalos Starter Set, BW Boundaries Crossed, Sun & Moon (2014–2017)",
+      "imageNature": "scan",
+      "resolution": "286 × 400 JPEG",
+      "watermark": true,
+      "api": {
+        "kind": "none"
+      },
+      "submissions": {
+        "yes": true,
+        "how": "Collectors upload their sets",
+        "url": "https://www.laststicker.ru/"
+      },
+      "terms": {
+        "summary": "Russian sticker/card collectors' exchange site; images carry a site watermark.",
+        "url": "https://www.laststicker.ru/"
+      },
+      "origin": "Collector uploads of the Russian print of the XY-era sets (the nine sets Bulbapedia lists as printed in Russian). Real Russian cards, but small and watermarked, so a witness for names and numbering rather than an image source. The only Russian card gallery we found; pokemon.com's Russian card pages are gone.",
+      "examples": [
+        {
+          "label": "Beedrill, XY (Russian)",
+          "url": "https://www.laststicker.ru/i/cards/2034/5.jpg",
+          "nature": "scan"
+        }
+      ],
+      "stats": [
+        {
+          "label": "sets",
+          "value": "9 Russian XY-era + BW/SM"
+        },
+        {
+          "label": "size",
+          "value": "286 × 400, watermarked"
+        }
+      ],
+      "icon": "icons/laststicker.png"
     }
   ],
   "links": [
@@ -2468,6 +2611,30 @@
       "confidence": "verified",
       "scope": "en vintage",
       "evidence": "PokemonPrice's Base Set Charmander is pokemontcg.io's file (600×825)."
+    },
+    {
+      "from": "print",
+      "to": "pokezentrum",
+      "kind": "scans",
+      "confidence": "stated",
+      "scope": "de vintage",
+      "evidence": "6 of 6 sampled Fossil files match no other source (bisafans included); filenames say \"1st Edition … Deutsch\"."
+    },
+    {
+      "from": "print",
+      "to": "pokemonkaart",
+      "kind": "scans",
+      "confidence": "stated",
+      "scope": "nl, 1999",
+      "evidence": "4 of 4 sampled Base Set files are Dutch prints and match no other source."
+    },
+    {
+      "from": "print",
+      "to": "laststicker",
+      "kind": "scans",
+      "confidence": "stated",
+      "scope": "ru, 2014–2017",
+      "evidence": "Collector uploads of the Russian print; 286 × 400, watermarked."
     }
   ],
   "gaps": [
@@ -2664,6 +2831,13 @@
           "nature": "scan",
           "permission": "scanner",
           "note": "Second source for bisafans' holes: 100–150 images per vintage set, credited per file to shops and scanners."
+        },
+        {
+          "source": "pokezentrum",
+          "count": 0,
+          "nature": "scan",
+          "permission": "scanner",
+          "note": "Per-set gallery posts at ~1070 × 1500, the sharpest German vintage scans we found (Fossil, Gym, Neo, HGSS …). Keep only the \"Deutsch\" files."
         }
       ]
     },
@@ -2764,6 +2938,40 @@
           "note": "≈ Upgrades to 868 px+ for highlighted cards (the ones collected on 52poke); product pages hold more."
         }
       ]
+    },
+    {
+      "lang": "nl",
+      "name": "Dutch",
+      "missing": "everything: TCGdex lists Dutch but has 4 card files and no images (3 sets, 1999)",
+      "fills": [
+        {
+          "source": "pokemonkaart",
+          "count": 228,
+          "nature": "scan",
+          "permission": "scanner",
+          "note": "Base Set, Jungle, Fossil at 600 × 825. Dutch card data (names) would have to be written first."
+        }
+      ]
+    },
+    {
+      "lang": "ru",
+      "name": "Russian",
+      "missing": "everything: 10 card files, no images (9 XY-era sets, 2014–2016)",
+      "fills": [
+        {
+          "source": "laststicker",
+          "count": 0,
+          "nature": "scan",
+          "permission": "impossible",
+          "note": "Only 286 × 400 watermarked collector uploads; a witness for names, not an image source."
+        }
+      ]
+    },
+    {
+      "lang": "pl",
+      "name": "Polish",
+      "missing": "everything: 4 card files, no images (Diamond & Pearl, Mysterious Treasures, 2007)",
+      "fills": []
     }
   ],
   "permissions": {
