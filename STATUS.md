@@ -18,8 +18,8 @@ Live: https://nstrelow.github.io/ptcg-image-atlas/ · repo `nstrelow/ptcg-image-
 
 ## Where the facts come from
 
-The private research repo `/srv/repos/pokeassets` (`LICENSING.md` §5–7, `SOURCES.md`,
-`COVERAGE.md`, `tools/provenance.py`, mirrors in `/mnt/landing/pokeassets-mirrors`).
+The author's private research repo (`LICENSING.md` §5–7, `SOURCES.md`, `COVERAGE.md`,
+`tools/provenance.py` and its local mirrors).
 Snapshot 2026-09-23/24, plus these 2026-09-25 checks:
 - TCGdex SV01 → me05: pixel-identical to malie's TCG Live renders (can't tell via-malie from
   straight-from-game). 30th Celebration: a different render, online ~5 h before malie's
@@ -36,7 +36,7 @@ Snapshot 2026-09-23/24, plus these 2026-09-25 checks:
 - No accusations ("uncredited", "stole", "without permission"). Say what matches.
 - "we found" instead of "nowhere / only / never".
 - Nothing private in the repo: no local paths, IPs, or how access blocks were handled.
-- Git identity in this clone is the GitHub noreply address (global one is `root@pve…` — don't).
+- Commit with the GitHub noreply identity (set locally in the clone).
 
 ## History
 
@@ -54,5 +54,5 @@ Snapshot 2026-09-23/24, plus these 2026-09-25 checks:
 - Samples (TCGplayer, Cardmarket, Serebii, PriceCharting, Scrydex, TCG Collector) could be
   enlarged; the table says they are samples.
 - Graph on phones is small; could default to zoomed-in + pan.
-- When `pokeassets` numbers change (e.g. Korean 2010–2018 processed, malie importer built),
+- When the research repo's numbers change (e.g. Korean 2010–2018 processed, malie importer built),
   update `data.json` gaps.
