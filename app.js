@@ -48,7 +48,7 @@
 
   // Layered layout, hand-ordered into bands: scans on top, malie / digital in the middle, Asia at the bottom.
   const ORDER = [
-    { print: .03, ptcgo: .27, tcgl: .37, pcom: .47, pcj: .58, asia: .68, kr: .78, wechat: .88, pokemoncn: .98 },
+    { print: .02, playit: .11, ccdb: .20, ptcgo: .30, tcgl: .39, pcom: .48, pcj: .57, asia: .67, kr: .77, wechat: .87, pokemoncn: .98 },
     { bisafans: .02, pokecardex: .10, yuyutei: .18, pcgsearch: .27, paradijs: .37, malie: .52, pokeca: .72, duanxr: .98 },
     { pkmncards: .03, pokemontcgio: .11, pkmcardsfr: .19, pokepedia: .27, pokewiki: .35, pokemoncentral: .43, wikidex: .51, wiki52poke: .59, bulbagarden: .67, limitless: .75, krfan: .86, mikmoe: .98 },
     { pricecharting: .03, scrydex: .14, apps: .25, tcgplayer: .36, cardmarket: .46, tcgdex: .57, tcgcollector: .68, pokellector: .79, serebii: .90 }

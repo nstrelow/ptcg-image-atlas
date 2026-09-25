@@ -13,7 +13,7 @@ Live: https://nstrelow.github.io/ptcg-image-atlas/ · repo `nstrelow/ptcg-image-
 - Top of page: AI-disclaimer banner ("Research notes, not a reference"), then 4 callouts
   (Korean watermark, zh-cn WeChat 300×419, better quality exists, Western 1999–2010 = scans).
 - Deep links: `#v=gaps|sources|method`, `#s=<source id>`.
-- 38 sources, 73 links. Link confidence: verified (pixel match) · stated · likely ·
+- 40 sources, 73 links. Link confidence: verified (pixel match) · stated · likely ·
   unknown-direction. Only pixel matches may be "verified".
 
 ## Where the facts come from
@@ -40,6 +40,13 @@ Snapshot 2026-09-23/24, plus these 2026-09-25 checks:
   pokemontcg.io copies). zh-cn callout no longer says "nothing larger". Left out on purpose: Pokéos
   (zh-cn = WeChat 300 px + pokemon.cn downscales at 444 px, nothing new), Hareruya2 (shop stock only),
   carddex.net, cardrush.media, jcc.pokemon.tf, the Internet Archive "Card Scans" pack (pokemontcg.io JPEGs).
+- 2026-09-25 (night): old official PC software. Added the Japanese Card Encyclopedia & Deck
+  Builder (Master Kit CD-ROM 2005, archive.org `ccdb-2005`: every JP card 1996 → mid-2005,
+  official renders but 162×226) and Wizards' Play It! (2000–01, redrawn cards, 156×214). Neither
+  changes the "no official digital image online" finding; the print node and vintage callout
+  now mention them. Checked and left out: PCG Online (2009 Flash demo, two decks), the
+  2003/04 Pokémon Card Game CD-ROM and the DPt training kits (tutorials), the PTCGO bundle cache
+  (en subset of malie), the official Card Dex app (2016–2023, shut down).
 
 ## Editorial rules (from the owner — keep)
 

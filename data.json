@@ -65,10 +65,97 @@
         "yes": false
       },
       "terms": null,
-      "origin": "Physical cards. The origin of every scan and photo. For Western cards from Base Set to Platinum (1999–2010), and Japanese cards before 2006, no official digital image was ever published online, so every picture of those cards is somebody's scan or photo.",
+      "origin": "Physical cards. The origin of every scan and photo. For Western cards from Base Set to Platinum (1999–2010), and Japanese cards before 2006, no official digital image was ever published online, so every picture of those cards is somebody's scan or photo. The only official digital versions we found are offline and small: Japan's 2005 Card Encyclopedia CD-ROM (162×226) and Wizards' redrawn Play It! cards.",
       "examples": [],
       "stats": [],
       "icon": "icons/print.svg"
+    },
+    {
+      "id": "playit",
+      "name": "Pokémon Play It! (Wizards of the Coast, PC, 2000–01)",
+      "family": "official",
+      "tier": 0,
+      "url": "https://archive.org/details/PokemonPlayItFrance",
+      "official": true,
+      "scanOnly": false,
+      "langs": [
+        "en",
+        "fr",
+        "es",
+        "it",
+        "pt",
+        "nl"
+      ],
+      "eras": "Base Set, Jungle, Fossil, some Team Rocket",
+      "imageNature": "digital",
+      "resolution": "156×214 JPEG",
+      "watermark": false,
+      "api": {
+        "kind": "none",
+        "note": "Card images inside the game's Cards.pak archive"
+      },
+      "submissions": {
+        "yes": false
+      },
+      "terms": null,
+      "origin": "Wizards of the Coast's official PC card-game tutorial, released in several languages. Its cards are redrawn for the game: the official artwork on a newly typeset card layout, not the printed card. So they are not usable as card images, and they don't change the finding that Western 1999–2010 cards were never published as official digital card images. Checked in the French edition.",
+      "examples": [],
+      "stats": [
+        {
+          "label": "cards (French edition)",
+          "value": "≈ 240 (Base 102, Jungle 64, Fossil 62, Rocket 12)"
+        }
+      ],
+      "icon": "icons/playit.svg"
+    },
+    {
+      "id": "ccdb",
+      "name": "Card Encyclopedia & Deck Builder (Japan, 2005 CD-ROM)",
+      "family": "official",
+      "tier": 0,
+      "url": "https://archive.org/details/ccdb-2005",
+      "official": true,
+      "scanOnly": false,
+      "langs": [
+        "ja"
+      ],
+      "eras": "1996 → mid-2005 (every series from the first Base Set to PCG)",
+      "imageNature": "digital",
+      "resolution": "162×226 JPEG",
+      "watermark": false,
+      "api": {
+        "kind": "dump",
+        "url": "https://archive.org/details/ccdb-2005",
+        "note": "Preserved on the Internet Archive; card data in simple indexed tables"
+      },
+      "submissions": {
+        "yes": false
+      },
+      "terms": null,
+      "origin": "カードずかん & デッキビルダー, a Windows program on the CD-ROM of the Japanese Master Kit (2005). It holds every Japanese card released until then: 3,688 cards with name, reading, expansion, collection number, illustrator, promo source and holo flag, each with an official digital image. The images are clean print renders, not scans, but only 162×226. The only official digital images of Japanese 1996–2005 cards we found; too small to use as card images, but a complete official card list for that era.",
+      "examples": [
+        {
+          "label": "Base Set (1st) Venusaur",
+          "url": "https://archive.org/download/ccdb-2005/CCDB2005.zip/CCDB2005%2Fdat1%2Fcard%2Flarge%2F1st%2F1st_E1%2F101_003_FUSHIGIBANA.dat",
+          "nature": "digital",
+          "note": "162×226"
+        }
+      ],
+      "stats": [
+        {
+          "label": "cards",
+          "value": "3,688"
+        },
+        {
+          "label": "images",
+          "value": "3,647 (162×226)"
+        },
+        {
+          "label": "series",
+          "value": "1st, neo, VS, web, e, ADV, PCG"
+        }
+      ],
+      "icon": "icons/ccdb.svg"
     },
     {
       "id": "ptcgo",
@@ -2418,6 +2505,13 @@
           "note": "≈ 1996–2006: 4,694 cards at 593×834, most likely the owner's scans; not yet matched to TCGdex ids."
         },
         {
+          "source": "ccdb",
+          "count": 0,
+          "nature": "digital",
+          "permission": "impossible",
+          "note": "Official images of every card up to 2005, but only 162×226. Useful as the official card list (names, numbers, illustrators) to match scans against."
+        },
+        {
           "source": "tcgcollector",
           "count": 366,
           "nature": "scan",
@@ -2740,11 +2834,13 @@
       "id": "vintage",
       "kind": "info",
       "title": "Western 1999–2010 has no official digital image",
-      "body": "No Base Set → Platinum card was ever published as an official digital image online. Every image of those cards, TCGdex's included, is somebody's scan. For English, nearly everyone uses the same scans by Martin of Pokémon Paradijs. Japanese 1996–2006 is the same story: the largest clean sets of scans we found are TCG Collector's and pcg-search.com's.",
+      "body": "No Base Set → Platinum card was ever published as an official digital image online. Every image of those cards, TCGdex's included, is somebody's scan. For English, nearly everyone uses the same scans by Martin of Pokémon Paradijs. Japanese 1996–2006 is the same story online: the largest clean sets of scans we found are TCG Collector's and pcg-search.com's. Offline, the 2005 Card Encyclopedia CD-ROM has an official image of every Japanese card up to 2005, but only at 162×226.",
       "sources": [
         "paradijs",
         "print",
-        "pcgsearch"
+        "pcgsearch",
+        "ccdb",
+        "playit"
       ]
     }
   ]
