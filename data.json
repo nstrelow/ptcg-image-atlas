@@ -2,7 +2,97 @@
   "meta": {
     "updated": "2026-09-25",
     "measured": "2026-09-23 / 2026-09-24",
-    "note": "A snapshot of the Pokémon TCG card-image ecosystem. Links marked verified are pixel matches; the rest are the sites' own statements or indirect evidence. Not legal advice."
+    "note": "A snapshot of the Pokémon TCG card-image ecosystem. Links marked verified are pixel matches; the rest are the sites' own statements or indirect evidence. Not legal advice.",
+    "languages": {
+      "all": {
+        "flag": "🌐",
+        "label": "every language"
+      },
+      "en": {
+        "flag": "🇬🇧",
+        "label": "English"
+      },
+      "en (sg)": {
+        "flag": "🇸🇬",
+        "label": "English (Singapore print)"
+      },
+      "fr": {
+        "flag": "🇫🇷",
+        "label": "French"
+      },
+      "de": {
+        "flag": "🇩🇪",
+        "label": "German"
+      },
+      "it": {
+        "flag": "🇮🇹",
+        "label": "Italian"
+      },
+      "es": {
+        "flag": "🇪🇸",
+        "label": "Spanish"
+      },
+      "es-419": {
+        "flag": "🇲🇽",
+        "label": "Latin American Spanish"
+      },
+      "es-mx": {
+        "flag": "🇲🇽",
+        "label": "Latin American Spanish"
+      },
+      "pt": {
+        "flag": "🇧🇷",
+        "label": "Portuguese (Brazil)"
+      },
+      "ja": {
+        "flag": "🇯🇵",
+        "label": "Japanese"
+      },
+      "ko": {
+        "flag": "🇰🇷",
+        "label": "Korean"
+      },
+      "zh-tw": {
+        "flag": "🇹🇼",
+        "label": "Traditional Chinese"
+      },
+      "zh-hk": {
+        "flag": "🇭🇰",
+        "label": "Traditional Chinese (Hong Kong)"
+      },
+      "zh-cn": {
+        "flag": "🇨🇳",
+        "label": "Simplified Chinese"
+      },
+      "zh": {
+        "flag": "🇨🇳",
+        "label": "Chinese (unspecified)"
+      },
+      "th": {
+        "flag": "🇹🇭",
+        "label": "Thai"
+      },
+      "id": {
+        "flag": "🇮🇩",
+        "label": "Indonesian"
+      },
+      "nl": {
+        "flag": "🇳🇱",
+        "label": "Dutch",
+        "discontinued": "1999 (Base Set, Jungle, Fossil)"
+      },
+      "pl": {
+        "flag": "🇵🇱",
+        "label": "Polish",
+        "discontinued": "2007 (Diamond & Pearl, Mysterious Treasures)"
+      },
+      "ru": {
+        "flag": "🇷🇺",
+        "label": "Russian",
+        "discontinued": "2014–2016 (Kalos Starter Set → BREAKthrough)"
+      }
+    },
+    "discontinuedNote": "Languages the TCG was printed in for a while and then dropped. TCGdex lists them as languages but holds no images in them; the card data would have to be written first."
   },
   "families": {
     "official": {

@@ -201,8 +201,23 @@ input[type="search"] { min-width: 220px; flex: 1 1 220px; max-width: 360px; }
 .perm.rights-holder { background: var(--p-rights); }
 .perm.scanner { background: var(--p-scanner); color: #fff; }
 .perm.impossible { background: var(--p-impossible); color: #fff; }
-.gaps { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 14px; }
-@media (max-width: 480px) { .gaps { grid-template-columns: 1fr; } }
+.gaps { display: block; }
+.gaps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 14px; }
+.gaps h3.group { margin: 22px 0 10px; font: 600 12px "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.gaps h3.group:first-child { margin-top: 0; }
+.gaps .group-note { margin: 0 0 12px; color: var(--muted); font-size: 13px; max-width: 70ch; }
+.gap.disc { border-style: dashed; }
+.gap .disc-note { margin: 6px 0 0; color: var(--muted); font-size: 12.5px; }
+.flag { width: 15px; height: 15px; vertical-align: -2px; border-radius: 2px; }
+.flag.lg { width: 19px; height: 19px; vertical-align: -3px; }
+.hflags { margin-left: 8px; display: inline-flex; gap: 3px; vertical-align: middle; }
+.lang { display: inline-block; font: 500 12px "JetBrains Mono", monospace; padding: 1px 6px; border: 1px solid var(--line); border-radius: 6px; margin: 1px 2px 1px 0; white-space: nowrap; }
+.lang.disc { border-style: dashed; color: var(--muted); }
+.node .flags image { opacity: .95; }
+.strip rect { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 6 4; opacity: .7; }
+.strip .strip-title { font: 600 11px "JetBrains Mono", monospace; letter-spacing: .08em; fill: var(--muted); }
+.strip .strip-sub { font: 400 11px Inter, system-ui, sans-serif; fill: var(--muted); }
+@media (max-width: 480px) { .gaps-grid { grid-template-columns: 1fr; } }
 .gap { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
 .gap header { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
 .gap h3 { margin: 0; font-size: 18px; }

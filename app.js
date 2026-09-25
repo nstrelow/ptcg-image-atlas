@@ -14,6 +14,18 @@
   const hostOf = u => { try { return new URL(u).host.replace(/^www\./, ''); } catch { return u; } };
   const fmt = n => n.toLocaleString('en-US');
   document.getElementById('updated').textContent = D.meta.updated;
+  const LANG = D.meta.languages || {};
+  const langInfo = l => LANG[l] || LANG[l.split(' ')[0]] || LANG[l.split('-')[0]] || { flag: '🏳', label: l };
+  const isDiscontinued = l => !!langInfo(l).discontinued;
+  // Flags are Twemoji SVGs (emoji fonts are missing on Windows and in headless browsers).
+  const TW = 'https://cdn.jsdelivr.net/npm/@twemoji/svg@15.0.0/';
+  const flagUrl = l => TW + [...langInfo(l).flag].map(c => c.codePointAt(0).toString(16)).join('-') + '.svg';
+  const flagImg = (l, cls = 'flag') => `<img class="${cls}" src="${flagUrl(l)}" alt="${esc(langInfo(l).label)}" title="${esc(langInfo(l).label)}" loading="lazy">`;
+  const uniqFlags = langs => [...new Map(langs.map(l => [langInfo(l).flag, l])).values()];
+  const flagsOf = (langs, cls) => uniqFlags(langs).map(l => flagImg(l, cls)).join('');
+  const langsHtml = langs => langs.map(l => `<span class="lang${isDiscontinued(l) ? ' disc' : ''}" title="${esc(langInfo(l).label)}${isDiscontinued(l) ? ' — discontinued ' + esc(langInfo(l).discontinued) : ''}">${flagImg(l)} ${esc(l)}</span>`).join(' ');
+  // a source belongs to the discontinued section when every language it serves is a discontinued one
+  const discontinuedSource = s => s.langs.length > 0 && s.langs.every(isDiscontinued);
 
   /* ---------- callouts ---------- */
   const tagFor = { warn: 'ONLY', good: 'BETTER', info: 'NOTE' };
@@ -49,17 +61,26 @@
   // Layered layout, hand-ordered into bands: scans on top, malie / digital in the middle, Asia at the bottom.
   const ORDER = [
     { print: .02, ccdb: .14, ptcgo: .28, tcgl: .39, pcom: .48, pcj: .57, asia: .67, kr: .77, wechat: .87, pokemoncn: .98 },
-    { bisafans: .02, pokezentrum: .09, pokemonkaart: .16, laststicker: .23, pokecardex: .31, yuyutei: .39, pcgsearch: .47, paradijs: .56, malie: .66, pokeca: .81, duanxr: .98 },
+    { bisafans: .02, pokezentrum: .10, pokecardex: .19, yuyutei: .28, pcgsearch: .38, paradijs: .50, malie: .64, pokeca: .80, duanxr: .98 },
     { pkmncards: .03, pokemontcgio: .11, pkmcardsfr: .19, pokepedia: .27, pokewiki: .35, pokemoncentral: .43, wikidex: .51, wiki52poke: .59, bulbagarden: .67, limitless: .75, krfan: .86, mikmoe: .98 },
     { pricecharting: .03, scrydex: .14, apps: .25, tcgplayer: .36, cardmarket: .46, tcgdex: .57, tcgcollector: .68, pokellector: .79, serebii: .90 }
   ];
   const W = 1400, H = 900, padX = 150, padY = 70;
+  // Discontinued languages (nl, pl, ru …) get their own strip under the four tiers.
+  const STRIP = { top: H + 30, height: 150 };
+  const HT = STRIP.top + STRIP.height;
+  const discNodes = nodes.filter(discontinuedSource);
   ORDER.forEach((col, t) => Object.entries(col).forEach(([id, f], i) => {
-    const n = nById[id]; n.tier = t;
+    const n = nById[id]; if (!n) return; n.tier = t;
     n.x = padX + t * (W - 2 * padX) / 3 + (t % 2 ? (i % 2 ? 30 : -30) : 0);
     n.y = padY + 20 + f * (H - 2 * padY - 20);
   }));
-  nodes.filter(n => n.x == null).forEach((n, i) => { n.x = padX + n.tier * (W - 2 * padX) / 3; n.y = H - padY; });
+  discNodes.forEach((n, i) => {
+    n.tier = 1;
+    n.x = padX + (W - 2 * padX) / 3 + (i - (discNodes.length - 1) / 2) * 150;
+    n.y = STRIP.top + STRIP.height / 2 - 8;
+  });
+  nodes.filter(n => n.x == null).forEach((n, i) => { n.x = padX + (n.tier || 0) * (W - 2 * padX) / 3; n.y = H - padY; });
 
   const svg = d3.select('#graph');
   const defs = svg.append('defs');
@@ -77,6 +98,17 @@
     markerFor.set(color, id); return id;
   }
   const g = svg.append('g');
+  if (discNodes.length) {
+    const discLangs = Object.keys(LANG).filter(isDiscontinued);
+    const strip = g.append('g').attr('class', 'strip');
+    strip.append('rect').attr('x', padX - 90).attr('y', STRIP.top).attr('width', W - 2 * padX + 180).attr('height', STRIP.height).attr('rx', 14);
+    strip.append('text').attr('class', 'strip-title').attr('x', padX - 74).attr('y', STRIP.top + 22)
+      .text('DISCONTINUED LANGUAGES · ' + discLangs.map(l => `${l} (${langInfo(l).label})`).join(' · '));
+    strip.append('text').attr('class', 'strip-sub').attr('x', padX - 74).attr('y', STRIP.top + 40)
+      .text('Printed for a while, then dropped. TCGdex lists them but has no images; card data would come first.');
+    strip.append('text').attr('class', 'strip-sub').attr('x', W - padX + 74).attr('y', STRIP.top + STRIP.height - 14).attr('text-anchor', 'end')
+      .text(discLangs.filter(l => !discNodes.some(n => n.langs.includes(l))).map(l => `${l} (${langInfo(l).label}): no source found`).join(' · '));
+  }
   const zoom = d3.zoom().scaleExtent([0.3, 3]).on('zoom', e => { g.attr('transform', e.transform); placeTierLabels(e.transform); });
   svg.call(zoom).on('dblclick.zoom', null);
 
@@ -124,7 +156,16 @@
     .attr('dy', n => n.r + 25).attr('fill', famColor('scan')).text('SCANS ONLY');
   nodeSel.filter(n => n.callout === 'korean' || n.callout === 'zhcn').append('text').attr('class', 'badge').attr('text-anchor', 'middle')
     .attr('dy', n => -n.r - 6).attr('fill', css('--warn')).text(n => n.callout === 'korean' ? '⚠ WATERMARK ONLY' : '⚠ 300×419 MAX');
-  nodeSel.append('title').text(n => n.name);
+  // language flags under the label (one per distinct flag, centred)
+  nodeSel.append('g').attr('class', 'flags').attr('transform', n => `translate(0,${n.r + (n.scanOnly ? 30 : 19)})`)
+    .each(function (n) {
+      const fl = uniqFlags(n.langs), sz = 13, gap = 3, w = fl.length * sz + (fl.length - 1) * gap;
+      d3.select(this).selectAll('image').data(fl).join('image')
+        .attr('href', l => flagUrl(l)).attr('width', sz).attr('height', sz)
+        .attr('x', (l, i) => -w / 2 + i * (sz + gap)).attr('y', 0)
+        .append('title').text(l => langInfo(l).label);
+    });
+  nodeSel.append('title').text(n => `${n.name}\n${n.langs.map(l => `${langInfo(l).flag} ${langInfo(l).label}`).join(', ')}`);
 
   function shortName(n) {
     return n.id === 'paradijs' ? 'Paradijs scans (Martin)' : n.name.replace(/ \(.*\)$/, '').replace(' card database', '').replace(' (game client)', '').replace('Pokémon ', 'Pokémon ');
@@ -139,8 +180,8 @@
   function fitGraph() {
     const el = document.getElementById('graph'); const w = el.clientWidth, h = el.clientHeight;
     if (!w) return;
-    const k = Math.min(w / (W + 40), h / (H + 60));
-    svg.call(zoom.transform, d3.zoomIdentity.translate((w - W * k) / 2, (h - H * k) / 2 + 12).scale(k));
+    const k = Math.min(w / (W + 40), h / (HT + 60));
+    svg.call(zoom.transform, d3.zoomIdentity.translate((w - W * k) / 2, (h - HT * k) / 2 + 12).scale(k));
   }
   window.addEventListener('resize', fitGraph);
 
@@ -190,7 +231,7 @@
   document.getElementById('t-scans').addEventListener('change', e => { state.scans = e.target.checked; highlight(null); });
   const langs = [...new Set(D.sources.flatMap(s => s.langs.map(l => l.split(' ')[0])))].filter(l => l !== 'all').sort();
   const lf = document.getElementById('lang-filter');
-  lf.innerHTML += langs.map(l => `<option value="${l}">${l}</option>`).join('');
+  lf.innerHTML += langs.map(l => `<option value="${l}">${l} — ${esc(langInfo(l).label)}${isDiscontinued(l) ? ' (discontinued)' : ''}</option>`).join('');
   lf.addEventListener('change', () => { state.lang = lf.value; highlight(null); });
 
   // legend
@@ -224,7 +265,7 @@
     const gapsHere = D.gaps.flatMap(g => g.fills.filter(f => f.source === id && f.count).map(f => ({ ...f, lang: g.lang })));
     document.getElementById('panel-body').innerHTML = `
       <span class="fam"><span class="dot" style="background:${famColor(s.family)}"></span>${esc(fam.label)}</span>
-      <h2><img class="ico lg" src="${esc(s.icon)}" alt="">${esc(s.name)}</h2>
+      <h2><img class="ico lg" src="${esc(s.icon)}" alt="">${esc(s.name)} <span class="hflags" aria-hidden="true">${flagsOf(s.langs, 'flag lg')}</span></h2>
       <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(hostOf(s.url))} ↗</a>
       <div class="badges">
         ${s.official ? '<span class="badge official">OFFICIAL POKÉMON</span>' : ''}
@@ -237,7 +278,7 @@
       <h4>Where its images come from</h4><p>${esc(s.origin)}</p>
       <h4>Facts</h4>
       <dl class="kv">
-        <dt>Languages</dt><dd>${esc(s.langs.join(', '))}</dd>
+        <dt>Languages</dt><dd class="langs">${langsHtml(s.langs)}</dd>
         <dt>Eras</dt><dd>${esc(s.eras)}</dd>
         <dt>Images</dt><dd>${esc(natureLabel[s.imageNature] || s.imageNature)} · ${esc(s.resolution)}</dd>
         <dt>API</dt><dd>${esc(apiLabel[s.api.kind] || '—')}${s.api.note ? ' — ' + esc(s.api.note) : ''}${s.api.url ? ` · <a href="${esc(s.api.url)}" target="_blank" rel="noopener">link</a>` : ''}</dd>
@@ -273,10 +314,11 @@
   document.getElementById('perm-legend').innerHTML = Object.entries(D.permissions).map(([k, p]) => `<span class="perm ${k}" title="${esc(p.desc)}">${esc(p.label)}</span>`).join('') +
     '<span class="muted" style="font-size:12.5px">Everything still needs TCGdex\'s OK for the submission itself (its CONTRIBUTING rules).</span>';
   const permColor = { none: '--p-none', maintainer: '--p-maintainer', 'rights-holder': '--p-rights', scanner: '--p-scanner', impossible: '--p-impossible' };
-  document.getElementById('gaps').innerHTML = D.gaps.map(g => {
+  const gapCard = g => {
     const tot = d3.sum(g.fills, f => f.count) || 1;
-    return `<article class="gap">
-      <header><h3>${esc(g.name)}<span class="code">${esc(g.lang)}</span></h3><span class="missing">missing: ${esc(g.missing)}</span></header>
+    return `<article class="gap${isDiscontinued(g.lang) ? ' disc' : ''}">
+      <header><h3>${flagImg(g.lang, 'flag lg')} ${esc(g.name)}<span class="code">${esc(g.lang)}</span></h3><span class="missing">missing: ${esc(g.missing)}</span></header>
+      ${isDiscontinued(g.lang) ? `<p class="disc-note">Printed ${esc(langInfo(g.lang).discontinued)}, then discontinued.</p>` : ''}
       <div class="bar">${g.fills.filter(f => f.count).map(f => `<span title="${esc(byId[f.source].name)}: ${fmt(f.count)}" style="width:${f.count / tot * 100}%;background:var(${permColor[f.permission]})"></span>`).join('')}</div>
       ${g.fills.map(f => `<div class="fill">
         <div class="n">${f.count ? (f.note.startsWith('≈') ? '≈' : '') + fmt(f.count) : '—'}</div>
@@ -286,7 +328,11 @@
         <div class="note">${esc(f.note.replace(/^≈ ?/, ''))}</div>
       </div>`).join('')}
     </article>`;
-  }).join('');
+  };
+  const gapsCur = D.gaps.filter(g => !isDiscontinued(g.lang)), gapsDisc = D.gaps.filter(g => isDiscontinued(g.lang));
+  document.getElementById('gaps').innerHTML =
+    `<h3 class="group">Current languages</h3><div class="gaps-grid">${gapsCur.map(gapCard).join('')}</div>` +
+    (gapsDisc.length ? `<h3 class="group">Discontinued languages</h3><p class="group-note">${esc(D.meta.discontinuedNote || '')}</p><div class="gaps-grid">${gapsDisc.map(gapCard).join('')}</div>` : '');
   document.querySelectorAll('#gaps [data-go]').forEach(el => el.addEventListener('click', () => openPanel(el.dataset.go)));
 
   /* ---------- sources table ---------- */
@@ -299,7 +345,7 @@
     ['watermark', 'Watermark', s => s.watermark ? '<span class="badge wm">YES</span>' : '<span class="no">no</span>'],
     ['api', 'API', s => s.api.kind === 'none' ? '<span class="no">—</span>' : esc(apiLabel[s.api.kind])],
     ['submissions', 'Submissions', s => s.submissions.yes ? '<span class="yes">yes</span>' : '<span class="no">no</span>'],
-    ['langs', 'Languages', s => esc(s.langs.join(', '))],
+    ['langs', 'Languages', s => `<span class="langs">${langsHtml(s.langs)}</span>`],
     ['url', 'Link', s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(hostOf(s.url))}</a>`]
   ];
   let sortKey = null, sortDir = 1;
