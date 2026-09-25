@@ -1,0 +1,547 @@
+{
+  "meta": {
+    "updated": "2026-09-25",
+    "measured": "2026-09-23 / 2026-09-24",
+    "note": "A snapshot of the Pokémon TCG card-image ecosystem. Links marked verified are pixel matches; the rest are the sites' own statements or indirect evidence. Not legal advice."
+  },
+  "families": {
+    "official":   { "label": "Official Pokémon",            "desc": "The Pokémon Company, its regional companies and its game clients. The only true origin of digital card images." },
+    "extract":    { "label": "Game-client extract",         "desc": "Renders pulled out of the official game clients and re-published." },
+    "dataset":    { "label": "Scraped dataset",             "desc": "A dump of an official source, published as a dataset." },
+    "rehost":     { "label": "Fan database / API",          "desc": "Card databases and APIs. Mostly re-host digital images from upstream sources." },
+    "wiki":       { "label": "Fan wiki",                    "desc": "Community wikis. Modern cards re-hosted, vintage cards uploaded by users." },
+    "scan":       { "label": "Scan / photo source",         "desc": "Images made by scanning or photographing physical cards. Owned by whoever scanned them." },
+    "market":     { "label": "Marketplace / tracker",       "desc": "Shops, price guides and collection trackers." },
+    "tcgdex":     { "label": "TCGdex",                      "desc": "The open card database this atlas centres on." },
+    "print":      { "label": "Printed cards",               "desc": "Physical cards. The origin of every scan and photo." }
+  },
+  "sources": [
+    {
+      "id": "print", "name": "Printed cards", "family": "print", "tier": 0,
+      "url": "https://www.pokemon.com/us/pokemon-tcg", "official": true, "scanOnly": false,
+      "langs": ["all"], "eras": "1996 → today",
+      "imageNature": "physical", "resolution": "—", "watermark": false,
+      "api": { "kind": "none" }, "submissions": { "yes": false },
+      "terms": { "summary": "Every card is © The Pokémon Company / Nintendo / Creatures / GAME FREAK (Wizards of the Coast for the 1999–2003 English prints). A scan or photo adds the scanner's own rights on top.", "url": "https://www.pokemon.com/us/legal/terms-of-use" },
+      "origin": "For Western cards from Base Set to Platinum (1999–2010), and for Japanese cards before 2006, TPC never published a digital image online. Every picture of those cards anywhere, TCGdex's included, is somebody's scan or photo.",
+      "examples": [], "stats": []
+    },
+    {
+      "id": "ptcgo", "name": "Pokémon TCG Online (game client)", "family": "official", "tier": 0,
+      "url": "https://www.pokemon.com/us/pokemon-tcg/play-online", "official": true, "scanOnly": false,
+      "langs": ["en", "fr", "de", "it", "es", "pt"], "eras": "HGSS (2010) → Sword & Shield (2023), plus promos and trainer kits",
+      "imageNature": "digital", "resolution": "734×1024 PNG with alpha", "watermark": false,
+      "api": { "kind": "none" }, "submissions": { "yes": false },
+      "terms": { "summary": "Covered by the pokemon.com Terms of Use, which forbid reverse-engineering any part of any Service. Retired in 2023.", "url": "https://www.pokemon.com/us/legal/terms-of-use" },
+      "origin": "TPC's own digital card renders, shipped inside the game client.",
+      "examples": [], "stats": []
+    },
+    {
+      "id": "tcgl", "name": "Pokémon TCG Live (game client)", "family": "official", "tier": 0,
+      "url": "https://tcg.pokemon.com/en-us/tcgl/", "official": true, "scanOnly": false,
+      "langs": ["en", "fr", "de", "it", "es", "es-419", "pt"], "eras": "Scarlet & Violet (2023) → Mega Evolution, plus promos",
+      "imageNature": "digital", "resolution": "733×1024 PNG with alpha", "watermark": false,
+      "api": { "kind": "none" }, "submissions": { "yes": false },
+      "terms": { "summary": "pokemon.com Terms of Use: no reverse-engineering, no bots or scripts.", "url": "https://www.pokemon.com/us/legal/terms-of-use" },
+      "origin": "TPC's own digital card renders, shipped inside the game client.",
+      "examples": [], "stats": []
+    },
+    {
+      "id": "pcj", "name": "pokemon-card.com (Japan)", "family": "official", "tier": 0,
+      "url": "https://www.pokemon-card.com/card-search/", "official": true, "scanOnly": false,
+      "langs": ["ja"], "eras": "DP (2006) → today",
+      "imageNature": "digital", "resolution": "≈ 600×837 JPEG", "watermark": false,
+      "api": { "kind": "none", "note": "HTML card search only" }, "submissions": { "yes": false },
+      "terms": { "summary": "Personal enjoyment only. No copying, reproducing, distributing or putting the images on the internet.", "url": "https://www.pokemon-card.com/policy.html" },
+      "origin": "The Pokémon Company's official Japanese card database. Stops at the last regular number: SM/early-SwSh secret-rare tails and M6a 104–135 are not listed. Nothing before DP (2006).",
+      "examples": [
+        { "label": "Basic Grass Energy", "url": "https://www.pokemon-card.com/assets/images/card_images/large/ENE/000001_E_KUSAENERUGI.jpg", "nature": "digital" }
+      ],
+      "stats": [ { "label": "images reachable", "value": "23,800 across 327 set codes" } ]
+    },
+    {
+      "id": "asia", "name": "asia.pokemon-card.com (tw · th · id · sg · hk)", "family": "official", "tier": 0,
+      "url": "https://asia.pokemon-card.com/tw/card-search/", "official": true, "scanOnly": false,
+      "langs": ["zh-tw", "th", "id", "en (sg)", "zh-hk"], "eras": "zh-tw S4 (2020) → today · th/id S5 (2021) → today · sg English print",
+      "imageNature": "digital", "resolution": "744×1040 PNG", "watermark": false,
+      "api": { "kind": "none", "note": "HTML card search only" }, "submissions": { "yes": false },
+      "terms": { "summary": "Use only inside the site. No copying, distributing, or reproducing works to create links.", "url": "https://asia.pokemon-card.com/tw/policy/" },
+      "origin": "The Pokémon Company's official Asian card databases. The Singapore site carries the international English print at 744×1040, larger than TCGdex's 600×825 English images.",
+      "examples": [
+        { "label": "Traditional Chinese (tw)", "url": "https://asia.pokemon-card.com/tw/card-img/tw00010583.png", "nature": "digital" },
+        { "label": "Thai (th)", "url": "https://asia.pokemon-card.com/th/card-img/th00000001.png", "nature": "digital" },
+        { "label": "Indonesian (id)", "url": "https://asia.pokemon-card.com/id/card-img/id00000001.png", "nature": "digital" },
+        { "label": "English, Singapore print (744×1040)", "url": "https://asia.pokemon-card.com/sg/card-img/default00011091.png", "nature": "digital" }
+      ],
+      "stats": [
+        { "label": "zh-tw", "value": "11,762 images" }, { "label": "th", "value": "8,991" }, { "label": "id", "value": "9,114" },
+        { "label": "sg English", "value": "3,389" }, { "label": "hk", "value": "2,666" }
+      ],
+      "callout": "quality"
+    },
+    {
+      "id": "pcom", "name": "pokemon.com card database", "family": "official", "tier": 0,
+      "url": "https://www.pokemon.com/us/pokemon-tcg/pokemon-cards", "official": true, "scanOnly": false,
+      "langs": ["en", "fr", "de", "it", "es", "es-419", "pt"], "eras": "DP (2007) → today",
+      "imageNature": "digital", "resolution": "245×342 (list images)", "watermark": false,
+      "api": { "kind": "none" }, "submissions": { "yes": false },
+      "terms": { "summary": "Personal, non-commercial use. No bulk download into a database, no bots or scripts.", "url": "https://www.pokemon.com/us/legal/terms-of-use" },
+      "origin": "TPC International's official Western card search. Useful only as a witness: the images are too small.",
+      "examples": [
+        { "label": "Portuguese (pt-br), 30th Celebration", "url": "https://assets.pokemon.com/static-assets/content-assets/cms2-pt-br/img/cards/web/30TH/30TH_PT-BR_7.png", "nature": "digital" }
+      ],
+      "stats": []
+    },
+    {
+      "id": "kr", "name": "pokemoncard.co.kr (Pokémon Korea)", "family": "official", "tier": 0,
+      "url": "https://pokemoncard.co.kr/cards", "official": true, "scanOnly": false,
+      "langs": ["ko"], "eras": "BW (2010) → today",
+      "imageNature": "digital", "resolution": "868×1212 PNG/JPEG", "watermark": true,
+      "api": { "kind": "none" }, "submissions": { "yes": false },
+      "terms": { "summary": "No reproduction or distribution without the company's consent, except where the law allows.", "url": "https://www.pokemonkorea.co.kr/terms" },
+      "origin": "The only official Korean source. The image CDN serves only a watermarked directory (data/wmimages/…); every other path is refused.",
+      "examples": [
+        { "label": "SV10 #001 (watermarked)", "url": "https://cards.image.pokemonkorea.co.kr/data/wmimages/SV/SV10/SV10_001.png", "nature": "digital", "note": "watermarked" },
+        { "label": "BW-era product #001 (watermarked)", "url": "https://cards.image.pokemonkorea.co.kr/data/wmimages/BW/BD/bw_bd_001.jpg", "nature": "digital", "note": "watermarked" }
+      ],
+      "stats": [ { "label": "2019 → today", "value": "12,334 images, 140 product codes" }, { "label": "2010 → 2018", "value": "5,881 images" } ],
+      "callout": "korean"
+    },
+    {
+      "id": "wechat", "name": "Pokémon Shanghai WeChat mini-program", "family": "official", "tier": 0,
+      "url": "https://www.pokemon.cn/", "official": true, "scanOnly": false,
+      "langs": ["zh-cn"], "eras": "2020 → today",
+      "imageNature": "digital", "resolution": "300×419 (native)", "watermark": false,
+      "api": { "kind": "none", "note": "only inside WeChat" }, "submissions": { "yes": false },
+      "terms": { "summary": "Official Simplified Chinese card database, reachable only inside the WeChat app.", "url": "https://www.pokemon.cn/" },
+      "origin": "The only official source of Simplified Chinese card images anywhere. pokemon.cn itself shows product art only.",
+      "examples": [], "stats": [],
+      "callout": "zhcn"
+    },
+
+    {
+      "id": "malie", "name": "malie.io", "family": "extract", "tier": 1,
+      "url": "https://malie.io/static/", "official": false, "scanOnly": false,
+      "langs": ["en", "fr", "de", "it", "es", "es-419", "pt"], "eras": "HGSS (2010) → today",
+      "imageNature": "digital", "resolution": "734×1024 PNG with alpha", "watermark": false,
+      "api": { "kind": "dump", "url": "https://cdn.malie.io/file/malie-io/tcgl/export/index.json", "note": "JSON exports + open CDN (PTCGO archive and TCG Live export)" },
+      "submissions": { "yes": false },
+      "terms": { "summary": "No licence. Asks for a credit, \"not a legal or licensing requirement\". The images come from game clients whose terms forbid reverse-engineering.", "url": "https://malie.io/static/" },
+      "origin": "Extracted from the Pokémon TCG Online and TCG Live game clients. The de-facto origin of nearly every clean Western digital card image from HGSS onward: TCGdex, pokemontcg.io, pkmncards, TCGplayer, TCG Collector and the wikis all carry its files.",
+      "examples": [
+        { "label": "PTCGO archive: Celebrations Ho-Oh (en)", "url": "https://cdn.malie.io/file/malie-io/art/cards/png/en_US/SWSH/Ann25th-CEL/en_US-Ann25th-001-ho_oh.png", "nature": "digital" },
+        { "label": "TCG Live export: Mega Evolution #001 (en)", "url": "https://cdn.malie.io/file/malie-io/tcgl/cards/png/en/me1/me1_en_001_std.png", "nature": "digital" }
+      ],
+      "stats": [ { "label": "PTCGO archive", "value": "92 sets × 6 languages" }, { "label": "TCG Live export", "value": "31 sets × 7 languages" } ],
+      "callout": "quality"
+    },
+    {
+      "id": "duanxr", "name": "duanxr/PTCG-CHS-Datasets (GitHub)", "family": "dataset", "tier": 1,
+      "url": "https://github.com/duanxr/PTCG-CHS-Datasets", "official": false, "scanOnly": false,
+      "langs": ["zh-cn"], "eras": "2020 → today, 218 collections",
+      "imageNature": "digital", "resolution": "300×419 PNG", "watermark": false,
+      "api": { "kind": "dump", "url": "https://github.com/duanxr/PTCG-CHS-Datasets", "note": "images + ptcg_chs_infos.json in a Git repo" },
+      "submissions": { "yes": false },
+      "terms": { "summary": "Non-commercial or research use only. No redistribution without explicit written consent from Pokémon Shanghai.", "url": "https://github.com/duanxr/PTCG-CHS-Datasets#readme" },
+      "origin": "A scrape of the official Pokémon Shanghai WeChat mini-program, at the app's native 300×419. The only Simplified Chinese image set outside the app.",
+      "examples": [
+        { "label": "Basic Grass Energy (CSM1DC)", "url": "https://raw.githubusercontent.com/duanxr/PTCG-CHS-Datasets/main/img/4/340.png", "nature": "digital", "note": "300×419" }
+      ],
+      "stats": [ { "label": "images", "value": "22,882" } ],
+      "callout": "zhcn"
+    },
+    {
+      "id": "paradijs", "name": "Pokémon Paradijs scans (\"Martin\")", "family": "scan", "tier": 1,
+      "url": "https://pkmncards.com/about/", "official": false, "scanOnly": true,
+      "langs": ["en"], "eras": "Base Set (1999) → Platinum (2010)",
+      "imageNature": "scan", "resolution": "600×825 PNG, 762 or 300 dpi header", "watermark": false,
+      "api": { "kind": "none" }, "submissions": { "yes": false },
+      "terms": { "summary": "The scanner's own work; no licence published. pkmncards.com credits \"Martin of Pokémon Paradijs\" for most of its pre-HGSS images.", "url": "https://pkmncards.com/about/" },
+      "origin": "One person's high-quality scans of English vintage cards. The most copied scan set on the web: pkmncards, pokemontcg.io, Scrydex, TCGdex, TCGplayer and TCG Collector all serve the same files.",
+      "examples": [
+        { "label": "Base Set Charizard, as served by pokemontcg.io", "url": "https://images.pokemontcg.io/base1/4_hires.png", "nature": "scan" }
+      ],
+      "stats": [ { "label": "on TCGdex", "value": "15.5% of all en+de images, 98–99% of English 1999–2010" } ]
+    },
+    {
+      "id": "bisafans", "name": "bisafans.de", "family": "scan", "tier": 1,
+      "url": "https://www.bisafans.de/sammelkarten/", "official": false, "scanOnly": true,
+      "langs": ["de"], "eras": "Base Set (1999) → BW, promos",
+      "imageNature": "mixed", "resolution": "854–862 × 1200 JPEG", "watermark": true,
+      "api": { "kind": "none" },
+      "submissions": { "yes": true, "how": "E-mail scans of cards they are missing to tcg@bisafans.de", "url": "https://www.bisafans.de/sammelkarten/" },
+      "terms": { "summary": "All rights reserved, no reuse licence. Under German law even a plain scan or photo is protected (§72 UrhG).", "url": "https://www.bisafans.de/impressum.php" },
+      "origin": "Its community's own scans (600-dpi flatbed) and phone photos (EXIF: Galaxy S10, iPhone 11 Pro, Huawei). BW sets carry a \"Bisafans.de\" watermark. A few recent promos are official press images. Not re-used by any other site we checked.",
+      "examples": [
+        { "label": "Basis-Set #001 (German, 1999)", "url": "https://media.bisafans.de/3ff8508/sammelkarten/sets/klassisch-basis-set/001.jpg", "nature": "scan" },
+        { "label": "Diamant & Perl #001", "url": "https://media.bisafans.de/3ff8508/sammelkarten/sets/dp-diamant-perl/001.jpg", "nature": "photo" }
+      ],
+      "stats": [
+        { "label": "images", "value": "8,196 (1,527 card-back placeholders)" },
+        { "label": "official copies", "value": "6%" }, { "label": "scans / photos", "value": "68%" }, { "label": "phone photos (EXIF)", "value": "969" }
+      ],
+      "callout": "quality"
+    },
+    {
+      "id": "pkmcardsfr", "name": "pkmcards.fr", "family": "scan", "tier": 2,
+      "url": "https://www.pkmcards.fr/", "official": false, "scanOnly": false,
+      "langs": ["fr"], "eras": "Base Set → today",
+      "imageNature": "mixed", "resolution": "400×560 WebP", "watermark": false,
+      "api": { "kind": "none" }, "submissions": { "yes": false },
+      "terms": { "summary": "No terms, legal notice or licence published at all, so nothing is granted.", "url": "https://www.pkmcards.fr/" },
+      "origin": "Everything re-encoded to 400 px WebP. Modern cards are malie renders; French vintage (DP era and older) matches no official source, so scans of unknown origin. Many of those files are identical to TCGdex's French vintage images.",
+      "examples": [
+        { "label": "Astres Radieux #001 (malie render)", "url": "https://static.pkmcards.fr/cards/fr/asr/image-cartes-a-collectionner-pokemon-card-game-tcg-pkmcards-asr-fr-001-epee-et-bouclier-astres-radieux-dardargnan-v.webp", "nature": "digital" },
+        { "label": "Aquapolis H1 (French vintage, no official match)", "url": "https://static.pkmcards.fr/cards/fr/aq/image-cartes-a-collectionner-pokemon-card-game-tcg-pkmcards-aq-fr-0H1-aquapolis-pharamp.webp", "nature": "scan" }
+      ],
+      "stats": [ { "label": "images", "value": "17,105" }, { "label": "official copies", "value": "64%" }, { "label": "near-official", "value": "17%" }, { "label": "not official", "value": "18%" } ]
+    },
+    {
+      "id": "yuyutei", "name": "yuyu-tei.jp (shop)", "family": "scan", "tier": 1,
+      "url": "https://yuyu-tei.jp/sell/poc/s/m06a", "official": false, "scanOnly": true,
+      "langs": ["ja"], "eras": "current stock, incl. secret rares",
+      "imageNature": "scan", "resolution": "500×700 JPEG, faint shop watermark", "watermark": true,
+      "api": { "kind": "none" }, "submissions": { "yes": false },
+      "terms": { "summary": "The shop owns its images: \"如何なる場合であっても無断での転載を禁止\" (no reposting without permission, in any case).", "url": "https://yuyu-tei.jp/info/rule/" },
+      "origin": "The shop's own scans of its stock. 80% match no official file at all; the tile test identifies them as scans even where they look digital.",
+      "examples": [ { "label": "M6a #1", "url": "https://card.yuyu-tei.jp/poc/front/m06a/10001.jpg", "nature": "scan" } ],
+      "stats": [ { "label": "images", "value": "4,437" }, { "label": "official copies", "value": "0.1%" }, { "label": "scans", "value": "80%" } ]
+    },
+    {
+      "id": "pokeca", "name": "pokeca.net", "family": "scan", "tier": 1,
+      "url": "https://pokeca.net/", "official": false, "scanOnly": true,
+      "langs": ["ja"], "eras": "SM/SwSh secret rares",
+      "imageNature": "scan", "resolution": "≈ 400×558, watermarked", "watermark": true,
+      "api": { "kind": "none" }, "submissions": { "yes": false },
+      "terms": { "summary": "Third-party shop images, watermarked with the site's address.", "url": "https://pokeca.net/" },
+      "origin": "Japanese shop images. Bulbagarden's Japanese secret-rare files are credited \"From Pokeca.net\" and carry its watermark.",
+      "examples": [], "stats": []
+    },
+    {
+      "id": "pokecardex", "name": "Pokécardex", "family": "scan", "tier": 1,
+      "url": "https://www.pokecardex.com/", "official": false, "scanOnly": true,
+      "langs": ["fr", "en", "ja"], "eras": "all eras",
+      "imageNature": "scan", "resolution": "≈ 300 dpi JPEG, watermarked", "watermark": true,
+      "api": { "kind": "none" },
+      "submissions": { "yes": true, "how": "Members submit scans", "url": "https://www.pokecardex.com/" },
+      "terms": { "summary": "Member scans. In 2016 its moderators declined to share unwatermarked copies and said they had no authority to distribute members' work.", "url": "https://www.pokecardex.com/forums/viewtopic.php?t=22275" },
+      "origin": "About 23,000 Western and 24,000 Japanese scans by its members, all watermarked.",
+      "examples": [], "stats": []
+    },
+
+    {
+      "id": "pkmncards", "name": "pkmncards.com", "family": "rehost", "tier": 2,
+      "url": "https://pkmncards.com/", "official": false, "scanOnly": false,
+      "langs": ["en"], "eras": "Base Set → today",
+      "imageNature": "mixed", "resolution": "high-res JPEG", "watermark": false,
+      "api": { "kind": "none" }, "submissions": { "yes": false },
+      "terms": { "summary": "No licence. Says the images are © TPC et al.", "url": "https://pkmncards.com/about/" },
+      "origin": "Credits \"Martin of Pokémon Paradijs\" for most pre-HGSS images, and nago/malie.io (PTCGO, TCG Live) from HGSS on.",
+      "examples": [ { "label": "Base Set Charizard (Paradijs scan)", "url": "https://pkmncards.com/wp-content/uploads/charizard-base-set-bs-4.jpg", "nature": "scan" } ],
+      "stats": []
+    },
+    {
+      "id": "pokemontcgio", "name": "pokemontcg.io", "family": "rehost", "tier": 2,
+      "url": "https://pokemontcg.io/", "official": false, "scanOnly": false,
+      "langs": ["en"], "eras": "Base Set → 30th Celebration, 176 sets",
+      "imageNature": "mixed", "resolution": "734×1024 (renders) · 600×825 (scans)", "watermark": false,
+      "api": { "kind": "open", "url": "https://docs.pokemontcg.io/", "note": "Free API, announced to go offline on 2027-03-01 (successor: Scrydex). Data repo on GitHub." },
+      "submissions": { "yes": true, "how": "Pull requests to the data repo", "url": "https://github.com/PokemonTCG/pokemon-tcg-data" },
+      "terms": { "summary": "No licence at all, the data repo included. Developer terms cover accounts only.", "url": "https://dev.pokemontcg.io/terms" },
+      "origin": "HGSS → today: malie's renders. Base Set → Platinum: the Pokémon Paradijs scans. English subsets TCGdex lacks (Shiny Vault, Trainer/Galarian Gallery, promos) are malie renders too; better taken from malie directly. EX trainer kits and McDonald's are scans of unclear origin.",
+      "examples": [
+        { "label": "Base Set Charizard (Paradijs scan)", "url": "https://images.pokemontcg.io/base1/4_hires.png", "nature": "scan" },
+        { "label": "Black & White #1 (malie render)", "url": "https://images.pokemontcg.io/bw1/1_hires.png", "nature": "digital" }
+      ],
+      "stats": [ { "label": "images", "value": "19,730" }, { "label": "official copies", "value": "71%" }, { "label": "not official", "value": "25% (Paradijs vintage, EX kits, McDonald's)" } ]
+    },
+    {
+      "id": "scrydex", "name": "Scrydex", "family": "rehost", "tier": 3,
+      "url": "https://scrydex.com/", "official": false, "scanOnly": false,
+      "langs": ["en", "ja"], "eras": "Base Set → today",
+      "imageNature": "mixed", "resolution": "same files as pokemontcg.io", "watermark": false,
+      "api": { "kind": "paid", "url": "https://scrydex.com/", "note": "Commercial API; pokemontcg.io's announced successor" },
+      "submissions": { "yes": false },
+      "terms": { "summary": "Commercial service; see its terms.", "url": "https://scrydex.com/" },
+      "origin": "Identical to pokemontcg.io: vintage = Paradijs scans (56/56), HGSS → today = malie (56/56).",
+      "examples": [ { "label": "Base Set Charizard", "url": "https://images.scrydex.com/pokemon/base1-4/large", "nature": "scan" } ],
+      "stats": [ { "label": "sampled", "value": "112 images, 100% identical to pokemontcg.io" } ]
+    },
+    {
+      "id": "limitless", "name": "Limitless TCG", "family": "rehost", "tier": 2,
+      "url": "https://limitlesstcg.com/cards/jp", "official": false, "scanOnly": false,
+      "langs": ["en", "ja"], "eras": "modern",
+      "imageNature": "digital", "resolution": "as the official source", "watermark": false,
+      "api": { "kind": "none" }, "submissions": { "yes": false },
+      "terms": { "summary": "—", "url": "https://limitlesstcg.com/" },
+      "origin": "Japanese images mirror pokemon-card.com (so it has M6a 1–103 only, like the official site).",
+      "examples": [], "stats": []
+    },
+    {
+      "id": "krfan", "name": "Korean fan databases (collectory.cc, type-null/PTCG-database)", "family": "rehost", "tier": 2,
+      "url": "https://github.com/type-null/PTCG-database", "official": false, "scanOnly": false,
+      "langs": ["ko"], "eras": "modern",
+      "imageNature": "digital", "resolution": "hot-linked official", "watermark": true,
+      "api": { "kind": "dump", "url": "https://github.com/type-null/PTCG-database", "note": "20,323 Korean cards (data)" },
+      "submissions": { "yes": false },
+      "terms": { "summary": "—", "url": "https://collectory.cc/" },
+      "origin": "Every Korean site found hot-links pokemoncard.co.kr's watermarked images. None has a clean copy.",
+      "examples": [], "stats": [],
+      "callout": "korean"
+    },
+    {
+      "id": "mikmoe", "name": "tcg.mik.moe", "family": "rehost", "tier": 2,
+      "url": "https://tcg.mik.moe/", "official": false, "scanOnly": false,
+      "langs": ["zh-cn"], "eras": "2020 → today",
+      "imageNature": "digital", "resolution": "the app's 300×419", "watermark": false,
+      "api": { "kind": "none" }, "submissions": { "yes": false },
+      "terms": { "summary": "—", "url": "https://tcg.mik.moe/" },
+      "origin": "Serves the WeChat app's images; nothing larger than the app's native size.",
+      "examples": [], "stats": [],
+      "callout": "zhcn"
+    },
+
+    {
+      "id": "pokemoncentral", "name": "Pokémon Central Wiki (it)", "family": "wiki", "tier": 2,
+      "url": "https://wiki.pokemoncentral.it/", "official": false, "scanOnly": false,
+      "langs": ["it", "en"], "eras": "Base Set → today",
+      "imageNature": "mixed", "resolution": "508×706 → 734×1024", "watermark": false,
+      "api": { "kind": "open", "url": "https://wiki.pokemoncentral.it/api.php", "note": "MediaWiki API (behind a Cloudflare challenge)" },
+      "submissions": { "yes": true, "how": "Wiki uploads by registered users", "url": "https://wiki.pokemoncentral.it/" },
+      "terms": { "summary": "Text CC BY-NC-SA 3.0. Images held as \"fair use\", each under its own file-page terms.", "url": "https://wiki.pokemoncentral.it/Meta:Copyright" },
+      "origin": "Modern: malie renders, stated on each file page (\"Questa immagine proviene da malie.io\"). Some 245×342 pokemon.com copies. Vintage: user uploads with no source; sets never printed in Italian use English scans with the Paradijs signature.",
+      "examples": [ { "label": "Starmie 151-121 (malie render)", "url": "https://media.pokemoncentral.it/wiki/0/00/Starmie151-121.png", "nature": "digital" } ],
+      "stats": [ { "label": "images", "value": "22,258 (3,658 placeholders)" }, { "label": "official copies", "value": "61%" }, { "label": "not official", "value": "20%" } ]
+    },
+    {
+      "id": "wikidex", "name": "WikiDex (es)", "family": "wiki", "tier": 2,
+      "url": "https://www.wikidex.net/", "official": false, "scanOnly": false,
+      "langs": ["es"], "eras": "Base Set → today",
+      "imageNature": "mixed", "resolution": "349×491 (vintage) · 734×1024 (modern)", "watermark": false,
+      "api": { "kind": "open", "url": "https://www.wikidex.net/api.php", "note": "MediaWiki API" },
+      "submissions": { "yes": true, "how": "Wiki uploads by registered users", "url": "https://www.wikidex.net/" },
+      "terms": { "summary": "Text CC BY-SA 3.0. Images held as fair use, non-profit.", "url": "https://www.wikidex.net/wiki/WikiDex:Copyrights" },
+      "origin": "No source field. Modern files have the malie size. Vintage: user uploads, e.g. Base Set Charizard at 349×491 with a scanner resolution in its metadata. Below a 400 px floor for most uses.",
+      "examples": [ { "label": "Aipom (Aquapolis) upload", "url": "https://images.wikidexcdn.net/mwuploads/wikidex/0/09/latest/20260711101215/Aipom_%28Aquapolis_TCG%29.png", "nature": "scan" } ],
+      "stats": [ { "label": "images", "value": "2,007" }, { "label": "official copies", "value": "24%" }, { "label": "near-official", "value": "30%" } ]
+    },
+    {
+      "id": "bulbagarden", "name": "Bulbagarden Archives", "family": "wiki", "tier": 2,
+      "url": "https://archives.bulbagarden.net/", "official": false, "scanOnly": false,
+      "langs": ["en", "ja"], "eras": "Base Set → today",
+      "imageNature": "mixed", "resolution": "400–750 px JPEG", "watermark": false,
+      "api": { "kind": "open", "url": "https://archives.bulbagarden.net/w/api.php", "note": "MediaWiki API" },
+      "submissions": { "yes": true, "how": "Wiki uploads by registered users", "url": "https://bulbapedia.bulbagarden.net/" },
+      "terms": { "summary": "Original content CC BY-NC-SA 2.5. Card images held as fair use.", "url": "https://bulbapedia.bulbagarden.net/wiki/Bulbapedia:Copyrights" },
+      "origin": "One file per card, filed under every printing, so its \"Japanese set\" categories are largely English images. The Japanese secret rares are credited \"From Pokeca.net\" and carry pokeca.net's watermark.",
+      "examples": [ { "label": "Phantump (Guardians Rising 6), filed under a JP set", "url": "https://archives.bulbagarden.net/media/upload/e/e7/PhantumpGuardiansRising6.jpg", "nature": "digital" } ],
+      "stats": [ { "label": "JP-category images", "value": "4,032" }, { "label": "official copies", "value": "74%" }, { "label": "not official", "value": "11% (pokeca.net / scans)" } ]
+    },
+
+    {
+      "id": "tcgdex", "name": "TCGdex", "family": "tcgdex", "tier": 3,
+      "url": "https://tcgdex.dev/", "official": false, "scanOnly": false,
+      "langs": ["en", "fr", "de", "it", "es", "es-mx", "pt", "ja", "zh-tw", "th", "id", "zh-cn", "ko"], "eras": "Base Set → today (varies by language)",
+      "imageNature": "mixed", "resolution": "600×825 WebP/PNG (high)", "watermark": false,
+      "api": { "kind": "open", "url": "https://api.tcgdex.net/v2/en/cards/base1-4", "note": "Free REST + GraphQL API, SDKs" },
+      "submissions": { "yes": true, "how": "GitHub pull requests to cards-database (CONTRIBUTING rejects AI-assisted data PRs)", "url": "https://github.com/tcgdex/cards-database" },
+      "terms": { "summary": "Card data MIT-licensed; the images aren't TCGdex's to license. Publishes no image credits.", "url": "https://github.com/tcgdex/cards-database" },
+      "origin": "By pixel match: HGSS → today in every Western language is ~100% malie. English 1999–2010 is 98–99% the Pokémon Paradijs scans. French vintage shares 50–73% of its files with pkmcards.fr. No German before HGSS. Its zh-cn images are the Traditional Chinese (Taiwan) print.",
+      "examples": [
+        { "label": "en Base Set Charizard (Paradijs scan)", "url": "https://assets.tcgdex.net/en/base/base1/4/high.webp", "nature": "scan" },
+        { "label": "de Sonne & Mond #1 (malie render)", "url": "https://assets.tcgdex.net/de/sm/sm1/1/high.webp", "nature": "digital" }
+      ],
+      "stats": [
+        { "label": "en+de (31,018 images)", "value": "76% malie · 15.5% Paradijs scans · 7% own HGSS/SM exports" },
+        { "label": "fr/it/es/pt (sample of 1,239)", "value": "83% malie · 5% pkmcards.fr/Paradijs · 11% vintage/promos" }
+      ]
+    },
+    {
+      "id": "tcgcollector", "name": "TCG Collector", "family": "market", "tier": 3,
+      "url": "https://www.tcgcollector.com/", "official": false, "scanOnly": false,
+      "langs": ["en", "ja", "id", "ko", "zh"], "eras": "1996 → today",
+      "imageNature": "mixed", "resolution": "up to 1280×1788", "watermark": false,
+      "api": { "kind": "partner", "note": "API only for business partners" },
+      "submissions": { "yes": true, "how": "Public \"missing card images\" contribution page; uploaders keep their rights", "url": "https://www.tcgcollector.com/" },
+      "terms": { "summary": "One copy for personal, transitory use. No mirroring. Uploaders keep their rights.", "url": "https://www.tcgcollector.com/legal/terms-of-service" },
+      "origin": "Credits \"PkmnCards and Malie\". Regular JP/ID cards: 84% official copies. English vintage: the Paradijs scans. Japanese vintage (1996–2006), SM/SwSh secret rares and McDonald's: its own users' scans (300 dpi, print texture). 19 secret-rare scans are identical to Bulbagarden's files.",
+      "examples": [
+        { "label": "Rocket Gang Strikes Back (JP vintage, user scan)", "url": "https://static.tcgcollector.com/content/images/02/80/9d/02809d6d10ad1541279b5eb02ebb1dd391fc98f8e2001ad1f11678f249cc29d0.jpg", "nature": "scan" },
+        { "label": "Card image (official copy)", "url": "https://static.tcgcollector.com/content/images/8f/a6/30/8fa6306b050bdf7d0e9bf35d4573423639c05f3ab5e61c9829010c75c986818b.webp", "nature": "digital" }
+      ],
+      "stats": [ { "label": "JP/ID sample (839)", "value": "84% official copies" }, { "label": "intl sample (533)", "value": "118 Paradijs scans; JP vintage own scans" } ],
+      "callout": "quality"
+    },
+    {
+      "id": "tcgplayer", "name": "TCGplayer", "family": "market", "tier": 3,
+      "url": "https://www.tcgplayer.com/", "official": false, "scanOnly": false,
+      "langs": ["en", "ja"], "eras": "Base Set → today",
+      "imageNature": "mixed", "resolution": "323×450 (own vintage scans) → 1000 px", "watermark": false,
+      "api": { "kind": "partner", "url": "https://tcgcsv.com/", "note": "Partner API; tcgcsv.com publishes a daily public dump of the catalogue" },
+      "submissions": { "yes": false },
+      "terms": { "summary": "No public statement on catalogue images.", "url": "https://www.tcgplayer.com/" },
+      "origin": "BW/XY/SM/HGSS/ME: malie renders. Neo, Platinum, EX Deoxys: the Paradijs scans (34/36). Base Set, Jungle, DP: its own small scans matching nothing else. SV Base: a clean digital export that isn't malie's.",
+      "examples": [
+        { "label": "Mega Evolution card (malie render)", "url": "https://tcgplayer-cdn.tcgplayer.com/product/654360_in_1000x1000.jpg", "nature": "digital" },
+        { "label": "Base Set card (own scan)", "url": "https://tcgplayer-cdn.tcgplayer.com/product/42352_in_1000x1000.jpg", "nature": "scan" }
+      ],
+      "stats": [ { "label": "sample", "value": "144 images" } ]
+    },
+    {
+      "id": "cardmarket", "name": "Cardmarket", "family": "market", "tier": 3,
+      "url": "https://www.cardmarket.com/en/Pokemon", "official": false, "scanOnly": false,
+      "langs": ["en", "de", "fr", "it", "es", "ja"], "eras": "Base Set → today",
+      "imageNature": "mixed", "resolution": "≈ 255×361", "watermark": false,
+      "api": { "kind": "partner", "note": "Seller API" },
+      "submissions": { "yes": false },
+      "terms": { "summary": "No public statement on catalogue images. Site and image host block non-browser access.", "url": "https://www.cardmarket.com/" },
+      "origin": "Sampled via the Internet Archive (83 images). Modern cards: downscaled game renders. Vintage and prize-pack/staff stamps: its own scans. All too small to be useful.",
+      "examples": [ { "label": "Brilliant Stars card (archived copy)", "url": "https://web.archive.org/web/2024/https://product-images.s3.cardmarket.com/51/BRS/608755/608755.jpg", "nature": "digital" } ],
+      "stats": [ { "label": "sample", "value": "83 images via the Internet Archive" } ]
+    },
+    {
+      "id": "serebii", "name": "Serebii", "family": "market", "tier": 3,
+      "url": "https://www.serebii.net/card/", "official": false, "scanOnly": false,
+      "langs": ["en", "ja"], "eras": "Base Set → today",
+      "imageNature": "mixed", "resolution": "≈ 357×496", "watermark": false,
+      "api": { "kind": "none" }, "submissions": { "yes": false },
+      "terms": { "summary": "—", "url": "https://www.serebii.net/" },
+      "origin": "Modern Japanese sets: pokemon-card.com's official images (30/30). English vintage: its own scans (600 dpi). BW/XY/SM: a digital export different from malie's.",
+      "examples": [ { "label": "Base Set #47 (own scan)", "url": "https://www.serebii.net/card/base/47.jpg", "nature": "scan" } ],
+      "stats": [ { "label": "sample", "value": "≈ 90 images" } ]
+    },
+    {
+      "id": "pricecharting", "name": "PriceCharting", "family": "market", "tier": 3,
+      "url": "https://www.pricecharting.com/category/pokemon-cards", "official": false, "scanOnly": false,
+      "langs": ["en", "ja", "ko", "zh"], "eras": "all",
+      "imageNature": "photo", "resolution": "1600 px", "watermark": false,
+      "api": { "kind": "paid", "note": "Price API for subscribers" },
+      "submissions": { "yes": false },
+      "terms": { "summary": "—", "url": "https://www.pricecharting.com/" },
+      "origin": "Mostly photos and scans of physical cards: English vintage, Japanese VS/web, and Korean cards photographed in sleeves (glare, skew), so not a clean unwatermarked Korean source. Chinese Gem Pack: official images.",
+      "examples": [ { "label": "Base Set card (photo)", "url": "https://storage.googleapis.com/images.pricecharting.com/1c4e40256bf171550b368d188e16e582421b5fc6ada92a77e6bd40fcc02f5bdf/1600.jpg", "nature": "photo" } ],
+      "stats": []
+    }
+  ],
+
+  "links": [
+    { "from": "ptcgo", "to": "malie", "kind": "copies", "confidence": "stated", "scope": "HGSS → SwSh, 6 languages", "evidence": "malie's own description: extracted from the game client." },
+    { "from": "tcgl", "to": "malie", "kind": "copies", "confidence": "stated", "scope": "SV → today, 7 languages", "evidence": "malie's own description: TCG Live export." },
+    { "from": "wechat", "to": "duanxr", "kind": "copies", "confidence": "stated", "scope": "zh-cn, 300×419", "evidence": "The dataset's README." },
+    { "from": "wechat", "to": "mikmoe", "kind": "copies", "confidence": "likely", "scope": "zh-cn", "evidence": "Serves the app's images at the app's size." },
+    { "from": "kr", "to": "krfan", "kind": "copies", "confidence": "verified", "scope": "ko, watermarked", "evidence": "Image URLs point at pokemoncard.co.kr's wmimages directory (hot-links)." },
+
+    { "from": "malie", "to": "tcgdex", "kind": "copies", "confidence": "verified", "scope": "all Western languages, HGSS → today", "evidence": "76% of all 31,018 en+de images and 83% of a 1,239-image fr/it/es/pt sample are pixel copies of malie files." },
+    { "from": "malie", "to": "pokemontcgio", "kind": "copies", "confidence": "verified", "scope": "en, HGSS → today", "evidence": "bw1/1 = malie en_US-BW1-001 (corr 1.0000); 71% of 19,730 files." },
+    { "from": "malie", "to": "pkmncards", "kind": "copies", "confidence": "stated", "scope": "en, HGSS → today", "evidence": "pkmncards credits nago/malie.io." },
+    { "from": "malie", "to": "pokemoncentral", "kind": "copies", "confidence": "stated", "scope": "it, modern", "evidence": "File pages: \"Questa immagine proviene da malie.io\"." },
+    { "from": "malie", "to": "wikidex", "kind": "copies", "confidence": "likely", "scope": "es, modern", "evidence": "734×1024 PNGs, the malie size; 24% verified official copies." },
+    { "from": "malie", "to": "pkmcardsfr", "kind": "copies", "confidence": "verified", "scope": "fr, HGSS → today", "evidence": "64% of 17,105 files, re-encoded to 400 px WebP." },
+    { "from": "malie", "to": "bulbagarden", "kind": "copies", "confidence": "verified", "scope": "en, modern", "evidence": "74% of the JP-category files are official copies (English renders filed under JP sets)." },
+    { "from": "malie", "to": "bisafans", "kind": "copies", "confidence": "verified", "scope": "de promos", "evidence": "6% of files; JPEG re-hosts of promo renders." },
+    { "from": "malie", "to": "tcgplayer", "kind": "copies", "confidence": "verified", "scope": "en, HGSS/BW/XY/SM/ME", "evidence": "12/12 and 11/12 sampled cards per era." },
+    { "from": "malie", "to": "tcgcollector", "kind": "copies", "confidence": "verified", "scope": "en, HGSS → today, trainer kits", "evidence": "Credits \"Malie\"; sampled renders match." },
+    { "from": "malie", "to": "cardmarket", "kind": "copies", "confidence": "likely", "scope": "modern, downscaled", "evidence": "~255 px downscales match malie as near-official." },
+
+    { "from": "print", "to": "paradijs", "kind": "scans", "confidence": "stated", "scope": "en 1999–2010", "evidence": "pkmncards credits Martin of Pokémon Paradijs; 762/300 dpi scanner headers." },
+    { "from": "paradijs", "to": "pkmncards", "kind": "copies", "confidence": "stated", "scope": "en 1999–2010", "evidence": "pkmncards.com/about credits." },
+    { "from": "pkmncards", "to": "pokemontcgio", "kind": "copies", "confidence": "likely", "scope": "en 1999–2010", "evidence": "base1/10, dp1/103, pl1/103 = pkmncards' files (corr ≥ 0.9998); which one copied the other isn't stated." },
+    { "from": "paradijs", "to": "tcgdex", "kind": "copies", "confidence": "verified", "scope": "en 1999–2010", "evidence": "en/base1/10, en/dp1/103 = pokemontcg.io's files (0.9998); 15.5% of en+de, uncredited." },
+    { "from": "paradijs", "to": "tcgplayer", "kind": "copies", "confidence": "verified", "scope": "en Neo, Platinum, EX", "evidence": "34/36 sampled, identical to pokemontcg.io." },
+    { "from": "paradijs", "to": "tcgcollector", "kind": "copies", "confidence": "verified", "scope": "en vintage", "evidence": "118 sampled images, matching its \"PkmnCards\" credit." },
+    { "from": "paradijs", "to": "pokemoncentral", "kind": "copies", "confidence": "likely", "scope": "sets never printed in Italian", "evidence": "English 600×825 scans with the 762-dpi header." },
+    { "from": "pokemontcgio", "to": "scrydex", "kind": "copies", "confidence": "verified", "scope": "en, all", "evidence": "112/112 sampled files identical." },
+
+    { "from": "pkmcardsfr", "to": "tcgdex", "kind": "shared", "confidence": "unknown-direction", "scope": "fr vintage", "evidence": "50–73% of sampled French vintage TCGdex images are the same files pkmcards.fr serves. One copied the other, or both a third site." },
+    { "from": "pokeca", "to": "bulbagarden", "kind": "copies", "confidence": "stated", "scope": "ja secret rares", "evidence": "Credited \"From Pokeca.net\", watermarked." },
+    { "from": "bulbagarden", "to": "tcgcollector", "kind": "shared", "confidence": "unknown-direction", "scope": "ja SM/SwSh secret rares", "evidence": "19 identical scans (e.g. S8 126 = PowerTabletFusionStrike281.jpg)." },
+    { "from": "pkmncards", "to": "tcgcollector", "kind": "credits", "confidence": "stated", "scope": "en", "evidence": "About page credits \"PkmnCards and Malie\"." },
+
+    { "from": "pcj", "to": "tcgcollector", "kind": "copies", "confidence": "verified", "scope": "ja regular cards", "evidence": "84% of an 839-image JP/ID sample are official copies." },
+    { "from": "asia", "to": "tcgcollector", "kind": "copies", "confidence": "verified", "scope": "id, Asian decks", "evidence": "Pixel matches against asia.pokemon-card.com." },
+    { "from": "pcj", "to": "serebii", "kind": "copies", "confidence": "verified", "scope": "ja modern sets", "evidence": "30/30 sampled." },
+    { "from": "pcj", "to": "limitless", "kind": "copies", "confidence": "likely", "scope": "ja", "evidence": "Same coverage as pokemon-card.com (M6a 1–103 only)." },
+    { "from": "pcj", "to": "tcgdex", "kind": "copies", "confidence": "likely", "scope": "ja SwSh/SV (4,231 cards)", "evidence": "Official Japanese renders; not pixel-tested here." },
+    { "from": "asia", "to": "tcgdex", "kind": "copies", "confidence": "likely", "scope": "zh-tw/th/id (≈ 4,600 cards) — and zh-cn", "evidence": "TCGdex's zh-cn images are the Taiwan print (寶可夢), e.g. zh-cn/sv/SV8a/001 at 600×825." },
+    { "from": "pcom", "to": "pokemoncentral", "kind": "copies", "confidence": "verified", "scope": "it, some", "evidence": "245×342 pokemon.com copies." },
+    { "from": "pcom", "to": "tcgdex", "kind": "copies", "confidence": "verified", "scope": "a few (100 en/de files)", "evidence": "Pixel matches." },
+
+    { "from": "print", "to": "bisafans", "kind": "scans", "confidence": "verified", "scope": "de 1999–2011", "evidence": "EXIF: phone cameras and 600-dpi flatbed scanners." },
+    { "from": "print", "to": "pkmcardsfr", "kind": "scans", "confidence": "likely", "scope": "fr vintage", "evidence": "18% of files match no official source." },
+    { "from": "print", "to": "tcgcollector", "kind": "scans", "confidence": "verified", "scope": "ja vintage, secret rares, McDonald's", "evidence": "300 dpi, print texture, tile drift." },
+    { "from": "print", "to": "yuyutei", "kind": "scans", "confidence": "verified", "scope": "ja", "evidence": "Tile drift 1.4–7.2 px, typical of scans." },
+    { "from": "print", "to": "pokeca", "kind": "scans", "confidence": "likely", "scope": "ja secret rares", "evidence": "Shop images, watermarked." },
+    { "from": "print", "to": "pokecardex", "kind": "scans", "confidence": "stated", "scope": "fr/en/ja", "evidence": "Member scans." },
+    { "from": "print", "to": "tcgplayer", "kind": "scans", "confidence": "likely", "scope": "en Base, Jungle, DP", "evidence": "323×450, matching nothing else." },
+    { "from": "print", "to": "cardmarket", "kind": "scans", "confidence": "likely", "scope": "vintage, prize packs", "evidence": "No official match." },
+    { "from": "print", "to": "serebii", "kind": "scans", "confidence": "likely", "scope": "en vintage", "evidence": "600 dpi header, no official match." },
+    { "from": "print", "to": "pricecharting", "kind": "scans", "confidence": "verified", "scope": "all", "evidence": "Photos: glare, sleeves, skew." },
+    { "from": "print", "to": "wikidex", "kind": "scans", "confidence": "likely", "scope": "es vintage", "evidence": "349×491 uploads with scanner resolution in metadata." }
+  ],
+
+  "gaps": [
+    { "lang": "ja", "name": "Japanese", "missing": "10,320 cards without an image on TCGdex (+ 8,308 images for sets without card data)", "fills": [
+      { "source": "pcj", "count": 7029, "nature": "digital", "permission": "none", "note": "Plus 1,161 once Japanese names are added to those card files." },
+      { "source": "pcj", "count": 474, "nature": "digital", "permission": "none", "note": "Promos (S-P/SV-P/M-P): need matching by name + illustrator, no collector number on the site." },
+      { "source": "tcgcollector", "count": 2185, "nature": "scan", "permission": "scanner", "note": "1996–2006, before the official database starts." },
+      { "source": "tcgcollector", "count": 366, "nature": "scan", "permission": "scanner", "note": "SM/early-SwSh secret-rare tails, M6a 104–135." },
+      { "source": "yuyutei", "count": 0, "nature": "scan", "permission": "impossible", "note": "Reposting forbidden by the shop." }
+    ]},
+    { "lang": "zh-tw", "name": "Traditional Chinese", "missing": "5,759", "fills": [
+      { "source": "asia", "count": 5673, "nature": "digital", "permission": "none", "note": "S4 (2020) → today." }
+    ]},
+    { "lang": "th", "name": "Thai", "missing": "3,741", "fills": [
+      { "source": "asia", "count": 3722, "nature": "digital", "permission": "none", "note": "S5 (2021) → today." }
+    ]},
+    { "lang": "id", "name": "Indonesian", "missing": "3,667", "fills": [
+      { "source": "asia", "count": 3649, "nature": "digital", "permission": "none", "note": "S5 (2021) → today." }
+    ]},
+    { "lang": "en", "name": "English", "missing": "1,878 (+ upgrade of existing images)", "fills": [
+      { "source": "asia", "count": 3378, "nature": "digital", "permission": "none", "note": "Replacements at 744×1040 instead of 600×825 (the international print)." },
+      { "source": "malie", "count": 241, "nature": "digital", "permission": "none", "note": "Main-set gaps HGSS → SwSh." },
+      { "source": "malie", "count": 600, "nature": "digital", "permission": "none", "note": "≈ Shiny Vault, Trainer/Galarian Gallery, SMP/SWSHP/SVP, Dragon Majesty/Shining Legends (TCGdex files these under sm75/sm35 instead of sm7.5/sm3.5)." },
+      { "source": "pokemontcgio", "count": 700, "nature": "scan", "permission": "scanner", "note": "≈ EX trainer kits, McDonald's 2011–19, e-card holos: scans, original scanner unknown." }
+    ]},
+    { "lang": "fr", "name": "French", "missing": "3,959", "fills": [
+      { "source": "malie", "count": 704, "nature": "digital", "permission": "none", "note": "HGSS → SwSh main sets, plus subsets and trainer kits." },
+      { "source": "pkmcardsfr", "count": 754, "nature": "scan", "permission": "scanner", "note": "≈ DP era and older (DP era alone 754 missing); exact overlap not counted." }
+    ]},
+    { "lang": "de", "name": "German", "missing": "6,006", "fills": [
+      { "source": "malie", "count": 426, "nature": "digital", "permission": "none", "note": "HGSS → SwSh." },
+      { "source": "bisafans", "count": 4500, "nature": "scan", "permission": "scanner", "note": "≈ everything 1999–2011: the only German vintage source. Community scans + phone photos." }
+    ]},
+    { "lang": "it", "name": "Italian", "missing": "1,292", "fills": [
+      { "source": "malie", "count": 319, "nature": "digital", "permission": "none", "note": "HGSS → SwSh." },
+      { "source": "pokemoncentral", "count": 0, "nature": "scan", "permission": "impossible", "note": "Vintage exists as user uploads, but TCGdex has no Italian card data before SM/XY, and many uploads are English scans." }
+    ]},
+    { "lang": "es", "name": "Spanish", "missing": "1,272", "fills": [
+      { "source": "malie", "count": 426, "nature": "digital", "permission": "none", "note": "HGSS → SwSh." },
+      { "source": "wikidex", "count": 0, "nature": "scan", "permission": "impossible", "note": "Vintage uploads are 349–600 px and TCGdex has no Spanish card data before XY." }
+    ]},
+    { "lang": "pt", "name": "Portuguese", "missing": "1,437", "fills": [
+      { "source": "malie", "count": 602, "nature": "digital", "permission": "none", "note": "HGSS → SwSh." }
+    ]},
+    { "lang": "ko", "name": "Korean", "missing": "almost everything (TCGdex has 239 Korean card files)", "fills": [
+      { "source": "kr", "count": 9027, "nature": "digital", "permission": "maintainer", "note": "2019 → today, watermarked. Needs Korean card data first." },
+      { "source": "kr", "count": 5881, "nature": "digital", "permission": "maintainer", "note": "2010 → 2018, watermarked." }
+    ]},
+    { "lang": "zh-cn", "name": "Simplified Chinese", "missing": "7,420 card files; TCGdex's current zh-cn images are the Taiwan print", "fills": [
+      { "source": "duanxr", "count": 6589, "nature": "digital", "permission": "rights-holder", "note": "300×419 maximum. No redistribution without Pokémon Shanghai's written consent." }
+    ]}
+  ],
+
+  "permissions": {
+    "none":          { "label": "Official digital", "desc": "Only The Pokémon Company's baseline rights, the same as for everything TCGdex already serves." },
+    "maintainer":    { "label": "Ask TCGdex", "desc": "Official, but watermarked: the maintainer has to accept it." },
+    "rights-holder": { "label": "Ask rights holder", "desc": "The dataset's own terms require the regional company's written consent." },
+    "scanner":       { "label": "Ask the scanner", "desc": "Only exists as somebody's scan or photo. Their permission is needed." },
+    "impossible":    { "label": "Not usable", "desc": "Forbidden, too small, or no card data to attach it to." }
+  },
+
+  "callouts": [
+    { "id": "korean", "kind": "warn", "title": "Korean: only watermarked images exist", "body": "Pokémon Korea's CDN serves only a watermarked directory (data/wmimages/…), and every Korean fan site hot-links those same files. PriceCharting's Korean images are photos of sleeved cards. No clean Korean card image was found anywhere, for any era (2010 → today).", "sources": ["kr", "krfan"] },
+    { "id": "zhcn", "kind": "warn", "title": "Simplified Chinese: only the WeChat app, only 300×419", "body": "The only official source is Pokémon Shanghai's WeChat mini-program. Its images were scraped into the GitHub dataset duanxr/PTCG-CHS-Datasets at the app's native 300×419; nothing larger exists. The dataset forbids redistribution without Pokémon Shanghai's written consent. TCGdex's current zh-cn images are actually the Traditional Chinese (Taiwan) print.", "sources": ["wechat", "duanxr", "mikmoe"] },
+    { "id": "quality", "kind": "good", "title": "Better quality exists than TCGdex serves", "body": "TCGdex serves 600×825. malie's originals are 734×1024 with transparent corners; the Singapore English print on asia.pokemon-card.com is 744×1040; TCG Collector's Japanese scans reach 1280×1788; bisafans' German vintage photos are ≈ 860×1200.", "sources": ["malie", "asia", "tcgcollector", "bisafans"] },
+    { "id": "vintage", "kind": "info", "title": "Western 1999–2010 has no official digital image", "body": "TPC never put Base Set → Platinum in an online game or on pokemon.com. Every image of those cards, TCGdex's included, is somebody's scan. For English, nearly everyone uses the same Pokémon Paradijs scans.", "sources": ["paradijs", "print"] }
+  ]
+}
