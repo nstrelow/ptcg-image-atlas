@@ -65,19 +65,20 @@
   <section id="view-gaps" class="view" hidden>
     <div class="prose">
       <h2>What TCGdex is missing, and where it exists</h2>
-      <p>Counts are card files TCGdex already has in that language but without an image (measured 2026-09-23 against <code>cards-database</code>). Each row is a source that can fill part of the gap, and what reusing it would need.</p>
+      <p>Counts are card files TCGdex already has in that language but without an image (TCG cards only, measured 2026-09-23/26 against <code>cards-database</code>). The bar is what is missing: each colour is what reusing a source would need, alternatives count once, and grey is what we found no source for. Each row below is one source.</p>
       <div class="perm-legend" id="perm-legend"></div>
     </div>
     <div id="gaps" class="gaps"></div>
   </section>
 
   <section id="view-sources" class="view" hidden>
-    <div class="toolbar">
+    <div class="toolbar left">
       <input id="src-search" type="search" placeholder="Filter sources…" aria-label="Filter sources">
       <label class="tog"><input type="checkbox" id="f-official"> Official</label>
       <label class="tog"><input type="checkbox" id="f-scan"> Has scans/photos</label>
       <label class="tog"><input type="checkbox" id="f-api"> Has API/dump</label>
       <label class="tog"><input type="checkbox" id="f-sub"> Takes submissions</label>
+      <span id="src-count" class="count" aria-live="polite"></span>
     </div>
     <div class="table-wrap"><table id="src-table"></table></div>
   </section>

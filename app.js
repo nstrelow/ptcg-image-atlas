@@ -21,10 +21,10 @@
   const discontinuedSource = s => s.langs.length > 0 && s.langs.every(isDiscontinued);
 
   /* ---------- key findings ---------- */
-  const tagFor = { warn: 'ONLY', good: 'BETTER', info: 'NOTE' };
+
   document.getElementById('callouts').innerHTML = D.callouts.map(c => `
-    <article class="finding ${c.kind}">
-      <h3><span class="tag">${tagFor[c.kind]}</span>${c.lang ? flagImg(c.lang) : ''}${esc(c.title)}</h3>
+    <article class="finding ${c.kind}" id="finding-${c.id}">
+      <h3><span class="tag">${esc(c.tag || 'NOTE')}</span>${c.lang ? flagImg(c.lang) : ''}${esc(c.title)}</h3>
       <p class="short">${esc(c.short || c.body)}</p>
       <div class="f-foot">
         <details><summary>Details</summary><p>${esc(c.body)}</p></details>
@@ -60,7 +60,8 @@
      Left → right flow: four lanes (origin → consumers). Every source is a box: coloured bar =
      type, icon, name, its languages as flags, and tags (SCANS, WM …). Links leave a box on the
      right and enter the next one on the left; the order inside each lane is tuned to cross less. */
-  const PW = 224, PH = 46, CG = 150, RG = 14, NCOL = 4;
+
+  const PW = 250, PH = 46, CG = 120, RG = 14, NCOL = 4;
   const colX = t => t * (PW + CG);
   const GW = colX(NCOL - 1) + PW;
   const TIERS = [
@@ -96,14 +97,17 @@
     extract: { color: () => famColor('extract'), label: 'game-client render' },
     scan: { color: () => famColor('scan'), label: 'scanned / photographed from print' },
     copy: { color: () => famColor('rehost'), label: 'copied from a fan site' },
-    shared: { color: () => css2('--muted'), label: 'same files, no direction' }
+
+    shared: { color: () => css2('--muted'), label: 'same files, direction unknown' }
   };
   const edgeKind = l => l.kind === 'scans' ? 'scan' : l.kind === 'shared' ? 'shared' : l.source.family === 'official' ? 'official' : l.source.family === 'extract' ? 'extract' : 'copy';
+
+  // thicker = surer; dashes repeat it for colour-blind readers
   const CONF = {
-    'verified': { dash: null, label: 'verified (pixel match)' },
-    'stated': { dash: '9 5', label: 'stated by the site' },
-    'likely': { dash: '3 4', label: 'likely (indirect evidence)' },
-    'unknown-direction': { dash: '1 5', label: 'same files, direction unknown' }
+    'verified': { dash: null, w: 2.4, label: 'verified (pixel match)' },
+    'stated': { dash: '9 5', w: 1.6, label: 'stated by the site' },
+    'likely': { dash: '3 4', w: 1.2, label: 'likely (indirect evidence)' },
+    'unknown-direction': { dash: '1 5', w: 1.2, label: 'same files, direction unknown' }
   };
 
   function layout(vis) {
@@ -196,8 +200,9 @@
   svg.call(zoom).on('dblclick.zoom', null);
   svg.on('click', e => { if (!e.target.closest('.node')) { state.set = null; closePanel(); } });
 
+
   function shortName(n) {
-    return n.id === 'paradijs' ? 'Paradijs scans (Martin)' : n.name.replace(/ \(.*\)$/, '').replace(' card database', '').replace(' (game client)', '');
+    return n.short || n.name.replace(/ \(.*\)$/, '').replace(' card database', '').replace(' (game client)', '');
   }
   function tagsOf(n) {
     const t = [];
@@ -212,7 +217,8 @@
     sel.each(function (n) {
       const el = d3.select(this);
       el.append('rect').attr('class', 'pill').attr('width', PW).attr('height', PH).attr('rx', 10);
-      el.append('rect').attr('class', 'bar').attr('width', 6).attr('height', PH).attr('clip-path', 'url(#pill-clip)')
+
+      el.append('rect').attr('class', 'pill-bar').attr('width', 8).attr('height', PH).attr('clip-path', 'url(#pill-clip)')
         .attr('fill', n.scanOnly ? 'url(#hatch)' : famColor(n.family));
       el.append('rect').attr('class', 'ico-bg').attr('x', 14).attr('y', (PH - 26) / 2).attr('width', 26).attr('height', 26).attr('rx', 6);
       el.append('image').attr('href', n.icon).attr('x', 16).attr('y', (PH - 22) / 2).attr('width', 22).attr('height', 22).attr('preserveAspectRatio', 'xMidYMid meet');
@@ -271,7 +277,8 @@
       update => update,
       exit => exit.remove())
       .attr('stroke', l => EDGE[edgeKind(l)].color())
-      .attr('stroke-width', l => l.confidence === 'verified' ? 1.9 : 1.5)
+
+      .attr('stroke-width', l => CONF[l.confidence].w)
       .attr('stroke-dasharray', l => CONF[l.confidence].dash)
       .attr('marker-end', l => l.kind === 'shared' ? null : `url(#${marker(EDGE[edgeKind(l)].color())})`)
       .classed('faint', l => l.source.id === 'print');
@@ -315,32 +322,45 @@
   document.getElementById('z-out').addEventListener('click', () => svg.transition().duration(250).call(zoom.scaleBy, 1 / 1.3));
   document.getElementById('z-fit').addEventListener('click', () => fitGraph(true));
 
-  // up/downstream closure
-  function lineage(n) {
-    const up = new Set([n]), down = new Set([n]);
-    let grew = true;
-    while (grew) {
-      grew = false;
-      links.forEach(l => {
-        if (down.has(l.source) && !down.has(l.target) && l.kind !== 'shared') { down.add(l.target); grew = true; }
-        if (up.has(l.target) && !up.has(l.source)) { up.add(l.source); grew = true; }
-        if (l.kind === 'shared' && (up.has(l.target)) && !up.has(l.source)) { up.add(l.source); grew = true; }
-      });
-    }
-    return new Set([...up, ...down]);
+  // after opening the panel: bring the graph on screen and slide it so the box isn't under the panel
+  function keepInView(n) {
+    if (document.getElementById('view-network').hidden || !cur || !cur.vis.includes(n)) return;
+    const wrap = document.getElementById('graph-wrap'), r = wrap.getBoundingClientRect();
+    if (r.bottom < 80 || r.top > innerHeight - 80) wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    const pr = panel.getBoundingClientRect();
+    if (pr.left < 10) return;   // phone: the panel is a bottom sheet
+    const t = d3.zoomTransform(svg.node());
+    const right = r.left + t.applyX(n.x + PW), left = r.left + t.applyX(n.x);
+    let dx = 0;
+    if (right > pr.left - 24) dx = pr.left - 24 - right;
+    if (left + dx < r.left + 12) dx = r.left + 12 - left;
+    if (dx) svg.transition().duration(350).call(zoom.translateBy, dx / t.k, 0);
   }
+
   function upstream(n) {
     const up = new Set([n]); let grew = true;
     while (grew) { grew = false; links.forEach(l => { if (up.has(l.target) && !up.has(l.source)) { up.add(l.source); grew = true; } }); }
     return up;
   }
+  function downstream(n) {
+    const down = new Set([n]); let grew = true;
+    while (grew) { grew = false; links.forEach(l => { if (l.kind !== 'shared' && down.has(l.source) && !down.has(l.target)) { down.add(l.target); grew = true; } }); }
+    return down;
+  }
+  const upDownText = n => {
+    const u = upstream(n).size - 1, d = downstream(n).size - 1;
+    return `<span class="up-t">↑ ${u} source${u === 1 ? '' : 's'} feed it</span> · <span class="down-t">↓ ${d} site${d === 1 ? '' : 's'} use its images</span>`;
+  };
   const isScanNode = n => n.scanOnly || n.imageNature === 'photo' || n.id === 'print';
 
   const state = { lang: '', mode: 'all', fam: null, set: null, pinned: null, hover: null };
   function highlight() {
     const f = state.hover || state.pinned;
-    let keep = null, keepLink = null, strong = false;
-    if (f) { keep = lineage(f); strong = true; }
+    let keep = null, keepLink = null, strong = false, up = null, down = null;
+    if (f) {
+      up = upstream(f); down = downstream(f); keep = new Set([...up, ...down]); strong = true;
+      keepLink = l => (up.has(l.source) && up.has(l.target)) || (down.has(l.source) && down.has(l.target));
+    }
     else if (state.set) keep = new Set([...state.set.ids].map(id => nById[id]).filter(Boolean));
     else if (state.fam) { keep = new Set(nodes.filter(n => n.family === state.fam)); keepLink = l => keep.has(l.source) || keep.has(l.target); }
     else if (state.mode === 'tcgdex') { keep = upstream(nById.tcgdex); strong = true; }
@@ -349,14 +369,17 @@
       keepLink = l => l.kind === 'scans' || (l.source.scanOnly && keep.has(l.target));
     }
     keepLink = keepLink || (l => keep.has(l.source) && keep.has(l.target));
-    nodeSel.classed('dim', n => !!keep && !keep.has(n)).classed('pinned', n => n === state.pinned);
-    linkSel.classed('dim', l => !!keep && !keepLink(l)).classed('hl', l => !!keep && strong && keepLink(l));
+    nodeSel.classed('dim', n => !!keep && !keep.has(n)).classed('pinned', n => n === state.pinned)
+      .classed('up', n => !!up && n !== f && up.has(n)).classed('down', n => !!down && n !== f && down.has(n));
+    linkSel.classed('dim', l => !!keep && !keepLink(l)).classed('hl', l => !!keep && strong && keepLink(l))
+      .classed('hl-down', l => !!down && down.has(l.source) && down.has(l.target) && !(up && up.has(l.target)));
     // raise highlighted links above the rest
     if (keep) linkSel.filter(l => keepLink(l)).raise();
     const note = document.getElementById('focus-note');
-    note.hidden = !state.set;
-    if (state.set) note.innerHTML = `Highlighting the sources of <b>${esc(state.set.title)}</b> <button id="focus-clear">Clear</button>`;
-    if (state.set) document.getElementById('focus-clear').onclick = () => { state.set = null; highlight(); };
+    note.hidden = !state.set && !f;
+    if (f) note.innerHTML = `<b>${esc(shortName(f))}</b>: ${upDownText(f)}`;
+    else if (state.set) note.innerHTML = `Highlighting the sources of <b>${esc(state.set.title)}</b> <button id="focus-clear">Clear</button>`;
+    if (!f && state.set) document.getElementById('focus-clear').onclick = () => { state.set = null; highlight(); };
   }
 
   // mode switch
@@ -392,13 +415,13 @@
     const gap = D.gaps.find(x => x.lang === l);
     const info = langInfo(l), n = langCount(l);
     const off = nodes.filter(x => x.official && serves(x, l) && x.id !== 'print');
-    const fills = gap ? gap.fills.filter(f => f.count).sort((a, b) => b.count - a.count).slice(0, 3) : [];
+    const fills = gap ? gap.fills.filter(f => f.count && f.kind !== 'upgrade').sort((a, b) => PERM_ORDER.indexOf(a.permission) - PERM_ORDER.indexOf(b.permission) || b.count - a.count).slice(0, 3) : [];
     box.innerHTML = `
       <div class="ls-head">${flagImg(l, 'flag xl')}<div><h3>${esc(info.label)} <span class="code">${esc(l)}</span></h3>
         <p>${n} source${n === 1 ? '' : 's'}${info.discontinued ? ` · printed ${esc(info.discontinued)}, then discontinued` : ''}</p></div></div>
       <dl>
         <div><dt>Official source</dt><dd>${off.length ? off.map(x => `<span class="who" data-go="${x.id}">${esc(shortName(x))}</span>`).join(', ') : '<span class="muted">none found</span>'}</dd></div>
-        ${gap ? `<div><dt>TCGdex is missing</dt><dd>${esc(gap.missing)}</dd></div>` : ''}
+        ${gap ? `<div><dt>TCGdex is missing</dt><dd>${gap.noData ? `almost everything: ${fmt(gap.missingCount)} card file${gap.missingCount === 1 ? '' : 's'}, no images` : `<b>${fmt(gap.missingCount)}</b> of ${fmt(gap.total)} images (${Math.round(gap.missingCount / gap.total * 100)}%)`}</dd></div>` : ''}
         ${fills.length ? `<div><dt>Could fill</dt><dd>${fills.map(f => `<span class="fillchip"><b>${fmt(f.count)}</b> <span class="who" data-go="${f.source}">${esc(shortName(nById[f.source]))}</span> <span class="perm ${f.permission}">${esc(D.permissions[f.permission].label)}</span></span>`).join(' ')} <a href="#" class="to-gaps">all details →</a></dd></div>` : ''}
       </dl>`;
     box.hidden = false;
@@ -418,7 +441,8 @@
   });
 
   // legend
-  const sw = (dash, color, arrow) => `<svg width="38" height="10" aria-hidden="true"><line x1="1" y1="5" x2="${arrow ? 30 : 37}" y2="5" stroke="${color}" stroke-width="2" ${dash ? `stroke-dasharray="${dash}"` : ''}/>${arrow ? `<path d="M30,1.5L37,5L30,8.5z" fill="${color}"/>` : ''}</svg>`;
+
+  const sw = (dash, color, arrow, w = 2) => `<svg width="38" height="10" aria-hidden="true"><line x1="1" y1="5" x2="${arrow ? 30 : 37}" y2="5" stroke="${color}" stroke-width="${w}" ${dash ? `stroke-dasharray="${dash}"` : ''}/>${arrow ? `<path d="M30,1.5L37,5L30,8.5z" fill="${color}"/>` : ''}</svg>`;
   const boxSw = fill => `<svg width="22" height="16" aria-hidden="true"><rect x=".5" y=".5" width="21" height="15" rx="4" fill="var(--card)" stroke="var(--line)"/><rect x=".5" y=".5" width="5" height="15" rx="2" fill="${fill}"/></svg>`;
   document.getElementById('legend').innerHTML = `
     <div class="lg"><h4>Box colour = type <span class="muted">(click to highlight)</span></h4><div class="lg-items">${Object.entries(D.families).map(([k, f]) =>
@@ -429,8 +453,9 @@
       <span class="lg-it"><span class="tagx scan-o">+SCANS</span>digital, plus some scans</span>
       <span class="lg-it"><span class="tagx warn">WM</span>watermarked</span>
       <span class="lg-it"><span class="tagx warn">300×419</span>small images only</span></div></div>
-    <div class="lg"><h4>Arrow colour = what travels</h4><div class="lg-items">${Object.values(EDGE).map((e, i, a) => `<span class="lg-it">${sw(null, e.color(), i < a.length - 1)}${e.label}</span>`).join('')}</div></div>
-    <div class="lg"><h4>Line = how sure</h4><div class="lg-items">${Object.values(CONF).map(c => `<span class="lg-it">${sw(c.dash, css2('--text'))}${c.label}</span>`).join('')}</div></div>`;
+
+    <div class="lg"><h4>Arrow colour = what travels</h4><div class="lg-items">${Object.entries(EDGE).filter(([k]) => k !== 'shared').map(([, e]) => `<span class="lg-it">${sw(null, e.color(), true)}${e.label}</span>`).join('')}</div></div>
+    <div class="lg"><h4>Line = how sure <span class="muted">(thicker = surer)</span></h4><div class="lg-items">${Object.entries(CONF).map(([k, c]) => `<span class="lg-it">${sw(c.dash, k === 'unknown-direction' ? EDGE.shared.color() : css2('--text'), false, c.w)}${c.label}</span>`).join('')}</div></div>`;
   document.querySelectorAll('.lg-fam').forEach(b => b.addEventListener('click', () => {
     const on = b.getAttribute('aria-pressed') !== 'true';
     document.querySelectorAll('.lg-fam').forEach(x => x.setAttribute('aria-pressed', 'false'));
@@ -456,11 +481,18 @@
     const ups = D.links.filter(l => l.to === id), downs = D.links.filter(l => l.from === id);
     const rel = (arr, key) => arr.length ? `<ul class="rel">${arr.map(l => `<li><img class="ico" src="${esc(byId[l[key]].icon)}" alt=""><span class="who" data-go="${l[key]}">${esc(byId[l[key]].name)}</span><span class="conf ${l.confidence}">${l.confidence.replace('-', ' ')}</span><div class="ev">${esc(l.scope)} — ${esc(l.evidence)}</div></li>`).join('')}</ul>` : '<p class="muted">—</p>';
     const co = D.callouts.find(c => c.sources.includes(id) && (c.kind === 'warn' || c.kind === 'good'));
+    // long origin notes: first sentence(s) up to ~200 characters, the rest behind "more"
+    let o1 = s.origin, o2 = '';
+    if (s.origin.length > 240) {
+      const cut = s.origin.slice(0, 220).lastIndexOf('. ');
+      if (cut > 60) { o1 = s.origin.slice(0, cut + 1); o2 = s.origin.slice(cut + 2); }
+    }
     const gapsHere = D.gaps.flatMap(g => g.fills.filter(f => f.source === id && f.count).map(f => ({ ...f, lang: g.lang })));
     document.getElementById('panel-body').innerHTML = `
       <span class="fam"><span class="dot" style="background:${famColor(s.family)}"></span>${esc(fam.label)}</span>
       <h2><img class="ico lg" src="${esc(s.icon)}" alt="">${esc(s.name)} <span class="hflags" aria-hidden="true">${flagsOf(s.langs, 'flag lg')}</span></h2>
       <a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(hostOf(s.url))} ↗</a>
+      <p class="updown">${upDownText(nById[id])}</p>
       <div class="badges">
         ${s.official ? '<span class="badge official">OFFICIAL POKÉMON</span>' : ''}
         ${s.scanOnly ? '<span class="badge scan">SCANS ONLY</span>' : s.imageNature === 'mixed' ? '<span class="badge">DIGITAL + SCANS</span>' : s.imageNature === 'photo' ? '<span class="badge scan">PHOTOS</span>' : ''}
@@ -468,8 +500,8 @@
         <span class="badge">${apiLabel[s.api.kind] || 'No API'}</span>
         ${s.submissions.yes ? '<span class="badge ok">TAKES SUBMISSIONS</span>' : ''}
       </div>
-      ${co ? `<div class="callout-box ${co.kind === 'good' ? 'good' : ''}"><b>${esc(co.title)}.</b> ${esc(co.body)}</div>` : ''}
-      <h4>Where its images come from</h4><p>${esc(s.origin)}</p>
+      ${co ? `<div class="callout-box ${co.kind === 'good' ? 'good' : ''}"><b>${esc(co.title)}.</b> ${esc(co.short || co.body)} <a href="#finding-${co.id}" class="to-finding" data-c="${co.id}">details ↑</a></div>` : ''}
+      <h4>Where its images come from</h4><p class="origin">${esc(o1)}${o2 ? ` <button class="more">more</button><span class="rest" hidden> ${esc(o2)}</span>` : ''}</p>
       <h4>Facts</h4>
       <dl class="kv">
         <dt>Languages</dt><dd class="langs">${langsHtml(s.langs)}</dd>
@@ -493,6 +525,15 @@
         </div>`).join('') : '<p class="muted">No public per-image link (see the site itself).</p>'}
     `;
     panel.hidden = false; panel.scrollTop = 0;
+    panel.querySelector('.origin .more')?.addEventListener('click', e => { e.target.nextElementSibling.hidden = false; e.target.remove(); });
+    panel.querySelector('.to-finding')?.addEventListener('click', e => {
+      e.preventDefault();
+      const art = document.getElementById('finding-' + e.target.dataset.c);
+      closePanel();
+      art.querySelector('details').open = true;
+      art.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+    setTimeout(() => keepInView(nById[id]), 500);   // after a lens change's fit animation
     panel.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', () => openPanel(el.dataset.go)));
     // a language chip switches the graph to that language
     panel.querySelectorAll('.langs .lang').forEach(el => {
@@ -510,45 +551,90 @@
     setHash('s', id);
   }
 
-  /* ---------- gaps view ---------- */
-  document.getElementById('perm-legend').innerHTML = Object.entries(D.permissions).map(([k, p]) => `<span class="perm ${k}" title="${esc(p.desc)}">${esc(p.label)}</span>`).join('') +
-    '<span class="muted" style="font-size:12.5px">Everything still needs TCGdex\'s OK for the submission itself (its CONTRIBUTING rules).</span>';
+  /* ---------- gaps view ----------
+     A bar is the language's missing images. Segments are the sources that could fill them, best
+     permission first; alternatives (same cards, different sites) count once, everything is capped at
+     what is missing, and the grey rest is what we found no source for. */
+  const PERM_ORDER = ['none', 'maintainer', 'rights-holder', 'scanner', 'impossible'];
+  document.getElementById('perm-legend').innerHTML = PERM_ORDER.map(k => `<div class="pl-it"><span class="perm ${k}">${esc(D.permissions[k].label)}</span><span>${esc(D.permissions[k].desc)}</span></div>`).join('') +
+    `<div class="pl-it"><span class="perm nosrc">No source found</span><span>Missing, and we found no site that has it.</span></div>` +
+    '<p class="muted pl-foot">Everything still needs TCGdex\'s OK for the submission itself (its CONTRIBUTING rules).</p>';
   const permColor = { none: '--p-none', maintainer: '--p-maintainer', 'rights-holder': '--p-rights', scanner: '--p-scanner', impossible: '--p-impossible' };
-  const gapCard = g => {
-    const tot = d3.sum(g.fills, f => f.count) || 1;
-    return `<article class="gap${isDiscontinued(g.lang) ? ' disc' : ''}" data-lang="${esc(g.lang)}">
-      <header><h3>${flagImg(g.lang, 'flag lg')} ${esc(g.name)}<span class="code">${esc(g.lang)}</span></h3><button class="to-net" data-lang="${esc(g.lang)}">Network →</button></header>
-      <p class="missing">missing: ${esc(g.missing)}</p>
-      ${isDiscontinued(g.lang) ? `<p class="disc-note">Printed ${esc(langInfo(g.lang).discontinued)}, then discontinued.</p>` : ''}
-      <div class="bar">${g.fills.filter(f => f.count).map(f => `<span title="${esc(byId[f.source].name)}: ${fmt(f.count)}" style="width:${f.count / tot * 100}%;background:var(${permColor[f.permission]})"></span>`).join('')}</div>
-      ${g.fills.map(f => `<div class="fill">
+  function gapSegments(g) {
+    const fills = g.fills.filter(f => f.count && f.kind !== 'upgrade' && f.permission !== 'impossible');
+    const groups = new Map();
+    fills.forEach(f => { const k = f.alt || f.source + '|' + f.count + '|' + f.note; (groups.get(k) || groups.set(k, []).get(k)).push(f); });
+    const segs = [...groups.values()].map(fs => ({ perm: fs[0].permission, count: d3.max(fs, f => f.count), fs }))
+      .sort((a, b) => PERM_ORDER.indexOf(a.perm) - PERM_ORDER.indexOf(b.perm) || b.count - a.count);
+    let left = g.missingCount;
+    segs.forEach(s => { s.shown = Math.min(s.count, left); left -= s.shown; });
+    const byPerm = p => d3.sum(segs.filter(s => s.perm === p), s => s.shown);
+    return { segs: segs.filter(s => s.shown > 0), rest: left, byPerm };
+  }
+  const fillRow = f => `<div class="fill">
         <div class="n">${f.count ? (f.note.startsWith('≈') ? '≈' : '') + fmt(f.count) : '—'}</div>
-        <div class="meta"><img class="ico" src="${esc(byId[f.source].icon)}" alt=""><span class="src" data-go="${f.source}">${esc(byId[f.source].name)}</span>
+        <div class="meta"><img class="ico" src="${esc(byId[f.source].icon)}" alt=""><span class="src" data-go="${f.source}" tabindex="0" role="link">${esc(byId[f.source].name)}</span>
           <span class="perm ${f.permission}">${esc(D.permissions[f.permission].label)}</span>
           ${f.nature !== 'digital' ? '<span class="badge scan">SCAN</span>' : ''}</div>
         <div class="note">${esc(f.note.replace(/^≈ ?/, ''))}</div>
-      </div>`).join('')}
+      </div>`;
+  const gapCard = g => {
+    const { segs, rest } = gapSegments(g);
+    const miss = g.missingCount || 1;
+    const rows = g.fills.filter(f => f.kind !== 'upgrade');
+    const seen = new Set();
+    const body = rows.map(f => {
+      if (!f.alt) return fillRow(f);
+      if (seen.has(f.alt)) return '';
+      seen.add(f.alt);
+      return `<div class="alt-group"><div class="alt-h">Alternatives: the same cards on different sites, counted once</div>${rows.filter(x => x.alt === f.alt).map(fillRow).join('')}</div>`;
+    }).join('');
+    const ups = g.fills.filter(f => f.kind === 'upgrade');
+    const head = g.noData
+      ? `<p class="missing"><b>${fmt(g.missingCount)}</b> card file${g.missingCount === 1 ? '' : 's'} on TCGdex, <b>0</b> images</p>`
+      : `<p class="missing">TCGdex has <b>${fmt(g.have)}</b> of ${fmt(g.total)} images · <b>${fmt(g.missingCount)}</b> missing</p>`;
+    const bar = g.noData
+      ? `<div class="gbar nodata"><span>card data first: there is nothing to attach images to yet</span></div>`
+      : `<div class="gbar" role="img" aria-label="${esc(segs.map(s => `${fmt(s.shown)} ${D.permissions[s.perm].label}`).concat(rest ? [`${fmt(rest)} no source found`] : []).join(', '))}">${segs.map(s => `<span title="${esc(s.fs.map(f => byId[f.source].name).join(' or '))}: ${fmt(s.shown)}${s.shown < s.count ? ` (of ${fmt(s.count)})` : ''} · ${esc(D.permissions[s.perm].label)}" style="width:${s.shown / miss * 100}%;background:var(${permColor[s.perm]})"></span>`).join('')}${rest ? `<span class="nosrc" title="No source found: ${fmt(rest)}" style="width:${rest / miss * 100}%"></span>` : ''}</div>`;
+    return `<article class="gap${isDiscontinued(g.lang) ? ' disc' : ''}" data-lang="${esc(g.lang)}" id="gap-${esc(g.lang)}">
+      <header><h3>${flagImg(g.lang, 'flag lg')} ${esc(g.name)}<span class="code">${esc(g.lang)}</span></h3><button class="to-net" data-lang="${esc(g.lang)}">Network →</button></header>
+      ${head}
+      ${g.missingNote ? `<p class="mnote">${esc(g.missingNote)}</p>` : ''}
+      ${isDiscontinued(g.lang) ? `<p class="disc-note">Printed ${esc(langInfo(g.lang).discontinued)}, then discontinued.</p>` : ''}
+      ${bar}
+      ${body || '<p class="muted">We found no source.</p>'}
+      ${ups.length ? `<div class="up-group"><div class="alt-h">Better versions of images TCGdex already has</div>${ups.map(fillRow).join('')}</div>` : ''}
     </article>`;
   };
-  const gapsCur = D.gaps.filter(g => !isDiscontinued(g.lang)), gapsDisc = D.gaps.filter(g => isDiscontinued(g.lang));
+  const bySize = (a, b) => (a.noData - b.noData) || b.missingCount - a.missingCount;
+  const gapsCur = D.gaps.filter(g => !isDiscontinued(g.lang)).sort(bySize), gapsDisc = D.gaps.filter(g => isDiscontinued(g.lang)).sort(bySize);
   document.getElementById('gaps').innerHTML =
-    `<h3 class="group">Current languages</h3><div class="gaps-grid">${gapsCur.map(gapCard).join('')}</div>` +
+    `<h3 class="group">Current languages <span class="muted">· most missing first</span></h3><div class="gaps-grid">${gapsCur.map(gapCard).join('')}</div>` +
     (gapsDisc.length ? `<h3 class="group">Discontinued languages</h3><p class="group-note">${esc(D.meta.discontinuedNote || '')}</p><div class="gaps-grid">${gapsDisc.map(gapCard).join('')}</div>` : '');
-  document.querySelectorAll('#gaps [data-go]').forEach(el => el.addEventListener('click', () => openPanel(el.dataset.go)));
+  document.querySelectorAll('#gaps [data-go]').forEach(el => {
+    el.addEventListener('click', () => openPanel(el.dataset.go));
+    el.addEventListener('keydown', e => { if (e.key === 'Enter') openPanel(el.dataset.go); });
+  });
   document.querySelectorAll('#gaps .to-net').forEach(el => el.addEventListener('click', () => { showView('network'); setLang(el.dataset.lang); }));
 
   /* ---------- sources table ---------- */
+  const feedsTcgdex = upstream(nById.tcgdex);
+  const inN = s => D.links.filter(l => l.to === s.id).length, outN = s => D.links.filter(l => l.from === s.id).length;
+  const resPx = s => +((String(s.resolution).match(/\d{3,4}/) || [0])[0]);
+  // [key, header, cell, sort value]
   const cols2 = [
-    ['name', 'Source', s => `<span class="dot" style="background:${famColor(s.family)}"></span><img class="ico" src="${esc(s.icon)}" alt=""><span class="nm" data-go="${s.id}">${esc(s.name)}</span>`],
-    ['family', 'Type', s => esc(D.families[s.family].label)],
-    ['official', 'Official', s => s.official ? '<span class="badge official">YES</span>' : '<span class="no">no</span>'],
-    ['imageNature', 'Images', s => (s.scanOnly || s.imageNature === 'photo') ? `<span class="badge scan">${s.imageNature === 'photo' ? 'PHOTOS' : 'SCANS ONLY'}</span>` : esc(natureLabel[s.imageNature] || s.imageNature)],
-    ['resolution', 'Size', s => esc(s.resolution)],
-    ['watermark', 'Watermark', s => s.watermark ? '<span class="badge wm">YES</span>' : '<span class="no">no</span>'],
-    ['api', 'API', s => s.api.kind === 'none' ? '<span class="no">—</span>' : esc(apiLabel[s.api.kind])],
-    ['submissions', 'Submissions', s => s.submissions.yes ? '<span class="yes">yes</span>' : '<span class="no">no</span>'],
-    ['langs', 'Languages', s => `<span class="langs">${langsHtml(s.langs)}</span>`],
-    ['url', 'Link', s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(hostOf(s.url))}</a>`]
+    ['name', 'Source', s => `<span class="dot" style="background:${famColor(s.family)}"></span><img class="ico" src="${esc(s.icon)}" alt=""><span class="nm">${esc(s.name)}</span>`, s => s.name.toLowerCase()],
+    ['family', 'Type', s => esc(D.families[s.family].label), s => D.families[s.family].label],
+    ['official', 'Official', s => s.official ? '<span class="badge official">YES</span>' : '<span class="no">no</span>', s => s.official ? 0 : 1],
+    ['imageNature', 'Images', s => (s.scanOnly || s.imageNature === 'photo') ? `<span class="badge scan">${s.imageNature === 'photo' ? 'PHOTOS' : 'SCANS ONLY'}</span>` : esc(natureLabel[s.imageNature] || s.imageNature), s => s.imageNature],
+    ['resolution', 'Size', s => esc(s.resolution), s => -resPx(s)],
+    ['watermark', 'Watermark', s => s.watermark ? '<span class="badge wm">YES</span>' : '<span class="no">no</span>', s => s.watermark ? 0 : 1],
+    ['api', 'API', s => s.api.kind === 'none' ? '<span class="no">—</span>' : esc(apiLabel[s.api.kind]), s => ['open', 'dump', 'partner', 'paid', 'none'].indexOf(s.api.kind)],
+    ['submissions', 'Submissions', s => s.submissions.yes ? '<span class="yes">yes</span>' : '<span class="no">no</span>', s => s.submissions.yes ? 0 : 1],
+    ['feeds', 'Feeds TCGdex', s => s.id !== 'tcgdex' && feedsTcgdex.has(nById[s.id]) ? '<span class="yes">yes</span>' : '<span class="no">—</span>', s => s.id !== 'tcgdex' && feedsTcgdex.has(nById[s.id]) ? 0 : 1],
+    ['links', 'Links in · out', s => `<span class="mono">${inN(s)} · ${outN(s)}</span>`, s => -(inN(s) + outN(s))],
+    ['langs', 'Languages', s => `<span class="langs">${langsHtml(s.langs)}</span>`, s => -s.langs.length],
+    ['url', 'Link', s => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(hostOf(s.url))}</a>`, s => hostOf(s.url)]
   ];
   let sortKey = null, sortDir = 1;
   const tbl = document.getElementById('src-table');
@@ -561,11 +647,22 @@
       (!f.scan.checked || ['scan', 'photo', 'mixed'].includes(s.imageNature)) &&
       (!f.api.checked || s.api.kind !== 'none') &&
       (!f.sub.checked || s.submissions.yes));
-    if (sortKey) rows = rows.slice().sort((a, b) => String(JSON.stringify(a[sortKey])).localeCompare(String(JSON.stringify(b[sortKey]))) * sortDir);
-    tbl.innerHTML = `<thead><tr>${cols2.map(c => `<th data-k="${c[0]}">${c[1]}${sortKey === c[0] ? (sortDir > 0 ? ' ▲' : ' ▼') : ''}</th>`).join('')}</tr></thead>
-      <tbody>${rows.map(s => `<tr>${cols2.map(c => `<td>${c[2](s)}</td>`).join('')}</tr>`).join('')}</tbody>`;
-    tbl.querySelectorAll('th').forEach(th => th.addEventListener('click', () => { sortDir = sortKey === th.dataset.k ? -sortDir : 1; sortKey = th.dataset.k; renderTable(); }));
-    tbl.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', () => openPanel(el.dataset.go)));
+    if (sortKey) {
+      const v = cols2.find(c => c[0] === sortKey)[3];
+      rows = rows.slice().sort((a, b) => { const x = v(a), y = v(b); return (typeof x === 'number' ? x - y : String(x).localeCompare(String(y))) * sortDir; });
+    }
+    document.getElementById('src-count').textContent = `${rows.length} of ${D.sources.length} sources`;
+    tbl.innerHTML = `<thead><tr>${cols2.map(c => `<th data-k="${c[0]}" tabindex="0" aria-sort="${sortKey === c[0] ? (sortDir > 0 ? 'ascending' : 'descending') : 'none'}">${c[1]}${sortKey === c[0] ? (sortDir > 0 ? ' ▲' : ' ▼') : ''}</th>`).join('')}</tr></thead>
+      <tbody>${rows.map(s => `<tr data-go="${s.id}" tabindex="0">${cols2.map(c => `<td>${c[2](s)}</td>`).join('')}</tr>`).join('')}</tbody>`;
+    tbl.querySelectorAll('th').forEach(th => {
+      const go = () => { sortDir = sortKey === th.dataset.k ? -sortDir : 1; sortKey = th.dataset.k; renderTable(); tbl.querySelector(`th[data-k="${sortKey}"]`).focus(); };
+      th.addEventListener('click', go);
+      th.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    });
+    tbl.querySelectorAll('tbody tr').forEach(tr => {
+      tr.addEventListener('click', e => { if (!e.target.closest('a')) openPanel(tr.dataset.go); });
+      tr.addEventListener('keydown', e => { if (e.key === 'Enter') openPanel(tr.dataset.go); });
+    });
   }
   Object.values(f).forEach(el => el.addEventListener('input', renderTable));
   renderTable();

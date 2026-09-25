@@ -92,7 +92,8 @@
         "discontinued": "2014–2016 (Kalos Starter Set → BREAKthrough)"
       }
     },
-    "discontinuedNote": "Languages the TCG was printed in for a while and then dropped. TCGdex lists them as languages but holds no images in them; the card data would have to be written first."
+    "discontinuedNote": "Languages the TCG was printed in for a while and then dropped. TCGdex lists them as languages but holds no images in them; the card data would have to be written first.",
+    "gapsMeasured": "2026-09-26 against cards-database (TCG cards only, TCG Pocket excluded); ja/zh-tw/th/id/ko/zh-cn from the 2026-09-23 coverage audit"
   },
   "families": {
     "official": {
@@ -158,7 +159,8 @@
       "origin": "Physical cards. The origin of every scan and photo. For Western cards from Base Set to Platinum (1999–2010), and Japanese cards before 2006, no official digital image was ever published online, so every picture of those cards is somebody's scan or photo. The only official digital card images of that era we found are offline and small: Japan's 2005 Card Encyclopedia CD-ROM (162×226).",
       "examples": [],
       "stats": [],
-      "icon": "icons/print.svg"
+      "icon": "icons/print.svg",
+      "short": "Printed cards"
     },
     {
       "id": "ccdb",
@@ -207,7 +209,8 @@
           "value": "1st, neo, VS, web, e, ADV, PCG"
         }
       ],
-      "icon": "icons/ccdb.svg"
+      "icon": "icons/ccdb.svg",
+      "short": "JP Card CD-ROM 2005"
     },
     {
       "id": "ptcgo",
@@ -239,7 +242,8 @@
       "origin": "The Pokémon Company's own digital card renders, shipped inside the Pokémon TCG Online client (retired 2023).",
       "examples": [],
       "stats": [],
-      "icon": "icons/ptcgo.png"
+      "icon": "icons/ptcgo.png",
+      "short": "TCG Online"
     },
     {
       "id": "tcgl",
@@ -272,7 +276,8 @@
       "origin": "TPC's own digital card renders, shipped inside the game client.",
       "examples": [],
       "stats": [],
-      "icon": "icons/tcgl.png"
+      "icon": "icons/tcgl.png",
+      "short": "TCG Live"
     },
     {
       "id": "pcj",
@@ -311,7 +316,8 @@
           "value": "23,800 across 327 set codes"
         }
       ],
-      "icon": "icons/pcj.png"
+      "icon": "icons/pcj.png",
+      "short": "pokemon-card.com (JP)"
     },
     {
       "id": "asia",
@@ -386,7 +392,8 @@
         }
       ],
       "callout": "quality",
-      "icon": "icons/asia.png"
+      "icon": "icons/asia.png",
+      "short": "asia.pokemon-card"
     },
     {
       "id": "pcom",
@@ -425,7 +432,8 @@
         }
       ],
       "stats": [],
-      "icon": "icons/pcom.png"
+      "icon": "icons/pcom.png",
+      "short": "pokemon.com"
     },
     {
       "id": "kr",
@@ -475,7 +483,8 @@
         }
       ],
       "callout": "korean",
-      "icon": "icons/kr.png"
+      "icon": "icons/kr.png",
+      "short": "pokemoncard.co.kr"
     },
     {
       "id": "wechat",
@@ -504,7 +513,8 @@
       "examples": [],
       "stats": [],
       "callout": "zhcn",
-      "icon": "icons/wechat.png"
+      "icon": "icons/wechat.png",
+      "short": "WeChat app (CN)"
     },
     {
       "official": true,
@@ -546,7 +556,8 @@
       "terms": null,
       "origin": "Pokémon Shanghai's own product pages. Each of about 350 products shows its 20–30 highlighted cards (mostly rares and secret rares) as clean renders at 868×1212 or larger, nearly three times the WeChat app's 300×419. The web has no complete Simplified Chinese card list; the full set is only in the WeChat mini-program.",
       "callout": "quality",
-      "icon": "icons/pokemoncn.png"
+      "icon": "icons/pokemoncn.png",
+      "short": "pokemon.cn products"
     },
     {
       "id": "malie",
@@ -650,7 +661,8 @@
         }
       ],
       "callout": "zhcn",
-      "icon": "icons/duanxr.png"
+      "icon": "icons/duanxr.png",
+      "short": "duanxr dataset"
     },
     {
       "id": "paradijs",
@@ -701,7 +713,8 @@
           "value": "13,376 images · 183 set folders · nl: 255"
         }
       ],
-      "icon": "icons/paradijs.svg"
+      "icon": "icons/paradijs.svg",
+      "short": "Paradijs scans (Martin)"
     },
     {
       "id": "bisafans",
@@ -869,7 +882,8 @@
           "value": "80%"
         }
       ],
-      "icon": "icons/yuyutei.png"
+      "icon": "icons/yuyutei.png",
+      "short": "yuyu-tei.jp"
     },
     {
       "official": false,
@@ -923,7 +937,8 @@
         "url": "https://pcg-search.com/card/about.php"
       },
       "origin": "A Japanese fan search engine for the old card series, built 2020–2022 by one person. Every image is a uniform 593×834 flat scan with the metadata stripped; 15 of 16 sampled match no file from any other source we hold, so most likely the owner's own scans. The Internet Archive holds about 40% of the full images, byte-identical. The largest clean set of Japanese 1996–2006 cards we found outside TCG Collector.",
-      "icon": "icons/pcgsearch.png"
+      "icon": "icons/pcgsearch.png",
+      "short": "pcg-search.com"
     },
     {
       "id": "pokeca",
@@ -1081,7 +1096,8 @@
           "value": "25% (Paradijs vintage, EX kits, McDonald's)"
         }
       ],
-      "icon": "icons/pokemontcgio.png"
+      "icon": "icons/pokemontcgio.png",
+      "short": "pokemontcg.io"
     },
     {
       "id": "scrydex",
@@ -1189,7 +1205,8 @@
       "examples": [],
       "stats": [],
       "callout": "korean",
-      "icon": "icons/krfan.png"
+      "icon": "icons/krfan.png",
+      "short": "Korean fan DBs"
     },
     {
       "id": "mikmoe",
@@ -1241,7 +1258,8 @@
         }
       ],
       "callout": "zhcn",
-      "icon": "icons/mikmoe.png"
+      "icon": "icons/mikmoe.png",
+      "short": "AREAZERO.GG"
     },
     {
       "id": "pokemoncentral",
@@ -1295,7 +1313,8 @@
           "value": "20%"
         }
       ],
-      "icon": "icons/pokemoncentral.png"
+      "icon": "icons/pokemoncentral.png",
+      "short": "Pokémon Central"
     },
     {
       "id": "wikidex",
@@ -1496,7 +1515,8 @@
       },
       "origin": "The Chinese Pokémon wiki. Its large Simplified Chinese card files each cite a pokemon.cn product page as their source.",
       "callout": "quality",
-      "icon": "icons/wiki52poke.png"
+      "icon": "icons/wiki52poke.png",
+      "short": "52poke Wiki"
     },
     {
       "id": "bulbagarden",
@@ -1554,7 +1574,8 @@
           "value": "11% (pokeca.net / scans)"
         }
       ],
-      "icon": "icons/bulbagarden.png"
+      "icon": "icons/bulbagarden.png",
+      "short": "Bulbagarden"
     },
     {
       "id": "tcgdex",
@@ -1765,7 +1786,8 @@
         "url": "https://www.mydextcg.com/"
       },
       "origin": "Popular collection and price apps. Every image we sampled is a pixel copy of malie's TCG Live renders or of pokemontcg.io's files, re-encoded; none of them had anything we could not find upstream.",
-      "icon": "icons/apps.png"
+      "icon": "icons/apps.png",
+      "short": "Collector apps"
     },
     {
       "id": "tcgplayer",
@@ -1994,7 +2016,8 @@
         }
       ],
       "callout": "vintage",
-      "icon": "icons/pokezentrum.png"
+      "icon": "icons/pokezentrum.png",
+      "short": "PokeZentrum"
     },
     {
       "id": "pokemonkaart",
@@ -2039,7 +2062,8 @@
           "value": "4 / 4 sampled"
         }
       ],
-      "icon": "icons/pokemonkaart.png"
+      "icon": "icons/pokemonkaart.png",
+      "short": "Pokemonkaart.nl"
     },
     {
       "id": "laststicker",
@@ -2086,7 +2110,8 @@
           "value": "286 × 400, watermarked"
         }
       ],
-      "icon": "icons/laststicker.png"
+      "icon": "icons/laststicker.png",
+      "short": "LastSticker.ru"
     }
   ],
   "links": [
@@ -2732,14 +2757,16 @@
           "count": 2185,
           "nature": "scan",
           "permission": "scanner",
-          "note": "1996–2006, before the official database starts."
+          "note": "1996–2006, before the official database starts.",
+          "alt": "ja-vintage"
         },
         {
           "source": "pcgsearch",
           "count": 2185,
           "nature": "scan",
           "permission": "scanner",
-          "note": "≈ 1996–2006: 4,694 cards at 593×834, most likely the owner's scans; not yet matched to TCGdex ids."
+          "note": "≈ 1996–2006: 4,694 cards at 593×834, most likely the owner's scans; not yet matched to TCGdex ids.",
+          "alt": "ja-vintage"
         },
         {
           "source": "ccdb",
@@ -2753,14 +2780,16 @@
           "count": 366,
           "nature": "scan",
           "permission": "scanner",
-          "note": "SM/early-SwSh secret-rare tails, M6a 104–135."
+          "note": "SM/early-SwSh secret-rare tails, M6a 104–135.",
+          "alt": "ja-tails"
         },
         {
           "source": "pokellector",
           "count": 16,
           "nature": "scan",
           "permission": "scanner",
-          "note": "SM12a 211–226 seen at 570×800; other tails not checked. Its terms forbid automated retrieval."
+          "note": "SM12a 211–226 seen at 570×800; other tails not checked. Its terms forbid automated retrieval.",
+          "alt": "ja-tails"
         },
         {
           "source": "yuyutei",
@@ -2769,7 +2798,11 @@
           "permission": "scanner",
           "note": "Shop scans; the shop forbids reposting without permission."
         }
-      ]
+      ],
+      "total": 14551,
+      "have": 4231,
+      "missingCount": 10320,
+      "missingNote": "Plus 8,308 official images for sets that have no card data yet."
     },
     {
       "lang": "zh-tw",
@@ -2783,7 +2816,10 @@
           "permission": "none",
           "note": "S4 (2020) → today."
         }
-      ]
+      ],
+      "total": 7925,
+      "have": 2166,
+      "missingCount": 5759
     },
     {
       "lang": "th",
@@ -2797,7 +2833,10 @@
           "permission": "none",
           "note": "S5 (2021) → today."
         }
-      ]
+      ],
+      "total": 5025,
+      "have": 1284,
+      "missingCount": 3741
     },
     {
       "lang": "id",
@@ -2811,19 +2850,23 @@
           "permission": "none",
           "note": "S5 (2021) → today."
         }
-      ]
+      ],
+      "total": 4819,
+      "have": 1152,
+      "missingCount": 3667
     },
     {
       "lang": "en",
       "name": "English",
-      "missing": "1,878 (+ upgrade of existing images)",
+      "missing": "1,759 (+ upgrade of existing images)",
       "fills": [
         {
           "source": "asia",
           "count": 3378,
           "nature": "digital",
           "permission": "none",
-          "note": "Replacements at 744×1040 instead of 600×825 (the international print)."
+          "note": "Replacements at 744×1040 instead of 600×825 (the international print).",
+          "kind": "upgrade"
         },
         {
           "source": "malie",
@@ -2846,12 +2889,15 @@
           "permission": "scanner",
           "note": "≈ EX trainer kits, McDonald's 2011–19, e-card holos: scans, original scanner unknown."
         }
-      ]
+      ],
+      "total": 21267,
+      "have": 19508,
+      "missingCount": 1759
     },
     {
       "lang": "fr",
       "name": "French",
-      "missing": "3,959",
+      "missing": "3,084",
       "fills": [
         {
           "source": "malie",
@@ -2865,21 +2911,26 @@
           "count": 754,
           "nature": "scan",
           "permission": "scanner",
-          "note": "≈ DP era and older (DP era alone 754 missing); exact overlap not counted."
+          "note": "≈ DP era and older (DP era alone 754 missing); exact overlap not counted.",
+          "alt": "fr-vintage"
         },
         {
           "source": "pokepedia",
           "count": 0,
           "nature": "scan",
           "permission": "scanner",
-          "note": "Larger vintage scans than pkmcards.fr (up to 1068 px); overlap with the missing cards not counted. Check each file's language."
+          "note": "Larger vintage scans than pkmcards.fr (up to 1068 px); overlap with the missing cards not counted. Check each file's language.",
+          "alt": "fr-vintage"
         }
-      ]
+      ],
+      "total": 20106,
+      "have": 17022,
+      "missingCount": 3084
     },
     {
       "lang": "de",
       "name": "German",
-      "missing": "6,006",
+      "missing": "5,891",
       "fills": [
         {
           "source": "malie",
@@ -2893,28 +2944,35 @@
           "count": 4500,
           "nature": "scan",
           "permission": "scanner",
-          "note": "≈ everything 1999–2011: the largest German vintage source we found. Community scans + phone photos."
+          "note": "≈ everything 1999–2011: the largest German vintage source we found. Community scans + phone photos.",
+          "alt": "de-vintage"
         },
         {
           "source": "pokewiki",
           "count": 0,
           "nature": "scan",
           "permission": "scanner",
-          "note": "Second source for bisafans' holes: 100–150 images per vintage set, credited per file to shops and scanners."
+          "note": "Second source for bisafans' holes: 100–150 images per vintage set, credited per file to shops and scanners.",
+          "alt": "de-vintage"
         },
         {
           "source": "pokezentrum",
           "count": 0,
           "nature": "scan",
           "permission": "scanner",
-          "note": "Per-set gallery posts at ~1070 × 1500, the sharpest German vintage scans we found (Fossil, Gym, Neo, HGSS …). Keep only the \"Deutsch\" files."
+          "note": "Per-set gallery posts at ~1070 × 1500, the sharpest German vintage scans we found (Fossil, Gym, Neo, HGSS …). Keep only the \"Deutsch\" files.",
+          "alt": "de-vintage"
         }
-      ]
+      ],
+      "total": 19843,
+      "have": 13952,
+      "missingCount": 5891,
+      "missingNote": "Almost all of it is 1999–2011."
     },
     {
       "lang": "it",
       "name": "Italian",
-      "missing": "1,292",
+      "missing": "1,203",
       "fills": [
         {
           "source": "malie",
@@ -2930,12 +2988,16 @@
           "permission": "impossible",
           "note": "Vintage exists as user uploads, but TCGdex has no Italian card data before SM/XY, and many uploads are English scans."
         }
-      ]
+      ],
+      "total": 14587,
+      "have": 13384,
+      "missingCount": 1203,
+      "missingNote": "No Italian card data before SM/XY, so vintage cannot be placed."
     },
     {
       "lang": "es",
       "name": "Spanish",
-      "missing": "1,272",
+      "missing": "1,164",
       "fills": [
         {
           "source": "malie",
@@ -2951,12 +3013,16 @@
           "permission": "impossible",
           "note": "Vintage uploads are 349–600 px and TCGdex has no Spanish card data before XY."
         }
-      ]
+      ],
+      "total": 14421,
+      "have": 13257,
+      "missingCount": 1164,
+      "missingNote": "No Spanish card data before XY."
     },
     {
       "lang": "pt",
       "name": "Portuguese",
-      "missing": "1,437",
+      "missing": "1,374",
       "fills": [
         {
           "source": "malie",
@@ -2965,7 +3031,10 @@
           "permission": "none",
           "note": "HGSS → SwSh."
         }
-      ]
+      ],
+      "total": 14455,
+      "have": 13081,
+      "missingCount": 1374
     },
     {
       "lang": "ko",
@@ -2986,7 +3055,12 @@
           "permission": "maintainer",
           "note": "2010 → 2018, watermarked."
         }
-      ]
+      ],
+      "total": 239,
+      "have": 0,
+      "missingCount": 239,
+      "missingNote": "Pokémon Korea's database holds 14,908 official (watermarked) images from 2010 on; TCGdex has 239 Korean card files, so card data has to come first.",
+      "noData": true
     },
     {
       "lang": "zh-cn",
@@ -3005,9 +3079,14 @@
           "count": 1328,
           "nature": "digital",
           "permission": "none",
-          "note": "≈ Upgrades to 868 px+ for highlighted cards (the ones collected on 52poke); product pages hold more."
+          "note": "≈ Upgrades to 868 px+ for highlighted cards (the ones collected on 52poke); product pages hold more.",
+          "kind": "upgrade"
         }
-      ]
+      ],
+      "total": 7420,
+      "have": 0,
+      "missingCount": 7420,
+      "missingNote": "Card files from our zh-cn branch; upstream's own zh-cn names on SV7–SV10 are Traditional-Chinese copies and their images the Taiwan print."
     },
     {
       "lang": "nl",
@@ -3019,16 +3098,23 @@
           "count": 255,
           "nature": "scan",
           "permission": "scanner",
-          "note": "Martin's own Dutch scans, preserved in the Wayback Machine (base-nl 115, jungle-nl 71, fossil-nl 69 files at 600 × 825). The same files pokemonkaart.nl shows."
+          "note": "Martin's own Dutch scans, preserved in the Wayback Machine (base-nl 115, jungle-nl 71, fossil-nl 69 files at 600 × 825). The same files pokemonkaart.nl shows.",
+          "alt": "nl"
         },
         {
           "source": "pokemonkaart",
           "count": 228,
           "nature": "scan",
           "permission": "scanner",
-          "note": "Same scans as the Paradijs archive; a live, browsable copy."
+          "note": "Same scans as the Paradijs archive; a live, browsable copy.",
+          "alt": "nl"
         }
-      ]
+      ],
+      "total": 4,
+      "have": 0,
+      "missingCount": 4,
+      "missingNote": "The three Dutch sets have 228 cards; only 4 have Dutch card data.",
+      "noData": true
     },
     {
       "lang": "ru",
@@ -3042,19 +3128,29 @@
           "permission": "impossible",
           "note": "Only 286 × 400 watermarked collector uploads; a witness for names, not an image source."
         }
-      ]
+      ],
+      "total": 10,
+      "have": 0,
+      "missingCount": 10,
+      "missingNote": "Nine Russian XY-era sets; card data first.",
+      "noData": true
     },
     {
       "lang": "pl",
       "name": "Polish",
       "missing": "everything: 4 card files, no images (Diamond & Pearl, Mysterious Treasures, 2007)",
-      "fills": []
+      "fills": [],
+      "total": 4,
+      "have": 0,
+      "missingCount": 4,
+      "missingNote": "Two Polish sets from 2007; card data first.",
+      "noData": true
     }
   ],
   "permissions": {
     "none": {
-      "label": "Official digital",
-      "desc": "An official digital image: no fan scanner or third party involved."
+      "label": "No extra permission",
+      "desc": "An official digital image: nobody but Pokémon involved."
     },
     "maintainer": {
       "label": "Ask TCGdex",
@@ -3085,7 +3181,8 @@
         "pricecharting"
       ],
       "short": "The official site pokemoncard.co.kr serves only watermarked images, and the Korean fan databases we found link to those same files.",
-      "lang": "ko"
+      "lang": "ko",
+      "tag": "WATERMARK"
     },
     {
       "id": "zhcn",
@@ -3102,7 +3199,8 @@
         "pricecharting"
       ],
       "short": "The only complete set we found is the WeChat mini-program's, at 300×419; larger official renders exist for ≈ 15% of the cards.",
-      "lang": "zh-cn"
+      "lang": "zh-cn",
+      "tag": "LOW-RES"
     },
     {
       "id": "quality",
@@ -3118,7 +3216,8 @@
         "pokemoncn",
         "wiki52poke"
       ],
-      "short": "malie, the Singapore English print, TCG Collector, bisafans, Poképédia and pokemon.cn have larger originals than TCGdex's 600×825."
+      "short": "malie, the Singapore English print, TCG Collector, bisafans, Poképédia and pokemon.cn have larger originals than TCGdex's 600×825.",
+      "tag": "UPGRADE"
     },
     {
       "id": "vintage",
@@ -3131,7 +3230,8 @@
         "pcgsearch",
         "ccdb"
       ],
-      "short": "We found no Base Set → Platinum card published as an official digital image online; for English, nearly everyone uses the scans by Martin of Pokémon Paradijs."
+      "short": "We found no Base Set → Platinum card published as an official digital image online; for English, nearly everyone uses the scans by Martin of Pokémon Paradijs.",
+      "tag": "CONTEXT"
     }
   ]
 }
