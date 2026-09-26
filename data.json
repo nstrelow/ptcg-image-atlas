@@ -156,7 +156,7 @@
         "yes": false
       },
       "terms": null,
-      "origin": "Physical cards. The origin of every scan and photo. For Western cards from Base Set to Platinum (1999–2010), and Japanese cards before 2006, no official digital image was ever published online, so every picture of those cards is somebody's scan or photo. The only official digital card images of that era we found are offline and small: Japan's 2005 Card Encyclopedia CD-ROM (162×226).",
+      "origin": "Physical cards. The origin of every scan and photo. For Western cards from Base Set to Platinum (1999–2010), and Japanese cards before 2006, no official digital image was ever published online, so every picture of those cards is somebody's scan or photo. The only official digital card images of that era we found are offline and small: Japan's 2005 Card Encyclopedia CD-ROM and the old pokemon-card.com database, both 162×226.",
       "examples": [],
       "stats": [],
       "icon": "icons/print.svg",
@@ -186,7 +186,7 @@
         "yes": false
       },
       "terms": null,
-      "origin": "カードずかん & デッキビルダー, a Windows program on the CD-ROM of the Japanese Master Kit (2005). It holds every Japanese card released until then: 3,688 cards with name, reading, expansion, collection number, illustrator, promo source and holo flag, each with an official digital image. The images are clean print renders, not scans, but only 162×226. The only official digital images of Japanese 1996–2005 cards we found; too small to use as card images, but a complete official card list for that era.",
+      "origin": "カードずかん & デッキビルダー, a Windows program on the CD-ROM of the Japanese Master Kit (2005). It holds every Japanese card released until then: 3,688 cards with name, reading, expansion, collection number, illustrator, promo source and holo flag, each with an official digital image. The images are clean print renders, not scans, but only 162×226. The only official digital images of Japanese 1996–2005 cards we found; too small to use as card images, but a complete official card list for that era. The old pokemon-card.com card database (Wayback Machine, up to 2011) never served more than the same 162×226 either.",
       "examples": [
         {
           "label": "Base Set (1st) Venusaur",
@@ -926,15 +926,19 @@
       "stats": [
         {
           "label": "cards",
-          "value": "4,694"
+          "value": "4,694 (all mirrored)"
         },
         {
-          "label": "unmatched (own scans)",
-          "value": "15 / 16 sampled"
+          "label": "copies of other files",
+          "value": "0 found"
         },
         {
-          "label": "in the Internet Archive",
-          "value": "1,879 (40%)"
+          "label": "TCGdex ja card files matched",
+          "value": "2,178 / 2,184"
+        },
+        {
+          "label": "re-hosted by",
+          "value": "TCG Collector, 52poke, pokedata.io, artofpkm"
         }
       ],
       "id": "pcgsearch",
@@ -952,7 +956,7 @@
         "summary": "No terms or robots.txt found. A one-person fan site, not affiliated with The Pokémon Company; contact via X @pcg_dfc60.",
         "url": "https://pcg-search.com/card/about.php"
       },
-      "origin": "A Japanese fan search engine for the old card series, built 2020–2022 by one person. Every image is a uniform 593×834 flat scan with the metadata stripped; 15 of 16 sampled match no file from any other source we hold, so most likely the owner's own scans. The Internet Archive holds about 40% of the full images, byte-identical. The largest clean set of Japanese 1996–2006 cards we found outside TCG Collector.",
+      "origin": "A Japanese fan search engine for the old card series, built 2020–2022 by one person. Every image is a uniform 593×834 flat scan with the metadata stripped. Compared with everything we hold (official renders, the 2005 CD-ROM, malie, pokemon-card.com and nine fan-site mirrors) not one file is a copy of an official or fan image: the scans are the owner's own, made per product (305 deck reprints re-use a scan, 2,334 same-name reprints are separate scans). We found the same files at TCG Collector (whole sets), 52poke (promos), pokedata.io and artofpkm. Matched to TCGdex: 2,178 of its 2,184 Japanese 1996–2006 card files have a pcg-search scan. The largest clean set of Japanese 1996–2006 cards we found.",
       "icon": "icons/pcgsearch.png",
       "short": "pcg-search.com"
     },
@@ -1316,7 +1320,7 @@
         "summary": "Text CC BY-NC-SA 3.0. Images held as \"fair use\", each under its own file-page terms.",
         "url": "https://wiki.pokemoncentral.it/Meta:Copyright"
       },
-      "origin": "Modern: malie renders, stated on each file page (\"Questa immagine proviene da malie.io\"). Some 245×342 pokemon.com copies. Vintage: user uploads with no source; sets never printed in Italian use English scans with the Paradijs signature.",
+      "origin": "Modern: malie renders, stated on each file page (\"Questa immagine proviene da malie.io\"). Some 245×342 pokemon.com copies. Vintage: user uploads with no source; sets never printed in Italian use English scans with the Paradijs signature. One placeholder (the EX Ruby & Sapphire Potion) is pcg-search's Japanese scan.",
       "examples": [
         {
           "label": "Starmie 151-121 (malie render)",
@@ -1535,6 +1539,10 @@
         {
           "label": "zh-cn files ≥ 868 px",
           "value": "1,328"
+        },
+        {
+          "label": "JP vintage sample (141)",
+          "value": "37 pcg-search's files"
         }
       ],
       "id": "wiki52poke",
@@ -1543,9 +1551,9 @@
       "tier": 2,
       "url": "https://wiki.52poke.com/",
       "langs": [
+        "ja",
         "zh-cn",
-        "zh-tw",
-        "ja"
+        "zh-tw"
       ],
       "eras": "modern",
       "imageNature": "digital",
@@ -1554,7 +1562,7 @@
         "summary": "Card images are held as fair use (template i-Fairuse-tcg on each file page).",
         "url": "https://wiki.52poke.com/wiki/Template:I-Fairuse-tcg"
       },
-      "origin": "The Chinese Pokémon wiki. Its large Simplified Chinese card files each cite a pokemon.cn product page as their source.",
+      "origin": "The Chinese Pokémon wiki. Its large Simplified Chinese card files each cite a pokemon.cn product page as their source. Japanese vintage (sample of 141): 37 are pcg-search's 593×834 files (ADV/PCG promos, VS, GB), 58 other scans.",
       "callout": "quality",
       "icon": "icons/wiki52poke.png",
       "short": "52poke Wiki"
@@ -1720,7 +1728,7 @@
         "summary": "One copy for personal, transitory use. No mirroring. Uploaders keep their rights.",
         "url": "https://www.tcgcollector.com/legal/terms-of-service"
       },
-      "origin": "Credits \"PkmnCards and Malie\". Regular JP/ID cards: 84% official copies. English vintage: the Paradijs scans. Japanese vintage (1996–2006), SM/SwSh secret rares and McDonald's: its own users' scans (300 dpi, print texture). 19 secret-rare scans are identical to Bulbagarden's files.",
+      "origin": "Credits \"PkmnCards and Malie\". Regular JP/ID cards: 84% official copies. English vintage: the Paradijs scans. Japanese vintage (1996–2006): partly its own users' scans, partly pcg-search's files (exactly 593×834: all of Holon Research Tower and Golden Sky, Silvery Ocean, Miracle of the Desert, most ADV/PCG promos; 52 of 147 sampled). SM/SwSh secret rares and McDonald's: its own users' scans (300 dpi, print texture). 19 secret-rare scans are identical to Bulbagarden's files.",
       "examples": [
         {
           "label": "Rocket Gang Strikes Back (JP vintage, user scan)",
@@ -1741,6 +1749,10 @@
         {
           "label": "intl sample (533)",
           "value": "118 Paradijs scans; JP vintage own scans"
+        },
+        {
+          "label": "JP vintage sample (147)",
+          "value": "52 pcg-search's files, 29 own scans"
         }
       ],
       "callout": "quality",
@@ -2169,6 +2181,48 @@
       ],
       "icon": "icons/laststicker.png",
       "short": "LastSticker.ru"
+    },
+    {
+      "id": "pokedata",
+      "name": "pokedata.io",
+      "short": "pokedata.io",
+      "family": "market",
+      "tier": 3,
+      "url": "https://www.pokedata.io/",
+      "official": false,
+      "scanOnly": false,
+      "langs": [
+        "en",
+        "ja"
+      ],
+      "eras": "all",
+      "imageNature": "mixed",
+      "resolution": "320×450 · 500×700 (JP vintage)",
+      "watermark": false,
+      "api": {
+        "kind": "open",
+        "note": "Public card JSON (/api/cards)",
+        "url": "https://www.pokedata.io/api/cards"
+      },
+      "submissions": {
+        "yes": false
+      },
+      "terms": null,
+      "origin": "A price tracker. Japanese vintage (sample of 296 from 37 sets): 11 are pcg-search's files (all 8 sampled of The Town on No Map, 2 VS, 1 Offense & Defense of the Furthest Ends), 159 other scans, mostly 500×700.",
+      "examples": [
+        {
+          "label": "Charizard ☆ δ, Offense & Defense of the Furthest Ends (pcg-search's scan)",
+          "url": "https://pokemoncardimages.pokedata.io/images/Offense+and+Defense+of+the+Furthest+Ends/052.webp",
+          "nature": "scan"
+        }
+      ],
+      "stats": [
+        {
+          "label": "JP vintage sample (296)",
+          "value": "11 pcg-search's files"
+        }
+      ],
+      "icon": "icons/pokedata.png"
     }
   ],
   "links": [
@@ -2819,6 +2873,38 @@
       "confidence": "stated",
       "scope": "en, Base Set → Platinum",
       "evidence": "Card pages for these 57 sets load the image from images.pokemontcg.io."
+    },
+    {
+      "from": "pcgsearch",
+      "to": "tcgcollector",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "ja 1996–2006: whole sets (Holon Research Tower, Golden Sky Silvery Ocean, Miracle of the Desert), promos",
+      "evidence": "52 of 147 sampled JP vintage images are pcg-search's files (correlation ≥ 0.999, 0 px tile drift, exactly 593×834 or a 320×450 thumbnail)."
+    },
+    {
+      "from": "pcgsearch",
+      "to": "wiki52poke",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "ja ADV/PCG promos, VS, GB",
+      "evidence": "37 of 141 sampled JP vintage files are pcg-search's 593×834 images (pixel match)."
+    },
+    {
+      "from": "pcgsearch",
+      "to": "pokedata",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "ja: The Town on No Map, some VS",
+      "evidence": "11 of 296 sampled JP vintage images are pcg-search's files (pixel match, 320×450)."
+    },
+    {
+      "from": "pcgsearch",
+      "to": "pokemoncentral",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "1 placeholder file",
+      "evidence": "PozioneMagicaEXRubino&Zaffiro91.jpg is pcg-search's Japanese Potion (advs3014), pixel-identical."
     }
   ],
   "gaps": [
@@ -2842,19 +2928,19 @@
           "note": "Promos (S-P/SV-P/M-P): need matching by name + illustrator, no collector number on the site."
         },
         {
+          "source": "pcgsearch",
+          "count": 2178,
+          "nature": "scan",
+          "permission": "scanner",
+          "note": "1996–2006: matched to 2,178 of TCGdex's 2,184 card files (printed number + HP, name + HP for the first sets; every Pokémon's species checked). The 6 left are basic Energy. Also 333 ADV scans once TCGdex has ADV card data, and 2,166 from products TCGdex has no set for. TCGdex's Japanese names in these sets often differ from the printed ones, so names alone didn't match.",
+          "alt": "ja-vintage"
+        },
+        {
           "source": "tcgcollector",
           "count": 2185,
           "nature": "scan",
           "permission": "scanner",
-          "note": "1996–2006, before the official database starts.",
-          "alt": "ja-vintage"
-        },
-        {
-          "source": "pcgsearch",
-          "count": 2185,
-          "nature": "scan",
-          "permission": "scanner",
-          "note": "≈ 1996–2006: 4,694 cards at 593×834, most likely the owner's scans; not yet matched to TCGdex ids.",
+          "note": "1996–2006, before the official database starts. Partly pcg-search's own files (52 of 147 sampled).",
           "alt": "ja-vintage"
         },
         {
@@ -2892,7 +2978,7 @@
       "have": 4231,
       "missingCount": 10320,
       "missingNote": "Plus 8,308 official images for sets that have no card data yet.",
-      "issue": "1996–2006: scans only",
+      "issue": "1996–2006: fan scans (pcg-search)",
       "issueKind": "info"
     },
     {
@@ -3363,7 +3449,7 @@
       "id": "vintage",
       "kind": "info",
       "title": "Western 1999–2010 has no official digital image",
-      "body": "No Base Set → Platinum card was ever published as an official digital image online. Every image of those cards, TCGdex's included, is somebody's scan. For English, nearly everyone uses the scans by Martin of Pokémon Paradijs; TCGdex's e-card → Platinum images are his original files (3,806, checked against his archived site). Japanese 1996–2006 is the same story online: the largest clean sets of scans we found are TCG Collector's and pcg-search.com's. Offline, the 2005 Card Encyclopedia CD-ROM has an official image of every Japanese card up to 2005, but only at 162×226.",
+      "body": "No Base Set → Platinum card was ever published as an official digital image online. Every image of those cards, TCGdex's included, is somebody's scan. For English, nearly everyone uses the scans by Martin of Pokémon Paradijs; TCGdex's e-card → Platinum images are his original files (3,806, checked against his archived site). Japanese 1996–2006 is the same story online: the largest clean set of scans we found is pcg-search.com's, the owner's own scans (4,694 at 593×834, matching 2,178 of TCGdex's 2,184 card files); TCG Collector, 52poke and pokedata.io serve some of the same files. Officially there is only 162×226: the 2005 Card Encyclopedia CD-ROM and the old pokemon-card.com database.",
       "sources": [
         "paradijs",
         "print",
@@ -3645,6 +3731,66 @@
             "label": "52poke: CSV1C 126",
             "url": "https://media.52poke.com/wiki/5/5e/CSV1C126.png"
           }
+        }
+      ]
+    },
+    {
+      "id": "jpvintage",
+      "title": "A Japanese card from 1997",
+      "lang": "ja",
+      "steps": [
+        {
+          "sources": [
+            "print",
+            "ccdb"
+          ],
+          "links": [],
+          "caption": "Japanese cards before 2006 were never published online as a usable official image: the 2005 Card Encyclopedia CD-ROM and the old pokemon-card.com both stop at 162×226."
+        },
+        {
+          "sources": [
+            "pcgsearch"
+          ],
+          "links": [
+            [
+              "print",
+              "pcgsearch"
+            ]
+          ],
+          "caption": "pcg-search.com's owner scanned 4,694 of them at 593×834. None of the files matches an official or fan image we hold: they are the owner's own scans.",
+          "example": {
+            "label": "pcg-search: Bulbasaur, first expansion (1996)",
+            "url": "https://pcg-search.com/img/1st/1st1001.png"
+          }
+        },
+        {
+          "sources": [
+            "tcgcollector",
+            "wiki52poke",
+            "pokedata"
+          ],
+          "links": [
+            [
+              "pcgsearch",
+              "tcgcollector"
+            ],
+            [
+              "pcgsearch",
+              "wiki52poke"
+            ],
+            [
+              "pcgsearch",
+              "pokedata"
+            ]
+          ],
+          "caption": "We found the same files at TCG Collector (whole sets), 52poke (promos) and pokedata.io (a few sets)."
+        },
+        {
+          "sources": [
+            "tcgdex"
+          ],
+          "links": [],
+          "caption": "TCGdex serves no Japanese image before Sword & Shield. Its 2,184 card files for these years match 2,178 pcg-search scans; using them would need the owner's permission."
         }
       ]
     }

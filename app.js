@@ -118,7 +118,7 @@
     { print: .02, ccdb: .14, ptcgo: .28, tcgl: .39, pcom: .48, pcj: .57, asia: .67, kr: .77, wechat: .87, pokemoncn: .98 },
     { bisafans: .02, pokezentrum: .10, pokecardex: .19, yuyutei: .28, pcgsearch: .38, paradijs: .50, malie: .64, pokeca: .80, duanxr: .98 },
     { pkmncards: .03, pokemontcgio: .11, pkmcardsfr: .19, pokepedia: .27, pokewiki: .35, pokemoncentral: .43, wikidex: .51, wiki52poke: .59, bulbagarden: .67, limitless: .75, krfan: .86, mikmoe: .98 },
-    { pricecharting: .03, scrydex: .14, apps: .25, tcgplayer: .36, cardmarket: .46, tcgdex: .57, tcgcollector: .68, pokellector: .79, serebii: .90 }
+    { pricecharting: .03, scrydex: .14, apps: .25, tcgplayer: .36, cardmarket: .46, tcgdex: .57, tcgcollector: .66, pokedata: .74, pokellector: .82, serebii: .92 }
   ];
   ORDER.forEach((col, t) => Object.entries(col).forEach(([id, f]) => { const n = nById[id]; if (n) { n.tier = t; n.f = f; } }));
   nodes.forEach(n => { n.disc = discontinuedSource(n); if (n.tier == null) { n.tier = 1; n.f = 1; } });

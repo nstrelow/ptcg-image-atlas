@@ -29,7 +29,7 @@ Live: https://nstrelow.github.io/ptcg-image-atlas/ · repo `nstrelow/ptcg-image-
   "Guide" replays it.
 - Deep links: `#v=gaps|sources|method`, `#s=<source id>`, `#l=<language>` (e.g. `#l=ko`), `#m=tcgdex|scans`,
   `#f=<family>`, `#st=<story>.<step>`; the "Copy link" button copies the current hash.
-- 42 sources, 77 links. Link confidence: verified (pixel match) · stated · likely ·
+- 43 sources, 85 links. Link confidence: verified (pixel match) · stated · likely ·
   unknown-direction. Only pixel matches may be "verified".
 
 ## Where the facts come from
@@ -140,3 +140,13 @@ Snapshot 2026-09-23/24, plus these 2026-09-25 checks:
   (median 466 px), de PokeZentrum 579 (median 853 px). Links: pkmcards.fr↔Poképédia now `verified`
   (2,760 same files), new `paradijs → pokewiki` (480 pokemontcg.io English scans) and
   `malie → pokezentrum` (325 modern renders); stats on all three rewritten with measured counts.
+- 2026-09-26 (night): pcg-search results folded in from the research repo. The full mirror (4,694 scans)
+  matched to TCGdex: 2,178 of its 2,184 Japanese 1996–2006 card files (number + HP, name + HP for PMCG,
+  every Pokémon's species checked against TCGdex's dexId); the ja gap row now says 2,178 measured. Cross-check
+  against every mirror: pcg-search's files copy nothing (its own scans); pixel-verified copies of them at
+  TCG Collector (52 / 147 sampled, whole sets), 52poke (37 / 141), pokedata.io (11 / 296, new source,
+  market lane) and one Pokémon Central placeholder → 4 new `verified` links. Old pokemon-card.com (Wayback,
+  ≤ 2011) never served more than 162×226, noted on print/ccdb and in the vintage finding. New story
+  "A Japanese card from 1997". Neutral note on the ja gap: TCGdex's Japanese names in these sets often differ
+  from the printed ones. Checked and left out (research repo, fourth sweep): Japanese text wikis, LigaPokemon
+  (English scans ~320 px), jihuanshe (app only).
