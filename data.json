@@ -1160,16 +1160,16 @@
       "name": "Limitless TCG",
       "family": "rehost",
       "tier": 2,
-      "url": "https://limitlesstcg.com/cards/jp",
+      "url": "https://limitlesstcg.com/cards",
       "official": false,
       "scanOnly": false,
       "langs": [
         "en",
         "ja"
       ],
-      "eras": "modern",
+      "eras": "English Base Set → today, Japanese Black & White → today",
       "imageNature": "digital",
-      "resolution": "as the official source",
+      "resolution": "736×1024 PNG (everything re-sized to one size)",
       "watermark": false,
       "api": {
         "kind": "none"
@@ -1181,9 +1181,18 @@
         "summary": "—",
         "url": "https://limitlesstcg.com/"
       },
-      "origin": "Japanese images mirror pokemon-card.com (so it has M6a 1–103 only, like the official site).",
+      "origin": "A tournament and deck site whose card pages carry no scans of its own. We sampled cards 1 and 10 of each set it hosts (712 images): Japanese Black & White → today are pokemon-card.com's images re-sized to 736×1024; English Black & White → today are the game-client renders (the same pixels as malie's PTCGO / TCG Live exports); English Base Set → Platinum are shown straight from pokemontcg.io's image host. It has no Japanese cards before 2011.",
       "examples": [],
-      "stats": [],
+      "stats": [
+        {
+          "label": "sets with images",
+          "value": "97 English + 264 Japanese on its own host, 57 English via pokemontcg.io"
+        },
+        {
+          "label": "sampled images matching an official or known source",
+          "value": "710 / 712"
+        }
+      ],
       "icon": "icons/limitless.png"
     },
     {
@@ -2419,9 +2428,9 @@
       "from": "pcj",
       "to": "limitless",
       "kind": "copies",
-      "confidence": "likely",
-      "scope": "ja",
-      "evidence": "Same coverage as pokemon-card.com (M6a 1–103 only)."
+      "confidence": "verified",
+      "scope": "ja, Black & White → today",
+      "evidence": "514 of 518 sampled Japanese images are pokemon-card.com / Asia-site images re-sized to 736×1024 (177 pixel-identical, 337 the same picture at another size)."
     },
     {
       "from": "pcj",
@@ -2790,6 +2799,22 @@
       "confidence": "verified",
       "scope": "de, modern",
       "evidence": "We found 325 of its modern \"Deutsch\" files are the same image as malie's renders."
+    },
+    {
+      "from": "malie",
+      "to": "limitless",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "en, Black & White → today",
+      "evidence": "191 of 194 sampled English images are the same pixels as the game-client renders malie exported (PTCGO / TCG Live)."
+    },
+    {
+      "from": "pokemontcgio",
+      "to": "limitless",
+      "kind": "copies",
+      "confidence": "stated",
+      "scope": "en, Base Set → Platinum",
+      "evidence": "Card pages for these 57 sets load the image from images.pokemontcg.io."
     }
   ],
   "gaps": [
