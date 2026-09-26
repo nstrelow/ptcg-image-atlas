@@ -108,3 +108,11 @@ Snapshot 2026-09-23/24, plus these 2026-09-25 checks:
     one tab stop per radio group / graph with arrow keys, panel is a dialog that takes and returns focus.
   - Gap numbers: Western languages measured 2026-09-26 on `cards-database` (TCG only, Pocket excluded);
     ja/zh-tw/th/id/ko/zh-cn from the 2026-09-23 coverage audit.
+- 2026-09-26 (later): Paradijs Wayback archive mirrored in full (13,264 files) and compared set by set
+  with TCGdex: e-card → Platinum, POP and promos on TCGdex are Martin's original pictures (3,806 files,
+  EX Dragon / FireRed & LeafGreen included, which matched nothing before) → `paradijs → tcgdex` is now
+  `verified`; Base Set → Neo, EX Ruby & Sapphire, Sandstorm, Hidden Legends on TCGdex are different
+  scans (1,231), so Base Set examples no longer say "Paradijs scan". New en gap row: Paradijs 331
+  (alternative to pokemontcg.io's kits/holos); nl Paradijs count 228 card scans. Poképédia, PokéWiki and
+  PokeZentrum got their listing counts (6,664 / ≈10,700 / 1,158); their full mirrors are running in the
+  research repo, results to follow.

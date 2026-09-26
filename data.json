@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated": "2026-09-25",
+    "updated": "2026-09-26",
     "measured": "2026-09-23 / 2026-09-24",
     "note": "A snapshot of the Pokémon TCG card-image ecosystem. Links marked verified are pixel matches; the rest are the sites' own statements or indirect evidence. Not legal advice.",
     "languages": {
@@ -690,11 +690,11 @@
         "summary": "Martin's own scans; no licence published. pkmncards.com credits \"Martin of Pokémon Paradijs\" for most of its pre-HGSS images.",
         "url": "https://pkmncards.com/about/"
       },
-      "origin": "Martin of Pokémon Paradijs scanned almost the entire English vintage era (Base Set → Platinum) in consistent, high quality. Those scans are the backbone of English vintage images on the web: pkmncards, pokemontcg.io, Scrydex, TCGdex, TCGplayer and TCG Collector all serve the same files. Remarkable work that deserves a credit wherever it's used. The original site, pokemon-paradijs.com, is preserved in the Wayback Machine (2014 crawl): 13,376 card images at 600×825 in 183 set folders from Base Set to Plasma Freeze, with reverse-holo and 1st-edition variants — and Dutch Base Set, Jungle and Fossil (base-nl, jungle-nl, fossil-nl). pokemonkaart.nl's Dutch scans are pixel-identical to those, so the Dutch images are Martin's work as well.",
+      "origin": "Martin of Pokémon Paradijs scanned almost the entire English vintage era (Base Set → Platinum) in consistent, high quality. Those scans are the backbone of English vintage images on the web: pkmncards, pokemontcg.io, Scrydex, TCGdex, TCGplayer and TCG Collector serve them. Remarkable work that deserves a credit wherever it's used. The original site, pokemon-paradijs.com, is preserved in the Wayback Machine (2014 crawl): 13,264 images in 183 set folders from Base Set to Plasma Freeze, with reverse-holo and 1st-edition variants, and Dutch Base Set, Jungle and Fossil. Compared file by file with TCGdex: its English e-card, EX, Diamond & Pearl, Platinum, POP and promo images are Martin's original pictures (3,806 files). For Base Set → Neo and EX Ruby & Sapphire, Sandstorm and Hidden Legends, TCGdex has different scans of the same cards (1,231); we can't tell whether those are later rescans by Martin or someone else's. 331 of Martin's scans are cards TCGdex lists without an image: trainer kits, Aquapolis and Skyridge holos, the Unown set, McDonald's 2011/2012, promos. pokemonkaart.nl's Dutch scans are pixel-identical to his, so the Dutch images are Martin's work as well.",
       "examples": [
         {
-          "label": "Base Set Charizard, as served by pokemontcg.io",
-          "url": "https://images.pokemontcg.io/base1/4_hires.png",
+          "label": "Aquapolis #1, Martin's original (Wayback copy); TCGdex serves the same picture",
+          "url": "https://web.archive.org/web/20140911021308id_/http://www.pokemon-paradijs.com/ruilkaarten/image/aquapolis/001.jpg",
           "nature": "scan"
         },
         {
@@ -706,11 +706,23 @@
       "stats": [
         {
           "label": "on TCGdex",
-          "value": "15.5% of all en+de images, 94% of English 1999–2010"
+          "value": "3,806 English images are Martin's original files (e-card → Platinum, POP, promos)"
+        },
+        {
+          "label": "different scan on TCGdex",
+          "value": "1,231 (Base Set → Neo, EX Ruby & Sapphire, Sandstorm, Hidden Legends)"
+        },
+        {
+          "label": "cards TCGdex lacks",
+          "value": "331 (trainer kits, e-card holos, Unown, McDonald's 2011/12, promos)"
+        },
+        {
+          "label": "variants TCGdex has no slot for",
+          "value": "3,266 (reverse holo, 1st edition, stamps)"
         },
         {
           "label": "archived (Wayback, 2014)",
-          "value": "13,376 images · 183 set folders · nl: 255"
+          "value": "13,264 images · 183 set folders · Dutch: 228 card scans"
         }
       ],
       "icon": "icons/paradijs.svg",
@@ -1032,7 +1044,7 @@
       "origin": "Credits \"Martin of Pokémon Paradijs\" for most pre-HGSS images, and nago/malie.io (PTCGO, TCG Live) from HGSS on.",
       "examples": [
         {
-          "label": "Base Set Charizard (Paradijs scan)",
+          "label": "Base Set Charizard (the shared vintage scan)",
           "url": "https://pkmncards.com/wp-content/uploads/charizard-base-set-bs-4.jpg",
           "nature": "scan"
         }
@@ -1069,10 +1081,10 @@
         "summary": "No licence at all, the data repo included. Developer terms cover accounts only.",
         "url": "https://dev.pokemontcg.io/terms"
       },
-      "origin": "HGSS → today: malie's renders. Base Set → Platinum: the Pokémon Paradijs scans. English subsets TCGdex lacks (Shiny Vault, Trainer/Galarian Gallery, promos) are malie renders too; better taken from malie directly. EX trainer kits and McDonald's are scans of unclear origin.",
+      "origin": "HGSS → today: malie's renders. Base Set → Platinum: the shared vintage scans (credited to Martin of Pokémon Paradijs by pkmncards). English subsets TCGdex lacks (Shiny Vault, Trainer/Galarian Gallery, promos) are malie renders too; better taken from malie directly. EX trainer kits and McDonald's are scans of unclear origin.",
       "examples": [
         {
-          "label": "Base Set Charizard (Paradijs scan)",
+          "label": "Base Set Charizard (the shared vintage scan)",
           "url": "https://images.pokemontcg.io/base1/4_hires.png",
           "nature": "scan"
         },
@@ -1398,6 +1410,10 @@
         {
           "label": "unmatched (own scans)",
           "value": "8 / 12 sampled"
+        },
+        {
+          "label": "vintage scan files (WOTC → Platinum, POP, early promos, JP vintage)",
+          "value": "6,664 in 110 categories (of 27,541 scans)"
         }
       ],
       "id": "pokepedia",
@@ -1449,6 +1465,10 @@
         {
           "label": "malie copies (HGSS)",
           "value": "2 / 2 sampled"
+        },
+        {
+          "label": "German 1999–2011 set categories",
+          "value": "74, ≈ 10,700 files"
         }
       ],
       "id": "pokewiki",
@@ -1618,10 +1638,10 @@
         "summary": "Card data MIT-licensed. Image sources aren't listed per card. Takes image uploads through its Ingest page.",
         "url": "https://github.com/tcgdex/cards-database"
       },
-      "origin": "By pixel match: HGSS → Mega Evolution Pitch Black (me05) in every Western language is the exact same files as the game-client renders malie published (often months earlier). Pixels can't tell whether TCGdex took them from malie or from the game directly. The newest set, 30th Celebration (Sep 2026), is different: a differently cropped render that isn't malie's file and was online about 5 hours before malie's export, so it came from another source. English 1999–2010 is 94% the same files pokemontcg.io serves, i.e. Martin's Pokémon Paradijs scans; the rest (EX Dragon, EX FireRed & LeafGreen, parts of ex1/ex2/ex4) are 700×980 files that match no source we hold. French vintage: 43 of 96 sampled pre-HGSS images are the same files pkmcards.fr serves (from 0 of 10 in Base Set to 30 of 33 in the EX era), and 22 are pokemontcg.io's English files: 18 of 27 French POP-series images are the English scans. No German before HGSS. Sampled zh-cn images are the Traditional Chinese (Taiwan) print.",
+      "origin": "By pixel match: HGSS → Mega Evolution Pitch Black (me05) in every Western language is the exact same files as the game-client renders malie published (often months earlier). Pixels can't tell whether TCGdex took them from malie or from the game directly. The newest set, 30th Celebration (Sep 2026), is different: a differently cropped render that isn't malie's file and was online about 5 hours before malie's export, so it came from another source. English 1999–2010 is 94% the same files pokemontcg.io serves. Against Martin's own site (Wayback, 2014): e-card → Platinum, POP and promos are his original pictures (3,806 files, EX Dragon and EX FireRed & LeafGreen included); Base Set → Neo, EX Ruby & Sapphire, Sandstorm and Hidden Legends are different scans. French vintage: 43 of 96 sampled pre-HGSS images are the same files pkmcards.fr serves (from 0 of 10 in Base Set to 30 of 33 in the EX era), and 22 are pokemontcg.io's English files: 18 of 27 French POP-series images are the English scans. No German before HGSS. Sampled zh-cn images are the Traditional Chinese (Taiwan) print.",
       "examples": [
         {
-          "label": "en Base Set Charizard (Paradijs scan)",
+          "label": "en Base Set Charizard (the shared vintage scan)",
           "url": "https://assets.tcgdex.net/en/base/base1/4/high.webp",
           "nature": "scan"
         },
@@ -2013,6 +2033,10 @@
         {
           "label": "unmatched (Fossil)",
           "value": "6 / 6 sampled"
+        },
+        {
+          "label": "German vintage card photos in its media library",
+          "value": "1,158 (of 10,194 German uploads)"
         }
       ],
       "callout": "vintage",
@@ -2279,9 +2303,9 @@
       "from": "paradijs",
       "to": "tcgdex",
       "kind": "copies",
-      "confidence": "stated",
-      "scope": "en 1999–2010",
-      "evidence": "The files are pixel-identical to pokemontcg.io's (0.9998; 15.5% of all en+de images), which pkmncards credits to Martin. The pixel match proves the shared file; the attribution is pkmncards' statement."
+      "confidence": "verified",
+      "scope": "en e-card → Platinum, POP, promos (3,806 files)",
+      "evidence": "Pixel-identical to the files on Martin's own site (Wayback copy of the 2014 crawl), compared set by set. Base Set → Neo and EX Ruby & Sapphire, Sandstorm, Hidden Legends on TCGdex are different scans (1,231 files)."
     },
     {
       "from": "paradijs",
@@ -2887,7 +2911,16 @@
           "count": 700,
           "nature": "scan",
           "permission": "scanner",
-          "note": "≈ EX trainer kits, McDonald's 2011–19, e-card holos: scans, original scanner unknown."
+          "note": "≈ EX trainer kits, McDonald's 2011–19, e-card holos: scans, original scanner unknown.",
+          "alt": "en-kits"
+        },
+        {
+          "source": "paradijs",
+          "count": 331,
+          "nature": "scan",
+          "permission": "scanner",
+          "alt": "en-kits",
+          "note": "Martin's originals on the Wayback Machine: BW/HGSS/EX/DP trainer kits, Aquapolis and Skyridge holos, Unown A–Z ! ?, McDonald's 2011/12, promos. Compared file by file with TCGdex."
         }
       ],
       "total": 21267,
@@ -3095,10 +3128,10 @@
       "fills": [
         {
           "source": "paradijs",
-          "count": 255,
+          "count": 228,
           "nature": "scan",
           "permission": "scanner",
-          "note": "Martin's own Dutch scans, preserved in the Wayback Machine (base-nl 115, jungle-nl 71, fossil-nl 69 files at 600 × 825). The same files pokemonkaart.nl shows.",
+          "note": "Martin's own Dutch scans, preserved in the Wayback Machine: Base Set 102, Jungle 64, Fossil 62 card scans at 600 × 825. The same files pokemonkaart.nl shows.",
           "alt": "nl"
         },
         {
@@ -3223,7 +3256,7 @@
       "id": "vintage",
       "kind": "info",
       "title": "Western 1999–2010 has no official digital image",
-      "body": "No Base Set → Platinum card was ever published as an official digital image online. Every image of those cards, TCGdex's included, is somebody's scan. For English, nearly everyone uses the same scans by Martin of Pokémon Paradijs. Japanese 1996–2006 is the same story online: the largest clean sets of scans we found are TCG Collector's and pcg-search.com's. Offline, the 2005 Card Encyclopedia CD-ROM has an official image of every Japanese card up to 2005, but only at 162×226.",
+      "body": "No Base Set → Platinum card was ever published as an official digital image online. Every image of those cards, TCGdex's included, is somebody's scan. For English, nearly everyone uses the scans by Martin of Pokémon Paradijs; TCGdex's e-card → Platinum images are his original files (3,806, checked against his archived site). Japanese 1996–2006 is the same story online: the largest clean sets of scans we found are TCG Collector's and pcg-search.com's. Offline, the 2005 Card Encyclopedia CD-ROM has an official image of every Japanese card up to 2005, but only at 162×226.",
       "sources": [
         "paradijs",
         "print",
@@ -3333,6 +3366,10 @@
           ],
           "links": [
             [
+              "paradijs",
+              "tcgdex"
+            ],
+            [
               "pokemontcgio",
               "tcgdex"
             ],
@@ -3341,7 +3378,7 @@
               "wikidex"
             ]
           ],
-          "caption": "TCGdex's English vintage images are the same files (4,795 of them), and WikiDex files the English Aquapolis scans on its Spanish pages.",
+          "caption": "TCGdex's Aquapolis images are Martin's original pictures, pixel for pixel (as are 3,806 of its English vintage images), and WikiDex files the same English Aquapolis scans on its Spanish pages.",
           "example": {
             "label": "WikiDex: Aipom (Aquapolis), the English scan",
             "url": "https://images.wikidexcdn.net/mwuploads/wikidex/0/09/latest/20260711101215/Aipom_%28Aquapolis_TCG%29.png"
