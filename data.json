@@ -530,16 +530,20 @@
       "examples": [],
       "stats": [
         {
-          "label": "product pages",
-          "value": "≈ 353"
+          "label": "TCG pages (products, columns, events)",
+          "value": "1,612"
         },
         {
-          "label": "cards shown per product",
-          "value": "≈ 20–30"
+          "label": "card renders found",
+          "value": "2,018 (868×1212 → 1833×2560)"
+        },
+        {
+          "label": "Simplified Chinese cards with a large render",
+          "value": "1,514 of 20,345"
         },
         {
           "label": "collected on 52poke",
-          "value": "1,328 (≈ 15% of zh-cn cards)"
+          "value": "1,328"
         }
       ],
       "id": "pokemoncn",
