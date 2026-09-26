@@ -72,7 +72,9 @@ Non-goals: hosting or mirroring any card image; legal advice; bypassing anything
     "scope": "e.g. en, HGSS → today", "evidence": "…"
   }],
   "gaps": [{ "lang", "missing", "fills": [{ "source", "count", "nature", "permission": "none|maintainer|rights-holder|scanner|impossible", "note" }] }],
-  "callouts": [{ "id", "title", "short", "body", "sources": [], "lang" }]   // short = one-liner on the card; lang = language the "Show in network" button switches to
+  "callouts": [{ "id", "title", "short", "body", "sources": [], "lang", "badge": { "value", "label" } }],   // badge = the glanceable tile; short = its sentence; lang = language "Show in map" switches to
+  // gaps[] also carry "issue" + "issueKind" (good|warn|info|muted): the one-line label on the coverage bars
+  "compare": { "title", "card", "checked", "note", "steps": [{ "source", "w", "h", "spec", "url"?, "via"?, "same"?, "empty"? }] }   // the drawn-to-scale "one card, three copies" strip
 }
 ```
 

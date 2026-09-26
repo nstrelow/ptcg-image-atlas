@@ -20,46 +20,63 @@
   // a source belongs to the discontinued section when every language it serves is a discontinued one
   const discontinuedSource = s => s.langs.length > 0 && s.langs.every(isDiscontinued);
 
-  /* ---------- key findings ---------- */
+  /* ---------- at a glance: numbers + findings as badges ---------- */
+  // "current languages TCGdex has card data for": leaves out no-card-data languages and zh-cn (card files from our branch)
+  const missCur = d3.sum(D.gaps.filter(g => !g.noData && !isDiscontinued(g.lang) && g.lang !== 'zh-cn'), g => g.missingCount);
+  const nCurLang = Object.keys(LANG).filter(l => ['en', 'ja', 'fr', 'de', 'it', 'es', 'pt', 'ko', 'zh-tw', 'zh-cn', 'th', 'id'].includes(l)).length;
+  const nDiscLang = Object.keys(LANG).filter(isDiscontinued).length;
+  document.getElementById('kpis').innerHTML = [
+    ['sources', D.sources.length, 'sources of card images', 'See them all in the Sources table'],
+    ['links', D.links.length, 'links between them', 'Jump to the map'],
+    ['missing', fmt(missCur), 'images TCGdex lacks for cards it already lists', 'What is missing, per language'],
+    ['langs', `${nCurLang}<small> +${nDiscLang}</small>`, 'languages (+ discontinued)', 'Pick a language']
+  ].map(([k, v, l, t]) => `<button class="kpi${k === 'missing' ? ' hot' : ''}" data-kpi="${k}" title="${t}"><span class="v">${v}</span><span class="l">${l}</span></button>`).join('');
+  document.querySelectorAll('[data-kpi]').forEach(b => b.addEventListener('click', () => {
+    const k = b.dataset.kpi;
+    if (k === 'sources') { showView('sources'); scrollToTop(); }
+    else if (k === 'missing') { showView('gaps'); scrollToTop(); }
+    else if (k === 'links') document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    else document.getElementById('lang-btn').click();
+  }));
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  document.getElementById('callouts').innerHTML = D.callouts.map(c => `
-    <article class="finding ${c.kind}" id="finding-${c.id}">
-      <h3><span class="tag">${esc(c.tag || 'NOTE')}</span>${c.lang ? flagImg(c.lang) : ''}${esc(c.title)}</h3>
-      <p class="short">${esc(c.short || c.body)}</p>
-      <div class="f-foot">
-        <details><summary>Details</summary><p>${esc(c.body)}</p></details>
-        <button class="f-show" data-callout="${c.id}">Show in network →</button>
-      </div>
-    </article>`).join('');
-  document.querySelectorAll('.f-show').forEach(b => b.addEventListener('click', () => {
-    const c = D.callouts.find(x => x.id === b.dataset.callout);
-    showView('network'); stopStory(true);
-    closePanel(true);
+  const KIND = { warn: 'warn', good: 'good', info: 'info' };
+  function renderFindings() {
+    const box = document.getElementById('callouts'), open = D.callouts.find(c => c.id === state.finding);
+    box.innerHTML = D.callouts.map(c => `<button class="fb k-${KIND[c.kind] || 'info'}" id="finding-${c.id}" data-f="${c.id}" aria-expanded="${c.id === state.finding}" aria-controls="fdetail">
+        <span class="v">${c.lang ? flagImg(c.lang) : ''}${esc(c.badge ? c.badge.value : c.tag)}</span>
+        <span class="l">${esc(c.badge ? c.badge.label : c.title)}</span><span class="more" aria-hidden="true">${c.id === state.finding ? '−' : '+'}</span></button>`).join('') +
+      (open ? `<div class="fdetail k-${KIND[open.kind] || 'info'}" id="fdetail"><div class="ft"><h3>${esc(open.title)}</h3><p>${esc(open.short || open.body)}</p>
+        <details><summary>The whole finding</summary><p>${esc(open.body)}</p></details></div>
+        <button class="btn-go" data-callout="${open.id}">Show in map →</button></div>` : '');
+    box.querySelector('.btn-go')?.addEventListener('click', () => showFinding(open));
+  }
+  function showFinding(c) {
+    showView('network'); stopStory(true); closePanel(true);
     setLang(c.lang || '');
     state.set = { ids: new Set(c.sources), title: c.title };
     highlight();
-    document.getElementById('view-network').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }));
+    document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function openFinding(id) {
+    state.finding = id; renderFindings();
+    document.getElementById('callouts').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  document.getElementById('callouts').addEventListener('click', e => {
+    const b = e.target.closest('[data-f]'); if (!b) return;
+    state.finding = state.finding === b.dataset.f ? null : b.dataset.f;
+    renderFindings();
+    document.getElementById('finding-' + b.dataset.f)?.focus();
+  });
 
-  /* ---------- headline ---------- */
-  // "current languages TCGdex has card data for": leaves out no-card-data languages and zh-cn (card files from our branch)
-  const missCur = d3.sum(D.gaps.filter(g => !g.noData && !isDiscontinued(g.lang) && g.lang !== 'zh-cn'), g => g.missingCount);
-  const FLOW = [
-    { tiers: [0], label: 'Origin', sub: 'official sites, game clients, printed cards' },
-    { tiers: [1], label: 'First copy', sub: 'game extracts, scans, datasets' },
-    { tiers: [2, 3], label: 'Everyone else', sub: 'wikis, fan databases, shops — and TCGdex' }
-  ];
-  document.getElementById('hero').innerHTML = `
-    <p class="headline">Card images start at a handful of official sites and at the printed cards, then get copied from site to site.
-      We traced <b>${D.sources.length} sources</b> and <b>${D.links.length} links</b> between them. TCGdex, the open card database, still lacks <b>${fmt(missCur)}</b> images for cards it already lists.</p>
-    <ol class="flow">${FLOW.map((c, i) => `<li><button data-flow="${i}"><span class="fn">${i + 1}</span><span><b>${c.label}</b><small>${c.sub}</small></span></button></li>`).join('<li class="arr" aria-hidden="true">→</li>')}</ol>`;
-  document.querySelectorAll('[data-flow]').forEach(b => b.addEventListener('click', () => {
-    const c = FLOW[+b.dataset.flow];
-    showView('network'); closePanel(true); stopStory(true); setLang('');
-    state.set = { ids: new Set(nodes.filter(n => !n.disc && c.tiers.includes(n.tier)).map(n => n.id)), title: `${c.label}: ${c.sub}` };
-    highlight();
-    document.getElementById('graph-wrap').scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }));
+  /* ---------- header: AI note, sticky height ---------- */
+  document.getElementById('ai-chip').addEventListener('click', e => {
+    const pop = document.getElementById('ai-pop'); pop.hidden = !pop.hidden;
+    e.currentTarget.setAttribute('aria-expanded', String(!pop.hidden));
+  });
+  // sections scroll to just below the sticky header
+  const sticky = document.getElementById('sticky');
+  new ResizeObserver(() => document.documentElement.style.setProperty('--sticky-h', sticky.offsetHeight + 'px')).observe(sticky);
 
   /* ---------- tabs + routing ---------- */
   const tabs = document.querySelectorAll('.tabs button');
@@ -71,6 +88,7 @@
   function showView(v) {
     tabs.forEach(b => b.setAttribute('aria-selected', b.dataset.view === v));
     document.querySelectorAll('.view').forEach(s => { s.hidden = s.id !== 'view-' + v; });
+    document.getElementById('ctl').hidden = v !== 'network';
     if (v === 'network') requestAnimationFrame(() => fitGraph(false));
     setHash('v', v);
   }
@@ -236,15 +254,22 @@
   function shortName(n) {
     return n.short || n.name.replace(/ \(.*\)$/, '').replace(' card database', '').replace(' (game client)', '');
   }
+  // badges on a box: [icon symbol, colour class, words for screen readers and tooltips]
+  const TAG = {
+    scan: ['i-scan', 'ic-scan', 'scans or photos only'], photo: ['i-photo', 'ic-photo', 'photos of real cards'],
+    plusscan: ['i-plusscan', 'ic-scan', 'digital, plus some scans'], wm: ['i-wm', 'ic-warn', 'watermarked'],
+    small: ['i-small', 'ic-warn', 'small images only (300×419)']
+  };
   function tagsOf(n) {
     const t = [];
-    if (n.scanOnly) t.push(['SCANS', 'scan']);
-    else if (n.imageNature === 'photo') t.push(['PHOTOS', 'scan']);
-    else if (n.imageNature === 'mixed') t.push(['+SCANS', 'scan-o']);
-    if (n.watermark) t.push(['WM', 'warn']);
-    if (n.callout === 'zhcn') t.push(['300×419', 'warn']);
+    if (n.scanOnly) t.push(TAG.scan);
+    else if (n.imageNature === 'photo') t.push(TAG.photo);
+    else if (n.imageNature === 'mixed') t.push(TAG.plusscan);
+    if (n.watermark) t.push(TAG.wm);
+    if (n.callout === 'zhcn') t.push(TAG.small);
     return t;
   }
+  const iconHtml = ([sym, cls, label], extra = '') => `<svg class="ic ${cls}${extra}" role="img" aria-label="${label}"><title>${label}</title><use href="#${sym}"/></svg>`;
   function drawPill(sel) {
     sel.each(function (n) {
       const el = d3.select(this);
@@ -257,11 +282,11 @@
       const name = el.append('text').attr('class', 'name').attr('x', 48).attr('y', 19).text(shortName(n));
       // tags, right-aligned on the second line
       let tx = PW - 8;
-      tagsOf(n).reverse().forEach(([txt, cls]) => {
-        const w = txt.length * 5.6 + 8; tx -= w;
-        const tg = el.append('g').attr('class', 'tag ' + cls).attr('transform', `translate(${tx},${PH - 18})`);
-        tg.append('rect').attr('width', w).attr('height', 13).attr('rx', 3);
-        tg.append('text').attr('x', w / 2).attr('y', 9.5).attr('text-anchor', 'middle').text(txt);
+      tagsOf(n).reverse().forEach(([sym, cls, label]) => {
+        const w = 16; tx -= w;
+        const tg = el.append('g').attr('class', 'bic ' + cls).attr('transform', `translate(${tx},${PH - 21})`);
+        tg.append('use').attr('href', '#' + sym).attr('width', w).attr('height', w);
+        tg.append('title').text(label);
         tx -= 4;
       });
       // flags on the second line, as many as fit
@@ -373,7 +398,7 @@
     const up = D.links.filter(l => l.to === n.id).length, down = D.links.filter(l => l.from === n.id).length;
     return `<button class="ml-row" data-go="${n.id}" data-id="${n.id}"><span class="ml-bar" style="background:${n.scanOnly ? 'repeating-linear-gradient(135deg,var(--c-scan) 0 3px,#0006 3px 6px)' : famColor(n.family)}"></span><img class="ico" src="${esc(n.icon)}" alt="">
       <span class="ml-main"><b>${esc(shortName(n))}</b><span class="ml-flags">${flagsOf(n.langs)}</span></span>
-      <span class="ml-tags">${tagsOf(n).map(([t, c]) => `<span class="tagx ${c}">${t}</span>`).join('')}<span class="ml-ud">↑${up} ↓${down}</span></span></button>`;
+      <span class="ml-tags">${tagsOf(n).map(t => iconHtml(t)).join('')}<span class="ml-ud">↑${up} ↓${down}</span></span></button>`;
   };
   document.getElementById('map-toggle').addEventListener('click', e => {
     const on = document.body.classList.toggle('show-map');
@@ -433,7 +458,7 @@
   };
   const isScanNode = n => n.scanOnly || n.imageNature === 'photo' || n.id === 'print';
 
-  const state = { lang: '', mode: 'all', fam: null, set: null, pinned: null, hover: null, story: null };
+  const state = { lang: '', mode: 'all', fam: null, set: null, pinned: null, hover: null, story: null, finding: null };
   function highlight() {
     const f = state.hover || state.pinned;
     let keep = null, keepLink = null, strong = false, up = null, down = null, now = null;
@@ -466,6 +491,7 @@
       .classed('hl-down', l => !!down && down.has(l.source) && down.has(l.target) && !(up && up.has(l.target)));
     // raise highlighted links above the rest
     if (keep) linkSel.filter(l => keepLink(l)).raise();
+    if (!state.hover) syncMatrix(keep);
     const note = document.getElementById('focus-note');
     note.hidden = !state.set && !f;
     if (f) note.innerHTML = `<b>${esc(shortName(f))}</b>: ${upDownText(f)}`;
@@ -486,7 +512,7 @@
   function rove(group) {
     group.querySelectorAll('[role=radio]').forEach(b => { b.tabIndex = b.getAttribute('aria-checked') === 'true' ? 0 : -1; });
   }
-  ['mode', 'lens'].forEach(id => document.getElementById(id).addEventListener('keydown', e => {
+  ['mode'].forEach(id => document.getElementById(id).addEventListener('keydown', e => {
     const dir = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key]; if (!dir) return;
     const items = [...e.currentTarget.querySelectorAll('[role=radio]:not(:disabled)')];
     const i = items.indexOf(document.activeElement); if (i < 0) return;
@@ -495,25 +521,49 @@
     b.click(); b.focus();
   }));
 
-  // language lens
-  const lens = document.getElementById('lens');
-  const lensBtn = (l, disc) => {
+  /* ---------- dropdowns in the control bar (language, follow one card) ---------- */
+  const menus = [];
+  function dropdown(btn, menu) {
+    const items = () => [...menu.querySelectorAll('button:not(:disabled)')];
+    const close = (focusBtn) => { if (menu.hidden) return; menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); if (focusBtn) btn.focus(); };
+    const open = () => {
+      menus.forEach(m => m.close());
+      menu.hidden = false; btn.setAttribute('aria-expanded', 'true');
+      (menu.querySelector('[aria-checked="true"]') || items()[0])?.focus();
+    };
+    btn.addEventListener('click', e => { e.stopPropagation(); menu.hidden ? open() : close(); });
+    menu.addEventListener('keydown', e => {
+      if (e.key === 'Escape' || e.key === 'Tab') { close(e.key === 'Escape'); return; }
+      const dir = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key]; if (!dir) return;
+      e.preventDefault();
+      const it = items(), i = it.indexOf(document.activeElement);
+      it[(i + dir + it.length) % it.length].focus();
+    });
+    document.addEventListener('click', e => { if (!menu.contains(e.target) && e.target !== btn) close(); });
+    const m = { open, close }; menus.push(m); return m;
+  }
+
+  // language picker
+  const langMenu = document.getElementById('lang-menu'), langBtn = document.getElementById('lang-btn');
+  const langOpt = (l, disc) => {
     const n = langCount(l);
-    return `<button role="radio" class="lb${disc ? ' disc' : ''}" data-lang="${l}" aria-checked="false" ${n ? '' : 'disabled'} title="${esc(langInfo(l).label)}${disc ? ' — discontinued' : ''}: ${n} source${n === 1 ? '' : 's'}">${flagImg(l)}<span class="code">${esc(l)}</span><span class="n">${n}</span></button>`;
+    return `<button class="opt${disc ? ' disc' : ''}" role="radio" data-lang="${l}" aria-checked="false" ${n ? '' : 'disabled'} title="${esc(langInfo(l).label)}${disc ? ' — discontinued ' + esc(langInfo(l).discontinued) : ''}: ${n} source${n === 1 ? '' : 's'}">${flagImg(l)}<span class="c">${esc(l)}</span><span class="lbl">${esc(langInfo(l).label.replace(/ \(.*\)/, ''))}</span><span class="n">${n}</span></button>`;
   };
-  lens.innerHTML = `<button role="radio" class="lb" data-lang="" aria-checked="true"><span class="code">All</span><span class="n">${nodes.length - 1}</span></button>` +
-    LENS.map(l => lensBtn(l)).join('') + `<span class="lens-sep" title="Discontinued languages">discontinued</span>` + LENS_DISC.map(l => lensBtn(l, true)).join('');
-  lens.querySelectorAll('.lb').forEach(b => b.addEventListener('click', () => { state.set = null; setLang(b.dataset.lang); }));
+  langMenu.innerHTML = `<button class="opt all" role="radio" data-lang="" aria-checked="true">${flagImg('all')}<span class="lbl">All languages</span><span class="n">${nodes.length - 1}</span></button>` +
+    LENS.map(l => langOpt(l)).join('') + `<div class="sep">Discontinued</div>` + LENS_DISC.map(l => langOpt(l, true)).join('');
+  const langDD = dropdown(langBtn, langMenu);
+  langMenu.querySelectorAll('.opt').forEach(b => b.addEventListener('click', () => { state.set = null; setLang(b.dataset.lang); langDD.close(true); }));
   function setLang(lang) {
     if (state.lang === lang && cur) return;
     state.lang = lang;
-    lens.querySelectorAll('.lb').forEach(b => {
-      b.setAttribute('aria-checked', b.dataset.lang === lang);
-      if (b.dataset.lang === lang && lens.scrollWidth > lens.clientWidth) lens.scrollLeft = b.offsetLeft - lens.clientWidth / 2 + b.offsetWidth / 2;
-    });
-    rove(lens);
+    langMenu.querySelectorAll('.opt').forEach(b => b.setAttribute('aria-checked', b.dataset.lang === lang));
+    document.getElementById('lang-cur').innerHTML = lang
+      ? `${flagImg(lang)}<span>${esc(langInfo(lang).label.replace(/ \(.*\)/, ''))}</span>`
+      : `${flagImg('all')}<span>All languages</span>`;
+    langBtn.classList.toggle('on', !!lang);
     if (state.pinned && !serves(state.pinned, lang)) closePanel(true);
     renderSummary();
+    syncCoverage();
     render(true);
     setHash('l', lang);
   }
@@ -538,9 +588,14 @@
   }
 
   /* ---------- follow one card ---------- */
-  const storyBar = document.getElementById('stories'), card = document.getElementById('story-card');
-  storyBar.innerHTML = `<span class="lens-label">Follow one card</span><div class="st-list">` + D.stories.map(s => `<button class="st-btn" data-st="${s.id}" aria-pressed="false">${s.lang ? flagImg(s.lang) : ''}${esc(s.title)}</button>`).join('') + '</div>';
-  storyBar.querySelectorAll('.st-btn').forEach(b => b.addEventListener('click', () => state.story && state.story.s.id === b.dataset.st ? stopStory() : startStory(b.dataset.st)));
+  const storyMenu = document.getElementById('story-menu'), card = document.getElementById('story-card');
+  storyMenu.innerHTML = D.stories.map(s => `<button class="opt st-btn" role="menuitemradio" data-st="${s.id}" aria-checked="false">${flagImg(s.lang || 'en')}<span class="lbl">${esc(s.title)}</span></button>`).join('');
+  const storyDD = dropdown(document.getElementById('story-btn'), storyMenu);
+  storyMenu.querySelectorAll('.st-btn').forEach(b => b.addEventListener('click', () => {
+    storyDD.close(true);
+    if (state.story && state.story.s.id === b.dataset.st) stopStory();
+    else { startStory(b.dataset.st); document.getElementById('map').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  }));
   function startStory(id, step = 0) {
     const s = D.stories.find(x => x.id === id); if (!s) return;
     closePanel(true); state.set = null;
@@ -552,13 +607,15 @@
   function stopStory(quiet) {
     if (!state.story) return;
     state.story = null; card.hidden = true;
-    storyBar.querySelectorAll('.st-btn').forEach(b => b.setAttribute('aria-pressed', 'false'));
+    storyMenu.querySelectorAll('.st-btn').forEach(b => b.setAttribute('aria-checked', 'false'));
+    document.getElementById('story-btn').classList.remove('on');
     setHash('st', '');
     if (!quiet) highlight();
   }
   function showStep() {
     const { s, i } = state.story, st = s.steps[i], n = s.steps.length;
-    storyBar.querySelectorAll('.st-btn').forEach(b => b.setAttribute('aria-pressed', b.dataset.st === s.id));
+    storyMenu.querySelectorAll('.st-btn').forEach(b => b.setAttribute('aria-checked', b.dataset.st === s.id));
+    document.getElementById('story-btn').classList.add('on');
     card.innerHTML = `
       <div class="sc-head"><b>${s.lang ? flagImg(s.lang) + ' ' : ''}${esc(s.title)}</b><span class="sc-n">${i + 1} / ${n}</span><button class="sc-close" aria-label="Stop following this card">×</button></div>
       <div class="sc-body"><div class="sc-text"><p>${esc(st.caption)}</p>
@@ -593,11 +650,7 @@
     <div class="lg"><h4>Box colour = type <span class="muted">(click to highlight)</span></h4><div class="lg-items">${Object.entries(D.families).map(([k, f]) =>
       `<button class="lg-fam" data-f="${k}" aria-pressed="false" title="${esc(f.desc)}">${boxSw(famColor(k))}${esc(f.label)}</button>`).join('')}
       <span class="lg-it">${boxSw('url(#hatch)')}hatched = scans only</span></div></div>
-    <div class="lg"><h4>Tags</h4><div class="lg-items">
-      <span class="lg-it"><span class="tagx scan">SCANS</span>scans / photos only</span>
-      <span class="lg-it"><span class="tagx scan-o">+SCANS</span>digital, plus some scans</span>
-      <span class="lg-it"><span class="tagx warn">WM</span>watermarked</span>
-      <span class="lg-it"><span class="tagx warn">300×419</span>small images only</span></div></div>
+    <div class="lg"><h4>Icons on a box</h4><div class="lg-items">${Object.values(TAG).map(t => `<span class="lg-it">${iconHtml(t)}${t[2]}</span>`).join('')}</div></div>
 
     <div class="lg"><h4>Arrow colour = what travels</h4><div class="lg-items">${Object.entries(EDGE).filter(([k]) => k !== 'shared').map(([, e]) => `<span class="lg-it">${sw(null, e.color(), true)}${e.label}</span>`).join('')}</div></div>
     <div class="lg"><h4>Line = how sure <span class="muted">(thicker = surer)</span></h4><div class="lg-items">${Object.entries(CONF).map(([k, c]) => `<span class="lg-it">${sw(c.dash, k === 'unknown-direction' ? EDGE.shared.color() : css2('--text'), false, c.w)}${c.label}</span>`).join('')}</div></div>`;
@@ -680,10 +733,9 @@
     panel.querySelector('.origin .more')?.addEventListener('click', e => { e.target.nextElementSibling.hidden = false; e.target.remove(); });
     panel.querySelector('.to-finding')?.addEventListener('click', e => {
       e.preventDefault();
-      const art = document.getElementById('finding-' + e.target.dataset.c);
       closePanel();
-      art.querySelector('details').open = true;
-      art.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      showView('network');
+      openFinding(e.target.dataset.c);
     });
     setTimeout(() => keepInView(nById[id]), 500);   // after a lens change's fit animation
     panel.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', () => openPanel(el.dataset.go)));
@@ -787,6 +839,158 @@
   });
   document.querySelectorAll('#gaps .to-net').forEach(el => el.addEventListener('click', () => { showView('network'); setLang(el.dataset.lang); }));
 
+  /* ---------- overview: coverage per language ----------
+     One bar per language, 100 % = every image TCGdex should have: what it has, then what could fill
+     the rest (best permission first, same segments as the gaps view), then what we found no source for. */
+  const COV_KEY = [['have', 'TCGdex has it'], ['none', 'official image, ready'], ['maintainer', 'official, watermarked'],
+    ['rights-holder', 'ask the rights holder'], ['scanner', 'fan scan, ask the scanner'], ['rest', 'no source found']];
+  document.getElementById('cov-key').innerHTML = COV_KEY.map(([k, l]) => `<span><i class="sw s-${k}"></i>${l}</span>`).join('');
+  const shortLabel = l => langInfo(l).label.replace(/ \(.*\)/, '');
+  const bestFill = g => {
+    const s0 = gapSegments(g).segs[0];
+    return s0 ? `${s0.fs.map(f => shortName(nById[f.source])).join(' / ')} · ${fmt(s0.shown)}` : 'no source found';
+  };
+  const officialFor = l => nodes.filter(x => x.official && x.id !== 'print' && serves(x, l)).map(shortName);
+  function covRow(g) {
+    const { segs, rest } = gapSegments(g), T = g.total || 1;
+    const pctHave = Math.round(g.have / T * 100);
+    const bar = g.noData
+      ? `<span class="cbar nodata" title="No card data on TCGdex yet: images have nothing to attach to"></span>`
+      : `<span class="cbar" role="img" aria-label="${esc(`TCGdex has ${fmt(g.have)} of ${fmt(g.total)}; ` + segs.map(x => `${fmt(x.shown)} ${D.permissions[x.perm].label}`).concat(rest ? [`${fmt(rest)} no source found`] : []).join(', '))}">` +
+        `<i class="s-have" style="flex-grow:${g.have}" title="TCGdex has ${fmt(g.have)}"></i>` +
+        segs.map(x => `<i class="s-${x.perm}" style="flex-grow:${x.shown}" title="${esc(x.fs.map(f => byId[f.source].name).join(' or '))}: ${fmt(x.shown)} · ${esc(D.permissions[x.perm].label)}"></i>`).join('') +
+        (rest ? `<i class="s-rest" style="flex-grow:${rest}" title="No source found: ${fmt(rest)}"></i>` : '') + '</span>';
+    const miss = g.noData ? `${fmt(g.missingCount)} card file${g.missingCount === 1 ? '' : 's'}, no images` : `<b>${fmt(g.missingCount)}</b> missing`;
+    const off = officialFor(g.lang);
+    return `<button class="crow${isDiscontinued(g.lang) ? ' disc' : ''}" data-lang="${esc(g.lang)}" aria-pressed="false">
+      <span class="fl">${flagImg(g.lang, 'flag lg')}<span class="c">${esc(g.lang)}</span><span class="nm-ph">${esc(shortLabel(g.lang))}</span></span>
+      ${bar}
+      <span class="pct">${g.noData ? '—' : pctHave + '%'}<small>${g.noData ? 'no data' : 'has'}</small></span>
+      <span class="meta"><span class="nm">${esc(shortLabel(g.lang))}</span><span class="ms">${miss}</span>${g.issue ? `<span class="issue ik-${g.issueKind || 'muted'}">${esc(g.issue)}</span>` : ''}</span>
+      <span class="ph"><span class="dt">Official source</span><span class="dd">${esc(off.join(', ') || 'none — printed cards only')}</span>
+        <span class="dt">Best fill</span><span class="dd">${esc(bestFill(g))}</span></span>
+    </button>`;
+  }
+  {
+    const main = D.gaps.filter(g => !g.noData && !isDiscontinued(g.lang)).sort((a, b) => b.missingCount - a.missingCount);
+    const later = [...D.gaps.filter(g => g.noData && !isDiscontinued(g.lang)), ...D.gaps.filter(g => isDiscontinued(g.lang))];
+    const half = Math.ceil(main.length / 2);
+    document.getElementById('cov-grid').innerHTML =
+      `<div class="cov-col"><h3>Most images missing</h3>${main.slice(0, half).map(covRow).join('')}</div>` +
+      `<div class="cov-col"><h3>Fewer missing</h3>${main.slice(half).map(covRow).join('')}<h3>Card data first</h3>${later.map(covRow).join('')}</div>`;
+    document.querySelectorAll('#cov-grid .crow').forEach(b => b.addEventListener('click', () => {
+      state.set = null; stopStory(true);
+      setLang(state.lang === b.dataset.lang ? '' : b.dataset.lang);
+    }));
+  }
+  function syncCoverage() {
+    document.querySelectorAll('#cov-grid .crow').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === state.lang)));
+    // phones: the rows are a swipeable strip, bring the picked language's card into view
+    const grid = document.getElementById('cov-grid'), on = grid.querySelector('[aria-pressed="true"]');
+    if (on && grid.scrollWidth > grid.clientWidth) grid.scrollLeft = on.offsetLeft - grid.offsetLeft - 16;
+  }
+
+  /* ---------- overview: which source has which language ---------- */
+  const MX_GROUPS = ['Origin', 'First copy', 'Re-host · wiki', 'Shops · TCGdex', 'Discontinued'];
+  const mxCols = nodes.slice().sort((a, b) => (a.disc - b.disc) || (a.tier - b.tier) || (a.f - b.f));
+  const grp = n => n.disc ? 4 : n.tier;
+  const mxRows = [...LENS, ...LENS_DISC];
+  const natureWords = { digital: 'digital images', scan: 'scans', photo: 'photos', mixed: 'digital + scans', physical: 'the printed card itself' };
+  {
+    const start = (n, i) => i === 0 || grp(mxCols[i - 1]) !== grp(n);
+    const groups = MX_GROUPS.map((t, k) => [t, mxCols.filter(n => grp(n) === k).length]).filter(([, c]) => c);
+    let h = `<thead><tr class="tier"><th></th>${groups.map(([t, c]) => `<th colspan="${c}" scope="colgroup">${t}</th>`).join('')}</tr>
+      <tr class="ico"><th></th>${mxCols.map((n, i) => `<th scope="col" class="${start(n, i) ? 'tstart' : ''}" data-s="${n.id}"><button aria-label="${esc(n.name)}"><img src="${esc(n.icon)}" alt=""></button></th>`).join('')}</tr></thead><tbody>`;
+    mxRows.forEach(l => {
+      h += `<tr class="${isDiscontinued(l) ? 'disc' : ''}" data-lang="${l}"><th scope="row"><button title="Show ${esc(langInfo(l).label)}">${flagImg(l)}${esc(l)}</button></th>` + mxCols.map((n, i) => {
+        const has = serves(n, l);
+        return `<td class="${start(n, i) ? 'tstart' : ''}" data-s="${n.id}" data-l="${l}">${has ? `<span class="mk ${n.imageNature}" style="--m:var(--c-${n.family})"></span>` : ''}</td>`;
+      }).join('') + '</tr>';
+    });
+    const mx = document.getElementById('mx');
+    mx.innerHTML = h + '</tbody>';
+    const tip = document.createElement('div'); tip.className = 'mx-tip'; tip.hidden = true; document.body.appendChild(tip);
+    mx.addEventListener('mousemove', e => {
+      const c = e.target.closest('[data-s]'); if (!c) { tip.hidden = true; return; }
+      const n = nById[c.dataset.s], l = c.dataset.l;
+      tip.innerHTML = `<b>${esc(n.name)}</b> · ${esc(D.families[n.family].label)}<br>${esc(natureWords[n.imageNature] || n.imageNature)} · ${esc(n.resolution)}` +
+        (l ? `<br>${serves(n, l) ? '✓ has' : '— no'} ${esc(langInfo(l).label)}` : '');
+      tip.hidden = false;
+      tip.style.left = Math.min(e.clientX + 14, innerWidth - tip.offsetWidth - 8) + 'px';
+      tip.style.top = (e.clientY + 16) + 'px';
+    });
+    mx.addEventListener('mouseleave', () => { tip.hidden = true; });
+    mx.addEventListener('click', e => {
+      const row = e.target.closest('tbody th button');
+      if (row) { state.set = null; const l = row.closest('tr').dataset.lang; setLang(state.lang === l ? '' : l); return; }
+      const c = e.target.closest('[data-s]');
+      if (c && (c.tagName === 'TH' || c.querySelector('.mk'))) openPanel(c.dataset.s);
+    });
+    document.getElementById('mx-key').innerHTML =
+      [['digital', 'digital image'], ['mixed', 'digital + scans'], ['scan', 'scans / photos'], ['physical', 'the printed card']].map(([k, l]) => `<span><i class="mk ${k}" style="--m:var(--muted)"></i>${l}</span>`).join('') +
+      `<span class="gap-k"></span>` + Object.entries(D.families).map(([k, f]) => `<span><i class="sw" style="background:var(--c-${k})"></i>${esc(f.label)}</span>`).join('');
+  }
+  // follow the page's focus: picked language row, dimmed columns outside the current highlight, the open source
+  function syncMatrix(keep) {
+    const mx = document.getElementById('mx'); if (!mx || !mx.rows.length) return;
+    mx.querySelectorAll('tbody tr').forEach(r => r.classList.toggle('sel', r.dataset.lang === state.lang));
+    mx.querySelectorAll('[data-s]').forEach(c => {
+      const n = nById[c.dataset.s];
+      c.classList.toggle('dim', !!keep && !keep.has(n));
+      c.classList.toggle('pin', n === state.pinned);
+    });
+  }
+
+  /* ---------- overview: one card, three copies (drawn to scale) ---------- */
+  if (D.compare) {
+    const C = D.compare, SC = 3;
+    document.getElementById('one-sub').textContent = `${C.card} · checked ${C.checked}`;
+    document.getElementById('copies').innerHTML = `<div class="chain">` + C.steps.map((st, i) => {
+      const n = nById[st.source];
+      const frame = st.url
+        ? `<div class="frame" style="width:${Math.round(st.w / SC)}px;aspect-ratio:${st.w}/${st.h}"><img loading="lazy" referrerpolicy="no-referrer" src="${esc(st.url)}" alt="${esc(C.card)} as served by ${esc(n.name)}"></div>`
+        : `<div class="frame empty" style="width:${Math.round(st.w / SC)}px;aspect-ratio:${st.w}/${st.h}"><span>${esc(st.empty)}</span></div>`;
+      return (i ? `<div class="arrow${st.same ? ' same' : ''}"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>${esc(st.via)}</span></div>` : '') +
+        `<div class="cc"><button class="who" data-go="${n.id}"><img class="ico" src="${esc(n.icon)}" alt="">${esc(shortName(n))}</button>${frame}
+          <div class="spec">${st.url ? `<b>${esc(st.spec.split(' · ')[0])}</b>${st.spec.includes(' · ') ? ' · ' + esc(st.spec.split(' · ').slice(1).join(' · ')) : ''}<br><a href="${esc(st.url)}" target="_blank" rel="noopener noreferrer">${esc(hostOf(st.url))} ↗</a>` : `<b>origin</b><br>${esc(st.spec)}`}</div></div>`;
+    }).join('') + `</div><div class="scale"><i style="width:${Math.round(300 / SC)}px"></i>300 px of image · ${esc(C.note)}</div>`;
+    document.querySelectorAll('#copies img').forEach(img => { img.onerror = () => { img.replaceWith(Object.assign(document.createElement('span'), { className: 'nofile', textContent: `${hostOf(img.src)} doesn't allow embedding — use the link` })); }; });
+    document.querySelectorAll('#copies [data-go]').forEach(b => b.addEventListener('click', () => openPanel(b.dataset.go)));
+  }
+
+  /* ---------- first-visit guide (three steps, remembered) ---------- */
+  const store = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch { /* private mode */ } } };
+  const GUIDE = [
+    ['#lang-btn', 'Pick a language. The bars, the map and the table below all filter to it.'],
+    ['#cov-grid', 'Each bar is how much of a language TCGdex has. Green is missing but ready to fill from an official image; grey is what we found no source for.'],
+    ['#map .sec-h', 'The map shows who copies whom, left to right. Hover a box to trace where its images come from, click it for the details.']
+  ];
+  let coach = null, ringEl = null, guideStep = -1;
+  function endGuide() { coach?.remove(); ringEl?.classList.remove('target-ring'); coach = null; guideStep = -1; store.set('atlas-guide', 'done'); }
+  function guide(i) {
+    coach?.remove(); ringEl?.classList.remove('target-ring');
+    if (i >= GUIDE.length) return endGuide();
+    guideStep = i;
+    const [sel, text] = GUIDE[i], t = document.querySelector(sel);
+    if (!t || !t.offsetParent) return guide(i + 1);
+    if (i > 0) t.scrollIntoView({ block: 'center' });
+    ringEl = t; t.classList.add('target-ring');
+    coach = document.createElement('div'); coach.className = 'coach'; coach.setAttribute('role', 'dialog'); coach.setAttribute('aria-label', `Guide, step ${i + 1} of ${GUIDE.length}`);
+    coach.innerHTML = `<div class="st">${i + 1} / ${GUIDE.length}</div><p>${text}</p><div class="acts"><button class="next" type="button">${i === GUIDE.length - 1 ? 'Got it' : 'Next'}</button><button class="skip" type="button">Skip</button></div>`;
+    document.body.appendChild(coach);
+    const r = t.getBoundingClientRect(), w = coach.offsetWidth;
+    const left = Math.max(12, Math.min(r.left + scrollX, document.documentElement.clientWidth - w - 12));
+    coach.style.left = left + 'px';
+    coach.style.top = (r.top + scrollY + Math.min(r.height, 64) + 12) + 'px';
+    coach.style.setProperty('--ax', Math.max(14, Math.min(r.left + scrollX + 18 - left, w - 26)) + 'px');
+    coach.querySelector('.next').onclick = () => guide(i + 1);
+    coach.querySelector('.skip').onclick = endGuide;
+    coach.addEventListener('keydown', e => { if (e.key === 'Escape') endGuide(); });
+    coach.querySelector('.next').focus({ preventScroll: true });
+  }
+  document.getElementById('guide-btn').addEventListener('click', () => { showView('network'); scrollTo(0, 0); guide(0); });
+  window.addEventListener('resize', () => { if (guideStep >= 0) guide(guideStep); });
+
   /* ---------- sources table ---------- */
   const feedsTcgdex = upstream(nById.tcgdex);
   const inN = s => D.links.filter(l => l.to === s.id).length, outN = s => D.links.filter(l => l.from === s.id).length;
@@ -867,6 +1071,7 @@
 
   /* ---------- init ---------- */
   const h0 = new URLSearchParams(location.hash.slice(1));
+  renderFindings();
   showView(h0.get('v') || 'network');
   setLang(h0.get('l') || '');
   rove(document.getElementById('mode'));
@@ -879,7 +1084,7 @@
     catch { window.prompt('Copy this link', location.href); }
     setTimeout(() => { b.textContent = 'Copy link'; }, 1600);
   });
-  document.querySelector('.ai-more')?.addEventListener('click', e => { e.target.closest('.ai-notice').classList.add('open'); e.target.remove(); });
+  if (![...h0.keys()].length && store.get('atlas-guide') !== 'done') setTimeout(() => guide(0), 700);
   if (h0.get('s')) openPanel(h0.get('s'));
   else if (h0.get('st')) { const [sid, k] = h0.get('st').split('.'); startStory(sid, (+k || 1) - 1); }
 })();

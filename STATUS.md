@@ -8,16 +8,25 @@ Live: https://nstrelow.github.io/ptcg-image-atlas/ · repo `nstrelow/ptcg-image-
 - `index.html` · `style.css` · `app.js` (D3 v7 from jsDelivr) · `data.json` (all content) ·
   `icons/` (each site's favicon/logo, 64 px; `print`, `paradijs`, `pokeca` are drawn
   placeholders) · `spec.md` (goals, data model, wording rules) · `README.md` · `LICENSE` (MIT, code).
-- Views: **Network** (left → right lanes: origin → extract/scan/dataset → re-host/wiki → consumers;
-  every source is a box with a type-coloured bar, icon, name, language flags and tags SCANS/+SCANS/WM/300×419;
-  lane membership from `ORDER` in `app.js`, the order inside a lane is re-sorted to cross fewer links),
-  **TCGdex gaps**, **Sources** table, **Method**.
-- Network controls: a **language lens** (flag buttons with source counts; picking one redraws the graph with
-  only that language's sources and shows a summary: official source, what TCGdex misses, best fills),
-  a highlight switch (all / where TCGdex's images come from / scans), find-a-source, click a legend type to
-  highlight it. Hover or click a box to trace its lineage.
-- Top of page: one-line AI-disclaimer banner, then 4 key findings (`short` one-liner from `data.json`
-  callouts, full text under Details; "Show in network" switches to the finding's `lang` and highlights its sources).
+- Views: **Overview** (tab id `network`), **TCGdex gaps**, **Sources** table, **Method**.
+- Sticky header: title, "AI research notes" chip (opens the disclaimer, same wording), tabs, Guide.
+  Under it, one control bar for the overview: language picker (flags + source counts, discontinued
+  apart), "Follow one card" menu (stories), highlight switch (all / TCGdex's sources / scans), find a
+  source, copy link.
+- Overview, top to bottom: 4 number tiles (sources, links, images TCGdex lacks, languages; each is a
+  shortcut) + 4 finding badges (`callouts[].badge` value + label; click = sentence, full text, "Show in
+  map") · coverage bars, one per language (TCGdex has / official ready / watermarked / ask rights holder /
+  fan scan / no source, from the same `gapSegments` as the gaps view; `gaps[].issue` + `issueKind` is the
+  one-line label; click = language filter + summary) · the map (lanes left → right, boxes now carry icons
+  instead of SCANS/WM/300×419 text: scans only, plus some scans, photos, watermarked, small images) ·
+  language × source grid (rows = languages, columns = sources in lane order; colour = type, shape =
+  digital/mixed/scan/printed; follows the language, highlight and open source) · "One card, three copies"
+  (`compare` in `data.json`: Mega Evolution #001 at TCG Live → malie → pokemontcg.io → TCGdex, drawn at
+  1/3 scale, images load from each site).
+- Phones: finding badges 2×2, coverage rows become swipeable language cards (official source + best
+  fill), the map stays a lane list with "See the full map"; search/copy link hidden in the bar.
+- First visit (no hash): a three-step guide (language → bars → map), remembered in localStorage;
+  "Guide" replays it.
 - Deep links: `#v=gaps|sources|method`, `#s=<source id>`, `#l=<language>` (e.g. `#l=ko`), `#m=tcgdex|scans`,
   `#f=<family>`, `#st=<story>.<step>`; the "Copy link" button copies the current hash.
 - 42 sources, 77 links. Link confidence: verified (pixel match) · stated · likely ·
@@ -116,3 +125,12 @@ Snapshot 2026-09-23/24, plus these 2026-09-25 checks:
   (alternative to pokemontcg.io's kits/holos); nl Paradijs count 228 card scans. Poképédia, PokéWiki and
   PokeZentrum got their listing counts (6,664 / ≈10,700 / 1,158); their full mirrors are running in the
   research repo, results to follow.
+
+- 2026-09-26 (evening): **dashboard-first redesign** (owner picked every option from a UX proposal, then
+  "implement it all"). The text above the map (headline, 3-step flow, banner, 4 finding paragraphs, three
+  control rows) is gone: numbers, badges, coverage bars and one sticky control bar replace it; new
+  language × source grid and drawn-to-scale card comparison; icons replace the text tags on boxes; phone
+  language cards; first-visit guide. New `data.json` fields: `callouts[].badge`, `gaps[].issue`/`issueKind`,
+  `compare`. Checked while building: pokemontcg.io's `me1/1_hires.png` is malie's `me1_en_001_std.png`
+  byte for byte (546,467 bytes); TCGdex serves the same card at 600×825. `og.png` still shows the old map
+  boxes (text tags); re-render when convenient.

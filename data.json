@@ -2826,7 +2826,9 @@
       "total": 14551,
       "have": 4231,
       "missingCount": 10320,
-      "missingNote": "Plus 8,308 official images for sets that have no card data yet."
+      "missingNote": "Plus 8,308 official images for sets that have no card data yet.",
+      "issue": "1996–2006: scans only",
+      "issueKind": "info"
     },
     {
       "lang": "zh-tw",
@@ -2843,7 +2845,9 @@
       ],
       "total": 7925,
       "have": 2166,
-      "missingCount": 5759
+      "missingCount": 5759,
+      "issue": "official images ready",
+      "issueKind": "good"
     },
     {
       "lang": "th",
@@ -2860,7 +2864,9 @@
       ],
       "total": 5025,
       "have": 1284,
-      "missingCount": 3741
+      "missingCount": 3741,
+      "issue": "official images ready",
+      "issueKind": "good"
     },
     {
       "lang": "id",
@@ -2877,7 +2883,9 @@
       ],
       "total": 4819,
       "have": 1152,
-      "missingCount": 3667
+      "missingCount": 3667,
+      "issue": "official images ready",
+      "issueKind": "good"
     },
     {
       "lang": "en",
@@ -2925,7 +2933,9 @@
       ],
       "total": 21267,
       "have": 19508,
-      "missingCount": 1759
+      "missingCount": 1759,
+      "issue": "kits & holos: scans only",
+      "issueKind": "info"
     },
     {
       "lang": "fr",
@@ -2958,7 +2968,9 @@
       ],
       "total": 20106,
       "have": 17022,
-      "missingCount": 3084
+      "missingCount": 3084,
+      "issue": "vintage: scans only",
+      "issueKind": "info"
     },
     {
       "lang": "de",
@@ -3000,7 +3012,9 @@
       "total": 19843,
       "have": 13952,
       "missingCount": 5891,
-      "missingNote": "Almost all of it is 1999–2011."
+      "missingNote": "Almost all of it is 1999–2011.",
+      "issue": "1999–2011: scans only",
+      "issueKind": "info"
     },
     {
       "lang": "it",
@@ -3025,7 +3039,9 @@
       "total": 14587,
       "have": 13384,
       "missingCount": 1203,
-      "missingNote": "No Italian card data before SM/XY, so vintage cannot be placed."
+      "missingNote": "No Italian card data before SM/XY, so vintage cannot be placed.",
+      "issue": "no card data before SM",
+      "issueKind": "info"
     },
     {
       "lang": "es",
@@ -3050,7 +3066,9 @@
       "total": 14421,
       "have": 13257,
       "missingCount": 1164,
-      "missingNote": "No Spanish card data before XY."
+      "missingNote": "No Spanish card data before XY.",
+      "issue": "no card data before XY",
+      "issueKind": "info"
     },
     {
       "lang": "pt",
@@ -3067,7 +3085,9 @@
       ],
       "total": 14455,
       "have": 13081,
-      "missingCount": 1374
+      "missingCount": 1374,
+      "issue": "official images ready",
+      "issueKind": "good"
     },
     {
       "lang": "ko",
@@ -3093,7 +3113,9 @@
       "have": 0,
       "missingCount": 239,
       "missingNote": "Pokémon Korea's database holds 14,908 official (watermarked) images from 2010 on; TCGdex has 239 Korean card files, so card data has to come first.",
-      "noData": true
+      "noData": true,
+      "issue": "watermarked · card data first",
+      "issueKind": "warn"
     },
     {
       "lang": "zh-cn",
@@ -3119,7 +3141,9 @@
       "total": 7420,
       "have": 0,
       "missingCount": 7420,
-      "missingNote": "Card files from our zh-cn branch; upstream's own zh-cn names on SV7–SV10 are Traditional-Chinese copies and their images the Taiwan print."
+      "missingNote": "Card files from our zh-cn branch; upstream's own zh-cn names on SV7–SV10 are Traditional-Chinese copies and their images the Taiwan print.",
+      "issue": "300×419 · ask rights holder",
+      "issueKind": "warn"
     },
     {
       "lang": "nl",
@@ -3147,7 +3171,9 @@
       "have": 0,
       "missingCount": 4,
       "missingNote": "The three Dutch sets have 228 cards; only 4 have Dutch card data.",
-      "noData": true
+      "noData": true,
+      "issue": "card data first",
+      "issueKind": "muted"
     },
     {
       "lang": "ru",
@@ -3166,7 +3192,9 @@
       "have": 0,
       "missingCount": 10,
       "missingNote": "Nine Russian XY-era sets; card data first.",
-      "noData": true
+      "noData": true,
+      "issue": "card data first",
+      "issueKind": "muted"
     },
     {
       "lang": "pl",
@@ -3177,7 +3205,9 @@
       "have": 0,
       "missingCount": 4,
       "missingNote": "Two Polish sets from 2007; card data first.",
-      "noData": true
+      "noData": true,
+      "issue": "card data first",
+      "issueKind": "muted"
     }
   ],
   "permissions": {
@@ -3215,7 +3245,11 @@
       ],
       "short": "The official site pokemoncard.co.kr serves only watermarked images, and the Korean fan databases we found link to those same files.",
       "lang": "ko",
-      "tag": "WATERMARK"
+      "tag": "WATERMARK",
+      "badge": {
+        "value": "WM",
+        "label": "official images are watermarked"
+      }
     },
     {
       "id": "zhcn",
@@ -3233,7 +3267,11 @@
       ],
       "short": "The only complete set we found is the WeChat mini-program's, at 300×419; larger official renders exist for ≈ 15% of the cards.",
       "lang": "zh-cn",
-      "tag": "LOW-RES"
+      "tag": "LOW-RES",
+      "badge": {
+        "value": "300 px",
+        "label": "the full set we found is small"
+      }
     },
     {
       "id": "quality",
@@ -3250,7 +3288,11 @@
         "wiki52poke"
       ],
       "short": "malie, the Singapore English print, TCG Collector, bisafans, Poképédia and pokemon.cn have larger originals than TCGdex's 600×825.",
-      "tag": "UPGRADE"
+      "tag": "UPGRADE",
+      "badge": {
+        "value": "1,543 px",
+        "label": "largest originals we found; TCGdex serves 600 px"
+      }
     },
     {
       "id": "vintage",
@@ -3264,7 +3306,11 @@
         "ccdb"
       ],
       "short": "We found no Base Set → Platinum card published as an official digital image online; for English, nearly everyone uses the scans by Martin of Pokémon Paradijs.",
-      "tag": "CONTEXT"
+      "tag": "CONTEXT",
+      "badge": {
+        "value": "0",
+        "label": "official images we found online for 1999–2010 cards"
+      }
     }
   ],
   "stories": [
@@ -3537,5 +3583,45 @@
         }
       ]
     }
-  ]
+  ],
+  "compare": {
+    "title": "One card, three copies",
+    "card": "Mega Evolution #001, English",
+    "checked": "2026-09-26",
+    "note": "Drawn to scale: 1 px on screen is 3 px of image. The pictures load from each site, nothing is hosted here.",
+    "steps": [
+      {
+        "source": "tcgl",
+        "w": 733,
+        "h": 1024,
+        "spec": "official digital render",
+        "empty": "Inside the game client, not published as a file"
+      },
+      {
+        "source": "malie",
+        "w": 733,
+        "h": 1024,
+        "spec": "733 × 1024 PNG · 534 KB",
+        "url": "https://cdn.malie.io/file/malie-io/tcgl/cards/png/en/me1/me1_en_001_std.png",
+        "via": "exports"
+      },
+      {
+        "source": "pokemontcgio",
+        "w": 733,
+        "h": 1024,
+        "spec": "733 × 1024 PNG · 534 KB",
+        "url": "https://images.pokemontcg.io/me1/1_hires.png",
+        "via": "same file, byte for byte",
+        "same": true
+      },
+      {
+        "source": "tcgdex",
+        "w": 600,
+        "h": 825,
+        "spec": "600 × 825 WebP · 66 KB",
+        "url": "https://assets.tcgdex.net/en/me/me01/001/high.webp",
+        "via": "same pixels, scaled down"
+      }
+    ]
+  }
 }
