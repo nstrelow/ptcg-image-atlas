@@ -517,6 +517,8 @@ html { scroll-padding-top: calc(var(--sticky-h, 110px) + 8px); }
 .mx .ico img { width: 22px; height: 22px; border-radius: 5px; background: #fff; display: block; object-fit: contain; box-shadow: 0 0 0 1px var(--line); }
 .mx .tstart { border-left: 1px solid var(--line); }
 .mx tbody th { text-align: left; padding: 0 10px 0 0; white-space: nowrap; }
+.mx tbody th, .mx thead th:first-child { position: sticky; left: 0; z-index: 1; background: var(--card); }
+.mx tbody tr.sel th { background: color-mix(in srgb, var(--accent) 10%, var(--card)); }
 .mx tbody th button { display: inline-flex; gap: 6px; align-items: center; background: none; border: 0; padding: 2px 6px 2px 2px; border-radius: 6px; color: var(--text); cursor: pointer; font: 600 11.5px/1 "JetBrains Mono", monospace; }
 .mx tbody th button:hover { background: var(--bg2); }
 .mx tbody tr.disc th button { color: var(--muted); }
@@ -578,9 +580,18 @@ html { scroll-padding-top: calc(var(--sticky-h, 110px) + 8px); }
   .top { padding-block: 10px 6px; gap: 8px 10px; }
   .top h1 { font-size: 17px; }
   .tabs { order: 5; margin-left: 0; width: 100%; }
+  .tabs button { padding: 7px 10px; font-size: 13.5px; }
   .guide-btn { margin-left: auto; padding: 4px 9px; font-size: 12px; }
   .chip-t { display: none; }
   .ctl .tb-right { display: none; }
+  /* menus open full width under the bar and scroll inside themselves */
+  .ctl { position: relative; }
+  .dd { position: static; }
+  .menu { left: 0; right: 0; width: auto; max-height: calc(100dvh - var(--sticky-h, 170px) - 12px); overflow-y: auto; overscroll-behavior: contain; }
+  .lang-menu, .story-menu { width: auto; }
+  .lang-menu { grid-template-columns: 1fr 1fr; }
+  .lang-menu .opt .c { display: none; }
+  .opt { padding: 9px 10px; font-size: 14px; }
   .ctl { gap: 6px; }
   .ctl .seg { order: 4; width: 100%; overflow-x: auto; }
   .ctl .seg button { flex: 1 0 auto; }

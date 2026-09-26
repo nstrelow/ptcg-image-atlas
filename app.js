@@ -943,7 +943,7 @@
 
   /* ---------- overview: one card, three copies (drawn to scale) ---------- */
   if (D.compare) {
-    const C = D.compare, SC = 3;
+    const C = D.compare, SC = matchMedia('(max-width: 760px)').matches ? 5 : 3;
     document.getElementById('one-sub').textContent = `${C.card} · checked ${C.checked}`;
     document.getElementById('copies').innerHTML = `<div class="chain">` + C.steps.map((st, i) => {
       const n = nById[st.source];
@@ -953,7 +953,7 @@
       return (i ? `<div class="arrow${st.same ? ' same' : ''}"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>${esc(st.via)}</span></div>` : '') +
         `<div class="cc"><button class="who" data-go="${n.id}"><img class="ico" src="${esc(n.icon)}" alt="">${esc(shortName(n))}</button>${frame}
           <div class="spec">${st.url ? `<b>${esc(st.spec.split(' · ')[0])}</b>${st.spec.includes(' · ') ? ' · ' + esc(st.spec.split(' · ').slice(1).join(' · ')) : ''}<br><a href="${esc(st.url)}" target="_blank" rel="noopener noreferrer">${esc(hostOf(st.url))} ↗</a>` : `<b>origin</b><br>${esc(st.spec)}`}</div></div>`;
-    }).join('') + `</div><div class="scale"><i style="width:${Math.round(300 / SC)}px"></i>300 px of image · ${esc(C.note)}</div>`;
+    }).join('') + `</div><div class="scale"><i style="width:${Math.round(300 / SC)}px"></i>300 px of image · ${esc(C.note.replace('3 px', SC + ' px'))}</div>`;
     document.querySelectorAll('#copies img').forEach(img => { img.onerror = () => { img.replaceWith(Object.assign(document.createElement('span'), { className: 'nofile', textContent: `${hostOf(img.src)} doesn't allow embedding — use the link` })); }; });
     document.querySelectorAll('#copies [data-go]').forEach(b => b.addEventListener('click', () => openPanel(b.dataset.go)));
   }
@@ -988,7 +988,12 @@
     coach.addEventListener('keydown', e => { if (e.key === 'Escape') endGuide(); });
     coach.querySelector('.next').focus({ preventScroll: true });
   }
-  document.getElementById('guide-btn').addEventListener('click', () => { showView('network'); scrollTo(0, 0); guide(0); });
+  document.getElementById('guide-btn').addEventListener('click', e => { e.stopPropagation(); showView('network'); scrollTo(0, 0); guide(0); });
+  document.addEventListener('click', e => {
+    if (!coach || coach.contains(e.target)) return;
+    if (ringEl && ringEl.contains(e.target) && guideStep === 0) { const b = e.target.closest('button'); endGuide(); if (b) b.focus(); return; }
+    endGuide();
+  }, true);
   window.addEventListener('resize', () => { if (guideStep >= 0) guide(guideStep); });
 
   /* ---------- sources table ---------- */
