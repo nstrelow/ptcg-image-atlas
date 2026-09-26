@@ -134,3 +134,9 @@ Snapshot 2026-09-23/24, plus these 2026-09-25 checks:
   `compare`. Checked while building: pokemontcg.io's `me1/1_hires.png` is malie's `me1_en_001_std.png`
   byte for byte (546,467 bytes); TCGdex serves the same card at 600×825. `og.png` still shows the old map
   boxes (text tags); re-render when convenient.
+- 2026-09-26 (evening): Poképédia, PokéWiki and PokeZentrum mirrors matched card by card against
+  TCGdex (`pokeassets/tools/vintage_eval.py`) and by pixels against the other sources. Gap rows:
+  fr Poképédia 302 own scans (583 more are the same files as pkmcards.fr), de PokéWiki 3,840
+  (median 466 px), de PokeZentrum 579 (median 853 px). Links: pkmcards.fr↔Poképédia now `verified`
+  (2,760 same files), new `paradijs → pokewiki` (480 pokemontcg.io English scans) and
+  `malie → pokezentrum` (325 modern renders); stats on all three rewritten with measured counts.

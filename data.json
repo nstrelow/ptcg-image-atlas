@@ -1404,16 +1404,20 @@
       ],
       "stats": [
         {
-          "label": "card scans (WOTC → Platinum)",
-          "value": "≈ 4,500"
-        },
-        {
-          "label": "unmatched (own scans)",
-          "value": "8 / 12 sampled"
-        },
-        {
           "label": "vintage scan files (WOTC → Platinum, POP, early promos, JP vintage)",
           "value": "6,664 in 110 categories (of 27,541 scans)"
+        },
+        {
+          "label": "French cards TCGdex has no image for",
+          "value": "916, of which 302 are Poképédia's own scans"
+        },
+        {
+          "label": "same files as pkmcards.fr",
+          "value": "2,760 (41%)"
+        },
+        {
+          "label": "own scans ≥ 700 px of cards TCGdex already shows",
+          "value": "393 (possible upgrades)"
         }
       ],
       "id": "pokepedia",
@@ -1459,16 +1463,20 @@
       ],
       "stats": [
         {
-          "label": "unmatched (vintage)",
-          "value": "11 / 12 sampled"
+          "label": "German 1999–2011 files",
+          "value": "5,122 in 74 set categories"
         },
         {
-          "label": "malie copies (HGSS)",
-          "value": "2 / 2 sampled"
+          "label": "German cards TCGdex has no image for",
+          "value": "4,148, of which 3,840 are PokéWiki's own scans"
         },
         {
-          "label": "German 1999–2011 set categories",
-          "value": "74, ≈ 10,700 files"
+          "label": "median width of those",
+          "value": "466 px (1,637 at ≥ 600 px)"
+        },
+        {
+          "label": "same files as malie's renders (modern)",
+          "value": "521"
         }
       ],
       "id": "pokewiki",
@@ -2037,6 +2045,18 @@
         {
           "label": "German vintage card photos in its media library",
           "value": "1,158 (of 10,194 German uploads)"
+        },
+        {
+          "label": "German card photos picked from the media library",
+          "value": "1,158 (of 10,194 \"Deutsch\" uploads)"
+        },
+        {
+          "label": "German cards TCGdex has no image for",
+          "value": "596, of which 579 are PokeZentrum's own scans"
+        },
+        {
+          "label": "median width of those",
+          "value": "853 px"
         }
       ],
       "callout": "vintage",
@@ -2641,7 +2661,7 @@
       "kind": "scans",
       "confidence": "likely",
       "scope": "fr vintage",
-      "evidence": "8 of 12 sampled match no other source; 450–1068 px wide."
+      "evidence": "2,680 of 6,664 vintage files match no other source we hold; 450–1068 px wide."
     },
     {
       "from": "malie",
@@ -2655,17 +2675,17 @@
       "from": "pkmcardsfr",
       "to": "pokepedia",
       "kind": "shared",
-      "confidence": "unknown-direction",
-      "scope": "fr, DP era, some",
-      "evidence": "1 sampled Diamant & Perle file identical to pkmcards.fr's."
+      "confidence": "verified",
+      "scope": "fr vintage",
+      "evidence": "We found 2,760 of 6,664 vintage files (41%) are the same image as pkmcards.fr's; which came first is unknown."
     },
     {
       "from": "paradijs",
       "to": "pokepedia",
       "kind": "copies",
-      "confidence": "likely",
-      "scope": "DP era, some",
-      "evidence": "1 sampled Diamant & Perle file identical to pokemontcg.io's English scan."
+      "confidence": "verified",
+      "scope": "fr vintage, English files",
+      "evidence": "We found 1,022 of 6,664 files are the same image as pokemontcg.io's English scans."
     },
     {
       "from": "print",
@@ -2673,7 +2693,7 @@
       "kind": "scans",
       "confidence": "stated",
       "scope": "de vintage",
-      "evidence": "File pages credit shops, eBay sellers and scanners; 11 of 12 sampled match no other source."
+      "evidence": "File pages credit shops, eBay sellers and scanners; 3,940 of 5,122 files match no other source we hold."
     },
     {
       "from": "malie",
@@ -2681,7 +2701,7 @@
       "kind": "copies",
       "confidence": "verified",
       "scope": "de, HGSS → today",
-      "evidence": "2 of 2 sampled HeartGold & SoulSilver files are pixel copies of malie's PTCGO renders."
+      "evidence": "We found 521 files are the same image as malie's PTCGO renders."
     },
     {
       "from": "pcj",
@@ -2729,7 +2749,7 @@
       "kind": "scans",
       "confidence": "stated",
       "scope": "de vintage",
-      "evidence": "6 of 6 sampled Fossil files match no other source (bisafans included); filenames say \"1st Edition … Deutsch\"."
+      "evidence": "799 of 1,156 files match no other source we hold (bisafans included); filenames say \"1st Edition … Deutsch\"."
     },
     {
       "from": "print",
@@ -2754,6 +2774,22 @@
       "confidence": "verified",
       "scope": "nl, 1999",
       "evidence": "base-nl/004 (Charizard) from the archived pokemon-paradijs.com correlates 1.000 with pokemonkaart.nl's file."
+    },
+    {
+      "from": "paradijs",
+      "to": "pokewiki",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "English images on German pages",
+      "evidence": "We found 480 files are the same image as pokemontcg.io's English scans (221 of them stand in for German cards TCGdex lacks)."
+    },
+    {
+      "from": "malie",
+      "to": "pokezentrum",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "de, modern",
+      "evidence": "We found 325 of its modern \"Deutsch\" files are the same image as malie's renders."
     }
   ],
   "gaps": [
@@ -2954,15 +2990,15 @@
           "count": 754,
           "nature": "scan",
           "permission": "scanner",
-          "note": "≈ DP era and older (DP era alone 754 missing); exact overlap not counted.",
+          "note": "≈ DP era and older (DP era alone 754 missing). 583 of these are also on Poképédia as the same files.",
           "alt": "fr-vintage"
         },
         {
           "source": "pokepedia",
-          "count": 0,
+          "count": 302,
           "nature": "scan",
           "permission": "scanner",
-          "note": "Larger vintage scans than pkmcards.fr (up to 1068 px); overlap with the missing cards not counted. Check each file's language.",
+          "note": "Own scans for 302 cards TCGdex lacks (DP/Pt 178, EX 67, WOTC 26), median 500 px. Another 583 missing cards are there too, but as the same files as pkmcards.fr. Plus 393 larger own scans of cards TCGdex already shows.",
           "alt": "fr-vintage"
         }
       ],
@@ -2994,18 +3030,18 @@
         },
         {
           "source": "pokewiki",
-          "count": 0,
+          "count": 3840,
           "nature": "scan",
           "permission": "scanner",
-          "note": "Second source for bisafans' holes: 100–150 images per vintage set, credited per file to shops and scanners.",
+          "note": "Own scans for 3,840 cards TCGdex lacks (EX 1,483, DP/Pt 1,310, WOTC 627, e-card 410); small, median 466 px. File pages credit shops and scanners.",
           "alt": "de-vintage"
         },
         {
           "source": "pokezentrum",
-          "count": 0,
+          "count": 579,
           "nature": "scan",
           "permission": "scanner",
-          "note": "Per-set gallery posts at ~1070 × 1500, the sharpest German vintage scans we found (Fossil, Gym, Neo, HGSS …). Keep only the \"Deutsch\" files.",
+          "note": "Own scans for 579 cards TCGdex lacks (WOTC 456, EX 69, e-card 33, DP/Pt 21), median 853 px: the sharpest German vintage scans we found. 503 of them are on PokéWiki too, in smaller copies.",
           "alt": "de-vintage"
         }
       ],
