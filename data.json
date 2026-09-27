@@ -2918,14 +2918,14 @@
           "count": 7029,
           "nature": "digital",
           "permission": "none",
-          "note": "Plus 1,161 once Japanese names are added to those card files."
+          "note": "Plus 1,160 once Japanese names are added to those card files."
         },
         {
           "source": "pcj",
           "count": 474,
           "nature": "digital",
           "permission": "none",
-          "note": "Promos (S-P/SV-P/M-P): need matching by name + illustrator, no collector number on the site."
+          "note": "Promos (S-P/SV-P/M-P), matched by name + illustrator (no collector number on the site): 474 unique + 2 duplicate-scrape pairs placed confidently, 193 stay genuinely ambiguous (no witness to break the tie), 44 have no scraped image, 44 have no repo slot."
         },
         {
           "source": "pcgsearch",
