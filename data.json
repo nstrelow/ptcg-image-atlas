@@ -1019,7 +1019,7 @@
         "summary": "Member scans. In 2016 its moderators declined to share unwatermarked copies and said they had no authority to distribute members' work.",
         "url": "https://www.pokecardex.com/forums/viewtopic.php?t=22275"
       },
-      "origin": "About 23,000 Western and 24,000 Japanese scans by its members, watermarked.",
+      "origin": "About 23,000 Western and 24,000 Japanese scans by its members, watermarked. Japanese DP era: every set, deck and promo code incl. World Champions Pack, 444×620 / 320×458, watermarked: 26 of 29 sampled are its own scans, the LEGEND L2/L3/LL ones are TCGplayer's scans (3 of 3).",
       "examples": [],
       "stats": [],
       "icon": "icons/pokecardex.png"
@@ -1511,7 +1511,7 @@
         "summary": "Text CC BY-SA 3.0. Images: reuse must be asked of each author separately; some are used with permission or as quotation.",
         "url": "https://www.pokewiki.de/Pok%C3%A9Wiki:Urheberrechte"
       },
-      "origin": "German vintage: 100–150 images per set, each file page credits where it came from (shops such as PlayOn.de, gate-to-the-games.de and mawo-cards.com, eBay sellers, an official press server). None of the sampled files is shared with bisafans, so a second, independent German source. HGSS onwards: malie renders.",
+      "origin": "German vintage: 100–150 images per set, each file page credits where it came from (shops such as PlayOn.de, gate-to-the-games.de and mawo-cards.com, eBay sellers, an official press server). None of the sampled files is shared with bisafans, so a second, independent German source. HGSS onwards: malie renders. Japanese DP era: 51 promo/deck files, 41 of them credited to Bulbapedia.",
       "icon": "icons/pokewiki.png"
     },
     {
@@ -1562,7 +1562,7 @@
         "summary": "Card images are held as fair use (template i-Fairuse-tcg on each file page).",
         "url": "https://wiki.52poke.com/wiki/Template:I-Fairuse-tcg"
       },
-      "origin": "The Chinese Pokémon wiki. Its large Simplified Chinese card files each cite a pokemon.cn product page as their source. Japanese vintage (sample of 141): 37 are pcg-search's 593×834 files (ADV/PCG promos, VS, GB), 58 other scans.",
+      "origin": "The Chinese Pokémon wiki. Its large Simplified Chinese card files each cite a pokemon.cn product page as their source. Japanese vintage (sample of 141): 37 are pcg-search's 593×834 files (ADV/PCG promos, VS, GB), 58 other scans. Japanese DP era (~490 files, 162–751 px): file pages credit Bulbapedia (8 of 30), pokevault.com (6), pokemon-card.com (4), the Creatures PTCG blog (3), hardrock-pokemon.com (2).",
       "callout": "quality",
       "icon": "icons/wiki52poke.png",
       "short": "52poke Wiki"
@@ -1597,7 +1597,7 @@
         "summary": "Original content CC BY-NC-SA 2.5. Card images held as fair use.",
         "url": "https://bulbapedia.bulbagarden.net/wiki/Bulbapedia:Copyrights"
       },
-      "origin": "One file per card, filed under every printing. Its Japanese-set categories are mostly pokemon-card.com's official Japanese images (2,683 pixel copies), plus malie renders (316). The Japanese secret rares are credited \"From Pokeca.net\" and carry pokeca.net's watermark.",
+      "origin": "One file per card, filed under every printing. Its Japanese-set categories are mostly pokemon-card.com's official Japanese images (2,683 pixel copies), plus malie renders (316). The Japanese secret rares are credited \"From Pokeca.net\" and carry pokeca.net's watermark. Japanese DP era: the JP set categories hold English files; only ~50 JP-only promo files (DP-P/DPt-P/L-P), uncredited: official 162 px copies, pokumon's and Elite Fourum's scans.",
       "examples": [
         {
           "label": "Phantump (Guardians Rising 6), filed under a JP set",
@@ -1972,7 +1972,7 @@
         "summary": "—",
         "url": "https://www.serebii.net/"
       },
-      "origin": "Modern Japanese sets: pokemon-card.com's official images (30/30). English vintage: its own scans (600 dpi). SwSh and SV: malie renders (11/12). BW/XY/SM: a digital export different from malie's.",
+      "origin": "Modern Japanese sets: pokemon-card.com's official images (30/30). English vintage: its own scans (600 dpi). SwSh and SV: malie renders (11/12). BW/XY/SM: a digital export different from malie's. Japanese DP era (DPt3 → LEGEND only, ~600 cards): 22 of 29 sampled are pokemon-card.com's 162×226 images; the rest (DPt3, decks, L3/LL holos at 265–479 px) are its own scans.",
       "examples": [
         {
           "label": "Base Set #47 (own scan)",
@@ -2017,7 +2017,7 @@
         "summary": "No statement on image sources.",
         "url": "https://www.pricecharting.com/"
       },
-      "origin": "Mostly photos and scans of physical cards: English vintage, Japanese VS/web, Chinese Gem Pack: the WeChat app's 300×419 renders (6/6). Korean (sample of 6, VSTAR Universe): 5 are photos/scans of real cards (holo glare, foil texture, no watermark); 1 is Pokémon Korea's official watermarked image, shrunk to 400 px. No sign of a watermark being removed or added.",
+      "origin": "Mostly photos and scans of physical cards: English vintage, Japanese VS/web, Chinese Gem Pack: the WeChat app's 300×419 renders (6/6). Korean (sample of 6, VSTAR Universe): 5 are photos/scans of real cards (holo glare, foil texture, no watermark); 1 is Pokémon Korea's official watermarked image, shrunk to 400 px. No sign of a watermark being removed or added. Japanese DP era: 40–150 products per set, mostly phone photos (20 of 27); 1 TCGplayer scan.",
       "examples": [
         {
           "label": "Base Set card (photo)",
@@ -2349,7 +2349,7 @@
         },
         {
           "label": "copies of other files",
-          "value": "0 found"
+          "value": "0 of 60 per source"
         }
       ],
       "icon": "icons/hareruya2.png",
@@ -2360,7 +2360,7 @@
       "name": "CB Torecolo (トレコロ)",
       "family": "market",
       "tier": 1,
-      "url": "https://torecolo.jp/",
+      "url": "https://www.torecolo.jp/",
       "official": false,
       "scanOnly": false,
       "langs": [
@@ -2378,14 +2378,22 @@
       },
       "terms": {
         "summary": "All information and images are copyright of the company or the information provider (terms art. 4).",
-        "url": "https://torecolo.jp/"
+        "url": "https://www.torecolo.jp/"
       },
-      "origin": "Japanese buylist shop. Large /goods/5/ images are its own scans (~70 % of ~2,110 DP-era codes have one); the small /goods/L/ images are copies of pokemon-card.com's 162 px images.",
+      "origin": "Japanese buylist shop. The large /goods/5/ images are its own scans: 0 of 60 shared cards match TCGplayer, Paper Moon, pokumon or hareruya2 (median similarity 0.50–0.58). About 70 % of ~2,110 DP-era codes have one; promos: 219 of 295 DP-P/DPt-P/L-P numbers. The small /goods/L/ images are copies of pokemon-card.com's 162 px images.",
       "examples": [],
       "stats": [
         {
           "label": "DP-era codes in sitemaps",
           "value": "~2,110"
+        },
+        {
+          "label": "DP-era promo images (516 px)",
+          "value": "219 of 295"
+        },
+        {
+          "label": "copies of other files",
+          "value": "0 of 60 per source"
         }
       ],
       "icon": "icons/torecolo.svg",
@@ -2496,6 +2504,115 @@
       "stats": [],
       "icon": "icons/fullahead.png",
       "short": "fullahead"
+    },
+    {
+      "official": false,
+      "scanOnly": true,
+      "langs": [
+        "ja"
+      ],
+      "watermark": false,
+      "api": {
+        "kind": "none"
+      },
+      "submissions": {
+        "yes": false
+      },
+      "examples": [],
+      "stats": [
+        {
+          "label": "DP-era sample",
+          "value": "26 of 26 own scans"
+        }
+      ],
+      "id": "snkrdunk",
+      "name": "SNKRDUNK (スニダン) catalogue",
+      "short": "SNKRDUNK",
+      "family": "market",
+      "tier": 1,
+      "url": "https://snkrdunk.com/",
+      "eras": "DP-era measured (incl. World Champions Pack, PW, DP/DPt promos)",
+      "imageNature": "scan",
+      "resolution": "1000×1000 WebP, background removed (card ~564×800)",
+      "terms": {
+        "summary": "Terms forbid crawling and scraping (クローリング、スクレイピング); robots.txt allows the catalogue pages.",
+        "url": "https://snkrdunk.com/"
+      },
+      "origin": "Japanese resale marketplace. Each catalogue item has one uniform, background-removed scan of the card (not the sellers' photos). DP-era coverage is complete, including every World Champions Pack and PW card. 26 of 26 sampled DP-era images match no other source we hold (best similarity 0.78).",
+      "icon": "icons/snkrdunk.png"
+    },
+    {
+      "official": false,
+      "scanOnly": false,
+      "langs": [
+        "en",
+        "ja"
+      ],
+      "watermark": false,
+      "api": {
+        "kind": "none"
+      },
+      "submissions": {
+        "yes": false
+      },
+      "examples": [],
+      "stats": [
+        {
+          "label": "JP DP-era sample (18 matched)",
+          "value": "9 own · 5 pokumon · 2 TCGplayer · 2 official 162 px"
+        }
+      ],
+      "id": "cardtrader",
+      "name": "CardTrader",
+      "short": "CardTrader",
+      "family": "market",
+      "tier": 2,
+      "url": "https://www.cardtrader.com/en/games/pokemon",
+      "eras": "all (JP DP-era measured)",
+      "imageNature": "mixed",
+      "resolution": "255–1107 px",
+      "terms": {
+        "summary": "No terms page found (404); robots.txt allows the blueprint images.",
+        "url": "https://www.cardtrader.com/"
+      },
+      "origin": "European marketplace. Its Japanese DP-era \"blueprint\" images (40+ expansions incl. World Champions Pack, Pikachu World Collection, movie packs) come from several places: pokumon.com promo images (5 of 5 matched DP-P/L-P samples), TCGplayer scans (2 of 2 L3), upscaled pokemon-card.com 162 px images (2), and its own low-resolution scans (9 of 18 matched).",
+      "icon": "icons/cardtrader.png"
+    },
+    {
+      "official": false,
+      "scanOnly": true,
+      "langs": [
+        "ja"
+      ],
+      "watermark": false,
+      "api": {
+        "kind": "none"
+      },
+      "submissions": {
+        "yes": false
+      },
+      "examples": [],
+      "stats": [
+        {
+          "label": "DP-era sample",
+          "value": "13 of 13 own scans"
+        }
+      ],
+      "id": "toretoku",
+      "name": "Toretoku (トレトク)",
+      "short": "Toretoku",
+      "family": "market",
+      "tier": 1,
+      "url": "https://www.toretoku.jp/",
+      "eras": "DP-era measured",
+      "imageNature": "scan",
+      "resolution": "275–757 px JPEG",
+      "terms": {
+        "summary": "No image clause found; robots.txt sets Crawl-Delay 30.",
+        "url": "https://www.toretoku.jp/robots.txt"
+      },
+      "origin": "Japanese card shop. Own flat scans of in-stock singles (DP/DPt sets, decks, World Champions Pack). 13 of 13 sampled DP-era images match no other source (best 0.77).",
+      "icon": "icons/toretoku.png"
     }
   ],
   "links": [
@@ -2752,8 +2869,8 @@
       "to": "serebii",
       "kind": "copies",
       "confidence": "verified",
-      "scope": "ja modern sets",
-      "evidence": "30/30 sampled."
+      "scope": "ja modern sets; ja DPt4, L1–L3, LL",
+      "evidence": "30/30 sampled. DP era: 22 of 29 sampled images are 162×226 with no detail beyond 162 px (7 score ≥ 0.95 against the official image)."
     },
     {
       "from": "pcj",
@@ -2839,9 +2956,9 @@
       "from": "print",
       "to": "pokecardex",
       "kind": "scans",
-      "confidence": "stated",
-      "scope": "fr/en/ja",
-      "evidence": "Member scans."
+      "confidence": "verified",
+      "scope": "fr/en/ja; ja DP-era incl. World Champions Pack",
+      "evidence": "Member scans. DP era: 26 of 29 sampled own (best ≤ 0.90 to every source we hold), watermarked."
     },
     {
       "from": "print",
@@ -2864,8 +2981,8 @@
       "to": "serebii",
       "kind": "scans",
       "confidence": "likely",
-      "scope": "en vintage",
-      "evidence": "600 dpi header, no official match."
+      "scope": "en vintage; ja DPt3, decks, L3/LL holos",
+      "evidence": "600 dpi header, no official match. DP era: 7 of 29 at 265–479 px, best similarity ≤ 0.82 to every source we hold."
     },
     {
       "from": "print",
@@ -2904,8 +3021,8 @@
       "to": "bulbagarden",
       "kind": "copies",
       "confidence": "verified",
-      "scope": "ja, most JP-category files",
-      "evidence": "2,683 pixel copies of pokemon-card.com images."
+      "scope": "ja, most JP-category files; ja DP-era promos",
+      "evidence": "2,683 pixel copies of pokemon-card.com images. DP era: 6 of 19 matched promo files ≥ 0.96 to the official 162 px image; 4 more keep pokemon-card.com file names."
     },
     {
       "from": "pcom",
@@ -3231,17 +3348,17 @@
       "from": "print",
       "to": "hareruya2",
       "kind": "scans",
-      "confidence": "likely",
+      "confidence": "verified",
       "scope": "ja DP → LEGEND, every deck code",
-      "evidence": "0 pixel matches with TCGplayer, Paper Moon, pokumon, the CDs or the official images (n ≈ 60 each)."
+      "evidence": "0 of 60 shared cards match TCGplayer, Paper Moon, pokumon, torecolo or the official images (median 0.53–0.71)."
     },
     {
       "from": "print",
       "to": "torecolo",
       "kind": "scans",
-      "confidence": "likely",
-      "scope": "ja DP-era (/goods/5/)",
-      "evidence": "No match with the other sources in a small sample."
+      "confidence": "verified",
+      "scope": "ja DP-era (/goods/5/), incl. 219 promos",
+      "evidence": "0 of 60 shared cards match TCGplayer, Paper Moon, pokumon or hareruya2 (median similarity 0.50–0.58)."
     },
     {
       "from": "pcj",
@@ -3250,6 +3367,110 @@
       "confidence": "verified",
       "scope": "ja DP-era",
       "evidence": "13/16 sampled are the 162 px official images upscaled (no detail above 162 px)."
+    },
+    {
+      "from": "pokumon",
+      "to": "bulbagarden",
+      "kind": "shared",
+      "confidence": "verified",
+      "scope": "ja DPt-P / L-P promos",
+      "evidence": "3 of 19 matched files are pokumon's scans (0.947–0.981). Either may have taken them from the other."
+    },
+    {
+      "from": "elitefourum",
+      "to": "bulbagarden",
+      "kind": "shared",
+      "confidence": "verified",
+      "scope": "ja DPt-P / L-P promos",
+      "evidence": "3 of 19 matched files are Elite Fourum member scans (0.973–0.978)."
+    },
+    {
+      "from": "bulbagarden",
+      "to": "pokewiki",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "ja DP-era promos and decks",
+      "evidence": "41 of 51 file pages credit Bulbapedia; 4 of 5 pairs compared 0.970–0.988."
+    },
+    {
+      "from": "tcgplayer",
+      "to": "pokecardex",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "ja LEGEND L2/L3/LL",
+      "evidence": "3 of 3 sampled L2/L3/LL images are TCGplayer's scans (0.980–0.984)."
+    },
+    {
+      "from": "tcgplayer",
+      "to": "pricecharting",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "ja DP-era, a few",
+      "evidence": "1 of 7 matched DP-era images is TCGplayer's scan (0.98); 20 of 27 are phone photos."
+    },
+    {
+      "from": "pcj",
+      "to": "wiki52poke",
+      "kind": "copies",
+      "confidence": "stated",
+      "scope": "ja DP-era promos (162 px)",
+      "evidence": "4 of 30 sampled DP-era file pages cite pokemon-card.com."
+    },
+    {
+      "from": "bulbagarden",
+      "to": "wiki52poke",
+      "kind": "copies",
+      "confidence": "stated",
+      "scope": "ja DPt / LEGEND",
+      "evidence": "8 of 30 sampled DP-era file pages cite Bulbapedia."
+    },
+    {
+      "from": "print",
+      "to": "snkrdunk",
+      "kind": "scans",
+      "confidence": "verified",
+      "scope": "ja DP-era incl. WCP, PW, promos",
+      "evidence": "26 of 26 sampled DP-era catalogue images match no source we hold (best 0.78)."
+    },
+    {
+      "from": "pokumon",
+      "to": "cardtrader",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "ja DP-P / L-P promos",
+      "evidence": "5 of 5 matched promo samples are pokumon's files (0.956–0.972), so ultimately mostly Paper Moon's scans."
+    },
+    {
+      "from": "tcgplayer",
+      "to": "cardtrader",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "ja L3 (likely more sets)",
+      "evidence": "2 of 2 L3 samples are TCGplayer's scans (0.980, 0.984)."
+    },
+    {
+      "from": "pcj",
+      "to": "cardtrader",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "ja DPt-P / WCP, a few",
+      "evidence": "2 samples are upscales of the official 162 px image (0.957, 0.935)."
+    },
+    {
+      "from": "print",
+      "to": "cardtrader",
+      "kind": "scans",
+      "confidence": "likely",
+      "scope": "ja DP-era, low resolution",
+      "evidence": "9 of 18 matched samples match nothing we hold."
+    },
+    {
+      "from": "print",
+      "to": "toretoku",
+      "kind": "scans",
+      "confidence": "verified",
+      "scope": "ja DP-era singles",
+      "evidence": "13 of 13 sampled match no source we hold (best 0.77)."
     }
   ],
   "gaps": [
@@ -3812,7 +4033,7 @@
       "id": "jadp",
       "kind": "info",
       "title": "Japanese DP era (2006–2010): no official image above 162 px, except LEGEND",
-      "body": "pokemon-card.com serves 162×226 for every DP/DPt card and promo (Wayback shows the same size back to 2007; there was never a bigger folder). Only the LEGEND main sets (L1–L3, LL) have 751×1044 renders, and the 2008–09 training CDs hold 108 official renders at 429–572 px. Everything else is a shop scan: TCGplayer (500×700, own scans for DP/DPt), Paper Moon (~740 px), hareruya2 (737 px, every deck code, but its terms forbid reuse), Torecolo (516 px). pokumon.com's promo images are mostly Paper Moon's. Combined, 2,071 of 2,336 DP-era cards have a ≥ 429 px image somewhere; World Champions Pack (107) has none online that we found.",
+      "body": "pokemon-card.com serves 162×226 for every DP/DPt card and promo (Wayback shows the same size back to 2007; there was never a bigger folder). Only the LEGEND main sets (L1–L3, LL) have 751×1044 renders, and the 2008–09 training CDs hold 108 official renders at 429–572 px. Everything else is a shop scan: TCGplayer (500×700, own scans for DP/DPt; its LEGEND images are the official renders), Paper Moon (~740 px), hareruya2 (737 px, every deck code, but its terms forbid reuse), Torecolo (516 px), Toretoku, SNKRDUNK (every World Champions Pack and PW card, but its terms forbid scraping) and Pokécardex (watermarked). Re-hosts: pokumon.com's promos are mostly Paper Moon's; CardTrader mixes pokumon, TCGplayer and upscaled 162 px images; Serebii and Bulbagarden mostly carry the official 162 px images, and PokéWiki copies Bulbagarden. Combined, 2,073 of 2,336 DP-era cards have a ≥ 429 px image we could fetch; the World Champions Pack (107) exists only on SNKRDUNK, CardTrader (~310 px) and Pokécardex.",
       "sources": [
         "pcj",
         "oldcd",
@@ -3820,13 +4041,17 @@
         "papermoon",
         "hareruya2",
         "torecolo",
+        "toretoku",
+        "snkrdunk",
+        "pokecardex",
         "pokumon",
+        "cardtrader",
         "fullahead"
       ],
       "lang": "ja",
       "badge": {
         "value": "89 %",
-        "label": "DP-era JP cards with a ≥ 429 px image (2,071 / 2,336)"
+        "label": "DP-era JP cards with a ≥ 429 px image (2,073 / 2,336)"
       },
       "short": "Official images stop at 162 px for DP/DPt; shop scans fill 89 %."
     }
