@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated": "2026-09-26",
+    "updated": "2026-10-02",
     "measured": "2026-09-23 / 2026-09-24",
     "note": "A snapshot of the Pokémon TCG card-image ecosystem. Links marked verified are pixel matches; the rest are the sites' own statements or indirect evidence. Not legal advice.",
     "languages": {
@@ -1870,7 +1870,7 @@
         "summary": "No statement on image sources.",
         "url": "https://www.tcgplayer.com/"
       },
-      "origin": "BW/XY/SM/HGSS/ME: malie renders. Neo, Platinum, EX Deoxys: the Paradijs scans (34/36). Base Set, Jungle, DP: its own small scans matching nothing else. SV Base: a clean digital export that isn't malie's.",
+      "origin": "BW/XY/SM/HGSS/ME: malie renders. Neo, Platinum, EX Deoxys: the Paradijs scans (34/36). Base Set, Jungle, DP: its own small scans matching nothing else. SV Base: a clean digital export that isn't malie's. Japanese DP/DPt (2006–09): its own 500×700 scans (pokemon-card.com only has 162 px there). Japanese LEGEND (L1–L3, LL): pokemon-card.com's 751 px renders resized to ~719 px (40 of 40 sampled pixel-identical). Several JP products (World Champions Pack, mirror-holo variants) list an image the CDN does not serve.",
       "examples": [
         {
           "label": "Mega Evolution card (malie render)",
@@ -1887,6 +1887,14 @@
         {
           "label": "sample",
           "value": "144 images"
+        },
+        {
+          "label": "JP DP-era card images fetched",
+          "value": "1,912 of 2,352 listed"
+        },
+        {
+          "label": "re-hosted by",
+          "value": "cardnexus.com (pixel-identical)"
         }
       ],
       "icon": "icons/tcgplayer.png"
@@ -2223,6 +2231,271 @@
         }
       ],
       "icon": "icons/pokedata.png"
+    },
+    {
+      "id": "oldcd",
+      "name": "Official PCG training CDs 2008–09 (DPt kit, PCG Online demo)",
+      "family": "official",
+      "tier": 0,
+      "url": "https://archive.org/details/pcgtraining-kit",
+      "official": true,
+      "scanOnly": false,
+      "langs": [
+        "ja"
+      ],
+      "eras": "2008 → 2009 (DPt Entry Packs, DPt4/L1/L2 decks)",
+      "imageNature": "digital",
+      "resolution": "572×800 / 429×600 (Flash bitmaps)",
+      "watermark": false,
+      "api": {
+        "kind": "none"
+      },
+      "submissions": {
+        "yes": false
+      },
+      "terms": {
+        "summary": "Official product; discs preserved on the Internet Archive.",
+        "url": "https://archive.org/details/pcgtraining-kit"
+      },
+      "origin": "Card renders embedded in the Flash files of the 2008 DPt training kit CD (the 2009 激勝 kit and rulebook CDs carry byte-identical copies) and the 2009 PCG Online / Expert Deck demo. 108 distinct cards. pokemon-card.com's 162×226 images are downscales of the same renders (34 of 60 sampled pairs pixel-identical at 162 px).",
+      "examples": [],
+      "stats": [
+        {
+          "label": "cards",
+          "value": "108"
+        }
+      ],
+      "icon": "icons/ccdb.svg",
+      "short": "PCG training CDs"
+    },
+    {
+      "id": "papermoon",
+      "name": "Paper Moon Japan annex",
+      "family": "market",
+      "tier": 1,
+      "url": "https://www.papermoonjapan-annex.com/",
+      "official": false,
+      "scanOnly": true,
+      "langs": [
+        "ja"
+      ],
+      "eras": "DP → today (DP-era measured)",
+      "imageNature": "scan",
+      "resolution": "~740×1050 JPEG",
+      "watermark": false,
+      "api": {
+        "kind": "none"
+      },
+      "submissions": {
+        "yes": false
+      },
+      "terms": {
+        "summary": "No image terms found; robots.txt blocks only some AI crawlers (GPTBot, Bytespider …).",
+        "url": "https://www.papermoonjapan-annex.com/robots.txt"
+      },
+      "origin": "A Japanese singles shop for overseas buyers. Own flat scans (file names from the shop's scanner, e.g. Scan10566.JPG, DP4Deck10023.JPG), including reverse-holo and deck printings. 2,121 DP/DPt/LEGEND product images, 1,4xx distinct cards. pokumon.com re-hosts many of them.",
+      "examples": [
+        {
+          "label": "DP3 card (own scan)",
+          "url": "https://www.papermoonjapan-annex.com/data/papermoon/product/Scan10566.JPG",
+          "nature": "scan"
+        }
+      ],
+      "stats": [
+        {
+          "label": "DP-era images",
+          "value": "2,121"
+        },
+        {
+          "label": "re-hosted by",
+          "value": "pokumon.com (44 of 60 shared cards pixel-identical)"
+        }
+      ],
+      "icon": "icons/papermoon.svg",
+      "short": "Paper Moon"
+    },
+    {
+      "id": "hareruya2",
+      "name": "hareruya2 (晴れる屋2)",
+      "family": "market",
+      "tier": 1,
+      "url": "https://www.hareruya2.com/",
+      "official": false,
+      "scanOnly": true,
+      "langs": [
+        "ja"
+      ],
+      "eras": "1996 → today (DP-era measured)",
+      "imageNature": "scan",
+      "resolution": "737×1040 JPEG",
+      "watermark": false,
+      "api": {
+        "kind": "none",
+        "note": "Shopify products.json is public (also lists sold-out items)"
+      },
+      "submissions": {
+        "yes": false
+      },
+      "terms": {
+        "summary": "Content may not be copied or used for any purpose other than use on hareruya2; no unauthorised reposting.",
+        "url": "https://www.hareruya2.com/pages/terms-of-use"
+      },
+      "origin": "Japanese card shop. Own flat scans of every DP-era product including all deck and gift-box codes (2,755 DP-era products, sold-out ones too). Matches no other source we hold (all sampled pairs are different scans).",
+      "examples": [],
+      "stats": [
+        {
+          "label": "DP-era products",
+          "value": "2,755"
+        },
+        {
+          "label": "copies of other files",
+          "value": "0 found"
+        }
+      ],
+      "icon": "icons/hareruya2.png",
+      "short": "hareruya2"
+    },
+    {
+      "id": "torecolo",
+      "name": "CB Torecolo (トレコロ)",
+      "family": "market",
+      "tier": 1,
+      "url": "https://torecolo.jp/",
+      "official": false,
+      "scanOnly": false,
+      "langs": [
+        "ja"
+      ],
+      "eras": "DP-era measured",
+      "imageNature": "mixed",
+      "resolution": "516×730 (/goods/5/) · 143×200 (/goods/L/)",
+      "watermark": false,
+      "api": {
+        "kind": "none"
+      },
+      "submissions": {
+        "yes": false
+      },
+      "terms": {
+        "summary": "All information and images are copyright of the company or the information provider (terms art. 4).",
+        "url": "https://torecolo.jp/"
+      },
+      "origin": "Japanese buylist shop. Large /goods/5/ images are its own scans (~70 % of ~2,110 DP-era codes have one); the small /goods/L/ images are copies of pokemon-card.com's 162 px images.",
+      "examples": [],
+      "stats": [
+        {
+          "label": "DP-era codes in sitemaps",
+          "value": "~2,110"
+        }
+      ],
+      "icon": "icons/torecolo.svg",
+      "short": "Torecolo"
+    },
+    {
+      "id": "pokumon",
+      "name": "Pokumon (promo database)",
+      "family": "wiki",
+      "tier": 2,
+      "url": "https://pokumon.com/",
+      "official": false,
+      "scanOnly": false,
+      "langs": [
+        "en",
+        "ja"
+      ],
+      "eras": "Wizards → today (promos)",
+      "imageNature": "scan",
+      "resolution": "DP-P/L-P ~740 px, DPt-P ~450 px",
+      "watermark": false,
+      "api": {
+        "kind": "none",
+        "note": "WordPress REST media endpoint is public"
+      },
+      "submissions": {
+        "yes": true,
+        "how": "contact form / e-mail"
+      },
+      "terms": {
+        "summary": "No licence stated; the site says none of its images are watermarked and asks for contact.",
+        "url": "https://pokumon.com/"
+      },
+      "origin": "An English-language promo database. Its Japanese DP-era promo images are mostly Paper Moon's scans (44 of 60 shared cards pixel-identical) plus some Elite Fourum member scans (4 of 8).",
+      "examples": [
+        {
+          "label": "L-P promo",
+          "url": "https://cdn6966.templcdn.com/wp-content/uploads/2021/03/JP_007L-P.jpg",
+          "nature": "scan"
+        }
+      ],
+      "stats": [
+        {
+          "label": "JP DP-era promo images",
+          "value": "262"
+        }
+      ],
+      "icon": "icons/pokumon.png",
+      "short": "Pokumon"
+    },
+    {
+      "id": "elitefourum",
+      "name": "Elite Fourum",
+      "family": "scan",
+      "tier": 1,
+      "url": "https://www.elitefourum.com/",
+      "official": false,
+      "scanOnly": true,
+      "langs": [
+        "ja",
+        "en"
+      ],
+      "eras": "all (member galleries)",
+      "imageNature": "scan",
+      "resolution": "~360 px (JP promo threads)",
+      "watermark": false,
+      "api": {
+        "kind": "none"
+      },
+      "submissions": {
+        "yes": true,
+        "how": "forum posts"
+      },
+      "terms": {
+        "summary": "User posts; rights stay with each poster.",
+        "url": "https://www.elitefourum.com/"
+      },
+      "origin": "Collector forum. Members post their own scans in gallery threads; JP DP-era promo threads at ~360 px.",
+      "examples": [],
+      "stats": [],
+      "icon": "icons/elitefourum.svg",
+      "short": "Elite Fourum"
+    },
+    {
+      "id": "fullahead",
+      "name": "Pokémon card fullahead",
+      "family": "market",
+      "tier": 3,
+      "url": "https://pokemon-card-fullahead.com/",
+      "official": false,
+      "scanOnly": false,
+      "langs": [
+        "ja"
+      ],
+      "eras": "DP-era measured",
+      "imageNature": "digital",
+      "resolution": "~287 px",
+      "watermark": false,
+      "api": {
+        "kind": "none"
+      },
+      "submissions": {
+        "yes": false
+      },
+      "terms": null,
+      "origin": "Japanese shop. Its DP-era images are pokemon-card.com's 162×226 images upscaled (13 of 16 sampled; detail lost below 162 px).",
+      "examples": [],
+      "stats": [],
+      "icon": "icons/fullahead.png",
+      "short": "fullahead"
     }
   ],
   "links": [
@@ -2905,6 +3178,78 @@
       "confidence": "verified",
       "scope": "1 placeholder file",
       "evidence": "PozioneMagicaEXRubino&Zaffiro91.jpg is pcg-search's Japanese Potion (advs3014), pixel-identical."
+    },
+    {
+      "from": "pcj",
+      "to": "tcgplayer",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "ja LEGEND (L1–L3, LL)",
+      "evidence": "40/40 sampled L3 images match pokemon-card.com's 751 px renders (correlation 0.93–0.985 at 200×280)."
+    },
+    {
+      "from": "print",
+      "to": "tcgplayer",
+      "kind": "scans",
+      "confidence": "likely",
+      "scope": "ja DP, DPt (2006–09)",
+      "evidence": "500×700 images with real detail above 162 px; match no other source we hold (TCGplayer vs Paper Moon/hareruya2/pokumon: different scans)."
+    },
+    {
+      "from": "oldcd",
+      "to": "pcj",
+      "kind": "shared",
+      "confidence": "verified",
+      "scope": "ja DPt Entry Packs, DPt4/L decks",
+      "evidence": "34 of 60 CD renders are pixel-identical to pokemon-card.com's images at 162 px: the same official renders."
+    },
+    {
+      "from": "print",
+      "to": "papermoon",
+      "kind": "scans",
+      "confidence": "likely",
+      "scope": "ja DP → LEGEND",
+      "evidence": "Scanner file names (Scan#####.JPG); no match with any other source except where pokumon re-hosts them."
+    },
+    {
+      "from": "papermoon",
+      "to": "pokumon",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "ja DP-P / DPt-P / L-P promos",
+      "evidence": "44 of 60 cards held by both are pixel-identical (≥ 0.93 after alignment). Direction from the file names: Paper Moon's scanner names vs pokumon's 2021 uploads."
+    },
+    {
+      "from": "elitefourum",
+      "to": "pokumon",
+      "kind": "shared",
+      "confidence": "unknown-direction",
+      "scope": "ja promos",
+      "evidence": "4 of 8 cards held by both are the same scan."
+    },
+    {
+      "from": "print",
+      "to": "hareruya2",
+      "kind": "scans",
+      "confidence": "likely",
+      "scope": "ja DP → LEGEND, every deck code",
+      "evidence": "0 pixel matches with TCGplayer, Paper Moon, pokumon, the CDs or the official images (n ≈ 60 each)."
+    },
+    {
+      "from": "print",
+      "to": "torecolo",
+      "kind": "scans",
+      "confidence": "likely",
+      "scope": "ja DP-era (/goods/5/)",
+      "evidence": "No match with the other sources in a small sample."
+    },
+    {
+      "from": "pcj",
+      "to": "fullahead",
+      "kind": "copies",
+      "confidence": "verified",
+      "scope": "ja DP-era",
+      "evidence": "13/16 sampled are the 162 px official images upscaled (no detail above 162 px)."
     }
   ],
   "gaps": [
@@ -3462,6 +3807,28 @@
         "value": "0",
         "label": "official images we found online for 1999–2010 cards"
       }
+    },
+    {
+      "id": "jadp",
+      "kind": "info",
+      "title": "Japanese DP era (2006–2010): no official image above 162 px, except LEGEND",
+      "body": "pokemon-card.com serves 162×226 for every DP/DPt card and promo (Wayback shows the same size back to 2007; there was never a bigger folder). Only the LEGEND main sets (L1–L3, LL) have 751×1044 renders, and the 2008–09 training CDs hold 108 official renders at 429–572 px. Everything else is a shop scan: TCGplayer (500×700, own scans for DP/DPt), Paper Moon (~740 px), hareruya2 (737 px, every deck code, but its terms forbid reuse), Torecolo (516 px). pokumon.com's promo images are mostly Paper Moon's. Combined, 2,071 of 2,336 DP-era cards have a ≥ 429 px image somewhere; World Champions Pack (107) has none online that we found.",
+      "sources": [
+        "pcj",
+        "oldcd",
+        "tcgplayer",
+        "papermoon",
+        "hareruya2",
+        "torecolo",
+        "pokumon",
+        "fullahead"
+      ],
+      "lang": "ja",
+      "badge": {
+        "value": "89 %",
+        "label": "DP-era JP cards with a ≥ 429 px image (2,071 / 2,336)"
+      },
+      "short": "Official images stop at 162 px for DP/DPt; shop scans fill 89 %."
     }
   ],
   "stories": [
