@@ -79,6 +79,10 @@ Snapshot 2026-09-23/24, plus these 2026-09-25 checks:
 - `c230632` initial site · `1eae44c` site icons · `d580e64` claim revision after an
   independent review (Martin credit, official terms removed, newest-set + Korean findings,
   Bulbagarden correction, softened absolutes) · `1c93ee7` AI-disclaimer banner · `a12969c` this file.
+- 2026-09-26: `083bbaf` Paradijs compared · `8c5537b` dashboard-first overview · `ed90f9c` phone menus ·
+  `2c9f50d` Poképédia/PokéWiki/PokeZentrum measured · `2a94a0c` Limitless origin · `a2e5423` pokemon.cn counts ·
+  `6452b1d` pcg-search measured · 2026-09-27: `2d30562` og.png re-rendered · `b492cee` ja-gap 1,160 + promo-gap note ·
+  2026-10-02: `be8aeb9`, `5a11358`, `799541f`, `cd4aae0` Japanese DP era (see the dated entry below) · 2026-10-03: this file.
 
 ## Open / ideas
 
@@ -132,8 +136,8 @@ Snapshot 2026-09-23/24, plus these 2026-09-25 checks:
   language × source grid and drawn-to-scale card comparison; icons replace the text tags on boxes; phone
   language cards; first-visit guide. New `data.json` fields: `callouts[].badge`, `gaps[].issue`/`issueKind`,
   `compare`. Checked while building: pokemontcg.io's `me1/1_hires.png` is malie's `me1_en_001_std.png`
-  byte for byte (546,467 bytes); TCGdex serves the same card at 600×825. `og.png` still shows the old map
-  boxes (text tags); re-render when convenient.
+  byte for byte (546,467 bytes); TCGdex serves the same card at 600×825. `og.png` was re-rendered from this view
+  on 2026-09-27 (`2d30562`).
 - 2026-09-26 (evening): Poképédia, PokéWiki and PokeZentrum mirrors matched card by card against
   TCGdex (`pokeassets/tools/vintage_eval.py`) and by pixels against the other sources. Gap rows:
   fr Poképédia 302 own scans (583 more are the same files as pkmcards.fr), de PokéWiki 3,840
@@ -150,3 +154,14 @@ Snapshot 2026-09-23/24, plus these 2026-09-25 checks:
   "A Japanese card from 1997". Neutral note on the ja gap: TCGdex's Japanese names in these sets often differ
   from the printed ones. Checked and left out (research repo, fourth sweep): Japanese text wikis, LigaPokemon
   (English scans ~320 px), jihuanshe (app only).
+
+- 2026-10-02: **Japanese DP era (2006–2011) hunt, four commits.** `be8aeb9` seven sources added (the
+  official training CDs, Paper Moon, hareruya2, Torecolo, Pokumon, Elite Fourum, fullahead) with 9
+  measured links (Pokumon re-hosts official images); `5a11358` round 3: SNKRDUNK, CardTrader and
+  Toretoku added, 13 more measured links (Serebii and Bulbagarden carry the official 162 px images,
+  PokéWiki copies them); `799541f` PokeVault (2010–13 Wayback scans: DP-era promos, LEGEND, the
+  Arceus/Pichu movie promos; 29 of 29 own scans, credited by 52poke) and PokecaBook; `cd4aae0`
+  SNKRDUNK full gap fetch (894 cards, 107 of 108 WCP) and PokeVault measured as own scans (0 files
+  shared with any other source). Callout: 2,233 of 2,336 DP-era ids have a real reference (96 %),
+  76 have none (WCP 12, promos 36, HSPt 16, 12 singles). Numbers come from the research repo's
+  `tools/dp-era-refs.json`; update the callout when that table changes.
