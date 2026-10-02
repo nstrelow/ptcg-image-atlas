@@ -2538,7 +2538,7 @@
         "summary": "Terms forbid crawling and scraping (クローリング、スクレイピング); robots.txt allows the catalogue pages.",
         "url": "https://snkrdunk.com/"
       },
-      "origin": "Japanese resale marketplace. Each catalogue item has one uniform, background-removed scan of the card (not the sellers' photos). DP-era coverage is complete, including every World Champions Pack and PW card. 26 of 26 sampled DP-era images match no other source we hold (best similarity 0.78).",
+      "origin": "Japanese resale marketplace. Each catalogue item has one uniform, background-removed scan of the card (not the sellers' photos). DP-era coverage is complete, including every World Champions Pack and PW card. 26 of 26 sampled DP-era images match no other source we hold (best similarity 0.78). Gap fetch for the private scanner running (owner's call, despite the terms).",
       "icon": "icons/snkrdunk.png"
     },
     {
@@ -2613,6 +2613,84 @@
       },
       "origin": "Japanese card shop. Own flat scans of in-stock singles (DP/DPt sets, decks, World Champions Pack). 13 of 13 sampled DP-era images match no other source (best 0.77).",
       "icon": "icons/toretoku.png"
+    },
+    {
+      "official": false,
+      "scanOnly": false,
+      "langs": [
+        "ja"
+      ],
+      "watermark": false,
+      "api": {
+        "kind": "none",
+        "note": "WordPress; REST API answers 403"
+      },
+      "submissions": {
+        "yes": false
+      },
+      "examples": [],
+      "stats": [
+        {
+          "label": "single-card images",
+          "value": "0 in 150 sampled posts"
+        }
+      ],
+      "id": "pokecabook",
+      "name": "PokecaBook (ポケカブック)",
+      "short": "PokecaBook",
+      "family": "rehost",
+      "tier": 3,
+      "url": "https://pokecabook.com/",
+      "eras": "2022 → today (current format only)",
+      "imageNature": "digital",
+      "resolution": "800×400 deck images (~90 px per card)",
+      "terms": {
+        "summary": "No terms page; robots.txt only bars site search (/?s=).",
+        "url": "https://pokecabook.com/robots.txt"
+      },
+      "origin": "Japanese competitive deck blog (1,721 posts since April 2022). Its card pictures are pokemon-card.com deck-builder images: each file is named after the official deck code and the post links the official deck page. No single-card images and nothing before the current format.",
+      "icon": "icons/pokecabook.png"
+    },
+    {
+      "official": false,
+      "scanOnly": true,
+      "langs": [
+        "en",
+        "ja"
+      ],
+      "watermark": false,
+      "api": {
+        "kind": "none"
+      },
+      "submissions": {
+        "yes": false
+      },
+      "examples": [],
+      "stats": [
+        {
+          "label": "DP-era card images (Wayback)",
+          "value": "94 fetched"
+        },
+        {
+          "label": "matched to a card",
+          "value": "29 of 29 own scans"
+        }
+      ],
+      "id": "pokevault",
+      "name": "PokeVault",
+      "short": "PokeVault",
+      "family": "market",
+      "tier": 2,
+      "url": "https://pokevault.com/",
+      "eras": "2010–13 product pages (Wayback); today: current goods",
+      "imageNature": "scan",
+      "resolution": "500×500 squares (card ~360×500)",
+      "terms": {
+        "summary": "No image terms found; robots.txt bars only cart/contact paths.",
+        "url": "https://pokevault.com/robots.txt"
+      },
+      "origin": "US-facing shop for Japanese Pokémon goods. Its 2010–13 product photos (now only on the Wayback Machine) include flat scans of DP-era promos, LEGEND holos and reverse holos, the 2009 Arceus movie and Pichu movie promos. 52poke credits it for 83 Japanese card files (BW, LEGEND, L-P). All 29 DP-era images we could match to a card are its own scans (best similarity to any other source 0.88).",
+      "icon": "icons/pokevault.png"
     }
   ],
   "links": [
@@ -3471,6 +3549,30 @@
       "confidence": "verified",
       "scope": "ja DP-era singles",
       "evidence": "13 of 13 sampled match no source we hold (best 0.77)."
+    },
+    {
+      "from": "pcj",
+      "to": "pokecabook",
+      "kind": "copies",
+      "confidence": "likely",
+      "scope": "ja current format, deck images",
+      "evidence": "Deck images are named after pokemon-card.com deck codes (1_4_8cc8cJ-1JHkKI-KGcaYx.png) and each post links that official deck page; the cards in them are official renders."
+    },
+    {
+      "from": "print",
+      "to": "pokevault",
+      "kind": "scans",
+      "confidence": "verified",
+      "scope": "ja DP-era promos, LEGEND (2010–13)",
+      "evidence": "29 of 29 matched DP-era images match no source we hold (best 0.88, against pokumon)."
+    },
+    {
+      "from": "pokevault",
+      "to": "wiki52poke",
+      "kind": "copies",
+      "confidence": "stated",
+      "scope": "ja BW, LEGEND, L-P",
+      "evidence": "83 file pages give \"来源 pokevault\" (uploaded 2011–12)."
     }
   ],
   "gaps": [
