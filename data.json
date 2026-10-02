@@ -2521,8 +2521,16 @@
       "examples": [],
       "stats": [
         {
-          "label": "DP-era sample",
-          "value": "26 of 26 own scans"
+          "label": "DP-era cards",
+          "value": "894 (WCP 107 / 108)"
+        },
+        {
+          "label": "copies of other files",
+          "value": "0 of 60 per source"
+        },
+        {
+          "label": "best reference for",
+          "value": "168 DP-era cards (95 WCP)"
         }
       ],
       "id": "snkrdunk",
@@ -2538,7 +2546,7 @@
         "summary": "Terms forbid crawling and scraping (クローリング、スクレイピング); robots.txt allows the catalogue pages.",
         "url": "https://snkrdunk.com/"
       },
-      "origin": "Japanese resale marketplace. Each catalogue item has one uniform, background-removed scan of the card (not the sellers' photos). DP-era coverage is complete, including every World Champions Pack and PW card. 26 of 26 sampled DP-era images match no other source we hold (best similarity 0.78). Gap fetch for the private scanner running (owner's call, despite the terms).",
+      "origin": "Japanese resale marketplace. Each catalogue item has one uniform, background-removed scan of the card (not the sellers' photos). DP-era coverage is complete: 894 DP-era cards found incl. 107 of 108 World Champions Pack numbers and all PW cards. Own scans: 0 of 60 shared cards match TCGplayer, Paper Moon, pokumon, hareruya2, Torecolo or the official images (median similarity 0.51–0.62). Fetched for a private scanner (owner's call, despite the terms).",
       "icon": "icons/snkrdunk.png"
     },
     {
@@ -2674,6 +2682,10 @@
         {
           "label": "matched to a card",
           "value": "29 of 29 own scans"
+        },
+        {
+          "label": "copies of other files",
+          "value": "0 (n = 10–32 per source)"
         }
       ],
       "id": "pokevault",
@@ -3507,8 +3519,8 @@
       "to": "snkrdunk",
       "kind": "scans",
       "confidence": "verified",
-      "scope": "ja DP-era incl. WCP, PW, promos",
-      "evidence": "26 of 26 sampled DP-era catalogue images match no source we hold (best 0.78)."
+      "scope": "ja DP-era incl. WCP, PW, promos (894 cards)",
+      "evidence": "0 of 60 shared cards match TCGplayer, Paper Moon, pokumon, hareruya2, Torecolo or the official images (median 0.51–0.62)."
     },
     {
       "from": "pokumon",
@@ -3564,7 +3576,7 @@
       "kind": "scans",
       "confidence": "verified",
       "scope": "ja DP-era promos, LEGEND (2010–13)",
-      "evidence": "29 of 29 matched DP-era images match no source we hold (best 0.88, against pokumon)."
+      "evidence": "0 matches with TCGplayer (n 24), Paper Moon (23), the official images (32), SNKRDUNK (19), hareruya2, Torecolo, pokumon (10 each)."
     },
     {
       "from": "pokevault",
@@ -4135,16 +4147,17 @@
       "id": "jadp",
       "kind": "info",
       "title": "Japanese DP era (2006–2010): no official image above 162 px, except LEGEND",
-      "body": "pokemon-card.com serves 162×226 for every DP/DPt card and promo (Wayback shows the same size back to 2007; there was never a bigger folder). Only the LEGEND main sets (L1–L3, LL) have 751×1044 renders, and the 2008–09 training CDs hold 108 official renders at 429–572 px. Everything else is a shop scan: TCGplayer (500×700, own scans for DP/DPt; its LEGEND images are the official renders), Paper Moon (~740 px), hareruya2 (737 px, every deck code, but its terms forbid reuse), Torecolo (516 px), Toretoku, SNKRDUNK (every World Champions Pack and PW card, but its terms forbid scraping) and Pokécardex (watermarked). Re-hosts: pokumon.com's promos are mostly Paper Moon's; CardTrader mixes pokumon, TCGplayer and upscaled 162 px images; Serebii and Bulbagarden mostly carry the official 162 px images, and PokéWiki copies Bulbagarden. Combined, 2,073 of 2,336 DP-era cards have a ≥ 429 px image we could fetch; the World Champions Pack (107) exists only on SNKRDUNK, CardTrader (~310 px) and Pokécardex.",
+      "body": "pokemon-card.com serves 162×226 for every DP/DPt card and promo (Wayback shows the same size back to 2007; there was never a bigger folder). Only the LEGEND main sets (L1–L3, LL) have 751×1044 renders, and the 2008–09 training CDs hold 108 official renders at 429–572 px. Everything else is a shop scan: TCGplayer (500×700, own scans for DP/DPt; its LEGEND images are the official renders), Paper Moon (~740 px), SNKRDUNK (~564 px, every World Champions Pack card), hareruya2 (737 px), Torecolo (516 px), Toretoku, PokeVault (2010–13, ~360 px) and Pokécardex (watermarked). None of these share a single file with each other. Re-hosts: pokumon.com's promos are mostly Paper Moon's; CardTrader mixes pokumon, TCGplayer and upscaled 162 px images; Serebii and Bulbagarden mostly carry the official 162 px images, PokéWiki copies Bulbagarden. Combined, 2,233 of 2,336 DP-era cards have a ≥ 400 px image; 76 have nothing (12 WCP, 36 promos, 16 HSPt, 12 others).",
       "sources": [
         "pcj",
         "oldcd",
         "tcgplayer",
         "papermoon",
+        "snkrdunk",
         "hareruya2",
         "torecolo",
         "toretoku",
-        "snkrdunk",
+        "pokevault",
         "pokecardex",
         "pokumon",
         "cardtrader",
@@ -4152,10 +4165,10 @@
       ],
       "lang": "ja",
       "badge": {
-        "value": "89 %",
-        "label": "DP-era JP cards with a ≥ 429 px image (2,073 / 2,336)"
+        "value": "96 %",
+        "label": "DP-era JP cards with a ≥ 400 px image (2,233 / 2,336)"
       },
-      "short": "Official images stop at 162 px for DP/DPt; shop scans fill 89 %."
+      "short": "Official images stop at 162 px for DP/DPt; shop scans fill 96 %."
     }
   ],
   "stories": [
