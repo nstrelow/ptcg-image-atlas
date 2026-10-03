@@ -1,4 +1,4 @@
-# Status — PTCG Image Atlas (2026-09-26)
+# Status — PTCG Image Atlas (2026-10-03)
 
 Live: https://nstrelow.github.io/ptcg-image-atlas/ · repo `nstrelow/ptcg-image-atlas` (public)
 · GitHub Pages from `main` / root, no build step (push = deploy, ~1 min).
@@ -29,7 +29,7 @@ Live: https://nstrelow.github.io/ptcg-image-atlas/ · repo `nstrelow/ptcg-image-
   "Guide" replays it.
 - Deep links: `#v=gaps|sources|method`, `#s=<source id>`, `#l=<language>` (e.g. `#l=ko`), `#m=tcgdex|scans`,
   `#f=<family>`, `#st=<story>.<step>`; the "Copy link" button copies the current hash.
-- 43 sources, 85 links. Link confidence: verified (pixel match) · stated · likely ·
+- 55 sources, 110 links (data updated 2026-10-02). Link confidence: verified (pixel match) · stated · likely ·
   unknown-direction. Only pixel matches may be "verified".
 
 ## Where the facts come from
@@ -54,8 +54,8 @@ Snapshot 2026-09-23/24, plus these 2026-09-25 checks:
   (ja 1996–2006, own scans), Poképédia (fr vintage), PokéWiki (de vintage), Pokellector (tracker;
   terms forbid automated image retrieval), Collector apps (Dex, pkmn.gg, PokemonPrice = malie /
   pokemontcg.io copies). zh-cn callout no longer says "nothing larger". Left out on purpose: Pokéos
-  (zh-cn = WeChat 300 px + pokemon.cn downscales at 444 px, nothing new), Hareruya2 (shop stock only),
-  carddex.net, cardrush.media, jcc.pokemon.tf, the Internet Archive "Card Scans" pack (pokemontcg.io JPEGs).
+  (zh-cn = WeChat 300 px + pokemon.cn downscales at 444 px, nothing new), ~~Hareruya2 (shop stock only)~~
+  (superseded: added 2026-10-02 in `be8aeb9`, its Shopify listings include sold-out stock), carddex.net, cardrush.media, jcc.pokemon.tf, the Internet Archive "Card Scans" pack (pokemontcg.io JPEGs).
 - 2026-09-25 (night): old official PC software. Added the Japanese Card Encyclopedia & Deck
   Builder (Master Kit CD-ROM 2005, archive.org `ccdb-2005`: every JP card 1996 → mid-2005,
   official renders but 162×226). It doesn't change the "no official digital image online" finding; the print node and vintage callout
